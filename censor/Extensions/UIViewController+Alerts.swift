@@ -31,12 +31,12 @@ extension UIViewController {
     }
     
     func showAlertError(error: Error?, desc: String?, critical: Bool, onDismiss: (() -> Void)? = nil) {
-        var body: String = desc ?? "Произошла неизвестная ошибка"
+        var body: String = desc ?? "Unknown error occurred"
         if let error = error {
             body += "\n\(error)"
         }
-        let button: String? = critical ? nil : "Ок"
+        let button: String? = critical ? nil : "OK"
         
-        showAlert(title: "Ошибка", body: body, button: button, actions: nil, onDismiss: onDismiss)
+        showAlert(title: "Error", body: body, button: button, actions: nil, onDismiss: onDismiss)
     }
 }

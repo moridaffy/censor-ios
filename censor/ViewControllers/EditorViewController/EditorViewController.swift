@@ -222,7 +222,7 @@ class EditorViewController: UIViewController {
   }
   
   private func setupBoundaryTimeObserver() {
-    // TODO: настроить воспроизведение ранее добавленных звуков при проигрывании видео
+    // TODO: setup playing previously added sounds on video playback
   }
   
   private func updateVideoProgress(with time: Double) {
@@ -256,20 +256,20 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func exportButtonTapped() {
-    // TODO: блокировать интерфейс на время рендеринга
-    // TODO: показывать индикатор прогресса
+    // TODO: block UI while rendering video
+    // TODO: show rendering progress
     viewModel.renderProject { (error) in
       DispatchQueue.main.async { [weak self] in
         if let error = error {
           self?.showAlertError(error: error,
-                               desc: "Не удалось срендерить видео",
+                               desc: "Failed to render video",
                                critical: false)
         } else {
-          let popAction = UIAlertAction(title: "Ок", style: .default) { (_) in
+          let popAction = UIAlertAction(title: "OK", style: .default) { (_) in
             self?.navigationController?.popViewController(animated: true)
           }
-          self?.showAlert(title: "Готово",
-                          body: "Видео успешно срендерилось и сохранилось в фотопленку",
+          self?.showAlert(title: "Done",
+                          body: "Video has been successfully rendered and saved to photo library",
                           button: nil,
                           actions: [popAction])
         }
@@ -288,7 +288,7 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func soundSelectorButtonTapped() {
-    // TODO
+    // TODO: display sound selection screen
   }
   
   @objc private func recordButtonPressed() {

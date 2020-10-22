@@ -12,7 +12,7 @@ class RootViewController: UIViewController {
   private let createProjectButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Создать проект", for: .normal)
+    button.setTitle("New project", for: .normal)
     button.setTitleColor(UIColor.white, for: .normal)
     button.layer.cornerRadius = 6.0
     button.layer.masksToBounds = true
@@ -23,7 +23,7 @@ class RootViewController: UIViewController {
   private let openProjectsListButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Список проектов", for: .normal)
+    button.setTitle("Existing projects", for: .normal)
     button.setTitleColor(UIColor.white, for: .normal)
     button.layer.cornerRadius = 6.0
     button.layer.masksToBounds = true
@@ -49,7 +49,6 @@ class RootViewController: UIViewController {
     super.viewDidLoad()
     
     setupButtons()
-//    setupImagePicker()
   }
   
   private func setupLayout() {
@@ -90,15 +89,4 @@ class RootViewController: UIViewController {
   @objc private func openProjectListButtonTapped() {
     presentProjectListViewController(createNewProject: false)
   }
-  
-//  private func presentEditorViewController(with mediaUrl: URL) {
-//    print("🔥 \(mediaUrl.absoluteString)")
-//    let editorViewModel = EditorViewModel(originalUrl: mediaUrl)
-//    let editorViewController = EditorViewController(viewModel: editorViewModel)
-//    navigationController?.pushViewController(editorViewController, animated: true)
-//  }
-  
-//  @objc private func openGalleryButtonTapped() {
-//    present(imagePickerController, animated: true, completion: nil)
-//  }
 }

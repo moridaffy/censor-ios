@@ -9,13 +9,13 @@ import Foundation
 
 extension Double {
   
-  /// Округление числа и его конвертация в строку
+  /// Round number and convert it to string
   /// - Parameters:
-  ///   - symbolsAfter: кол-во символов после точки
-  ///   - symbolsBefore: кол-во символов перед числом (например, 1 -> 01)
-  ///   - absolute: если true, то берется модуль числа
-  ///   - toLessValue: если true, то число округляется в меньшую сторону (например, 4.89 -> 4.8)
-  ///   - separator: разделитель целой и дробной части
+  ///   - symbolsAfter: amount of symbols after dot (example: 1.0 -> 1.000)
+  ///   - symbolsBefore: amount of symbols before actual number (example: 1.0 -> 001)
+  ///   - absolute: if true, absolute value is used (example: -1.0 -> 1.0)
+  ///   - toLessValue: if true, number is rounded to smaller value (example: 4.89 -> 4.8)
+  ///   - separator: decimal separator (example: 1.0 -> 1,0)
   func roundedString(symbolsAfter: Int,
                      symbolsBefore: Int = 0,
                      absolute: Bool = false,

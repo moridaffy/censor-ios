@@ -22,7 +22,7 @@ class ProjectListViewModel {
     projects.append(project)
     selectedFileUrl = nil
     
-    // TODO: сохранение проекта локально
+    // TODO: saving project locally for later use
     
     return project
   }

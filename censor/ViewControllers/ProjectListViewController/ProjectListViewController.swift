@@ -74,13 +74,13 @@ class ProjectListViewController: UIViewController {
   private func createNewProject(with name: String?) {
     guard let name = name, !name.isEmpty else {
       showAlertError(error: nil,
-                     desc: "Укажите название проекта",
+                     desc: "Enter project's name",
                      critical: false)
       return
     }
     guard let originalUrl = viewModel.selectedFileUrl else {
       showAlertError(error: nil,
-                     desc: "Почему-то не сохранился путь к файлу :/",
+                     desc: "File's url is empty for some reason :/",
                      critical: false)
       return
     }
@@ -90,22 +90,22 @@ class ProjectListViewController: UIViewController {
   }
   
   private func presentNewProjectAlert() {
-    let alert = UIAlertController(title: "Новый проект",
-                                  message: "Укажите название проекта",
+    let alert = UIAlertController(title: "New project",
+                                  message: "Enter new project's name",
                                   preferredStyle: .alert)
     alert.addTextField { (textField) in
-      textField.placeholder = "Мое крутое кино"
+      textField.placeholder = "My cool movie"
       textField.autocapitalizationType = .sentences
       textField.autocorrectionType = .yes
       
       #if DEBUG
-      textField.text = "Мое крутое кино"
+      textField.text = "My cool movie"
       #endif
     }
-    alert.addAction(UIAlertAction(title: "Создать", style: .default, handler: { (_) in
+    alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { (_) in
       self.createNewProject(with: alert.textFields?.first?.text)
     }))
-    alert.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: { (_) in
+    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
       alert.dismiss(animated: true, completion: nil)
     }))
     present(alert, animated: true, completion: nil)

@@ -16,7 +16,7 @@ class VideoRenderer {
   
   func renderVideo(project: Project, addWatermark: Bool, completionHandler: @escaping (Result<URL, Error>) -> Void) {
     
-    // TODO: опциональное добавление watermark'a
+    // TODO: optionally add watermark
     
     let inputAsset = AVAsset(url: project.originalUrl)
     let outputUrl = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
