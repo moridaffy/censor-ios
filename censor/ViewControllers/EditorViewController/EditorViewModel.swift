@@ -46,20 +46,22 @@ class EditorViewModel {
   }
   
   func renderProject(completionHandler: @escaping (Error?) -> Void) {
-    project.sounds = addedSounds
+//    project.sounds = addedSounds
     VideoRenderer.shared.renderVideo(project: project, addWatermark: false) { (result) in
       switch result {
       case .success(let outputUrl):
         
-        PHPhotoLibrary.shared().performChanges {
-          PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputUrl)
-        } completionHandler: { (saved, error) in
-          if saved {
-            completionHandler(nil)
-          } else {
-            completionHandler(error ?? VideoRenderer.RenderingError.savingFailed)
-          }
-        }
+//        PHPhotoLibrary.shared().performChanges {
+//          PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputUrl)
+//        } completionHandler: { (saved, error) in
+//          if saved {
+//            completionHandler(nil)
+//          } else {
+//            completionHandler(error ?? VideoRenderer.RenderingError.savingFailed)
+//          }
+//        }
+      
+        completionHandler(nil)
       case .failure(let error):
         completionHandler(error)
       }

@@ -26,39 +26,64 @@ class VideoRenderer {
       .appendingPathComponent("output.mov", isDirectory: false)
     createOutputUrl(outputUrl)
     
-    let videoTrack = inputAsset.tracks(withMediaType: AVMediaType.video)[0]
-    let timerange = CMTimeRangeMake(start: CMTime.zero, duration: inputAsset.duration)
-    let compositionVideoTrack: AVMutableCompositionTrack = AVMutableComposition()
-      .addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: CMPersistentTrackID(kCMPersistentTrackID_Invalid))!
+    let originalVideoTrack = inputAsset.tracks(withMediaType: .video)[0]
+    let originalAudioTrack = inputAsset.tracks(withMediaType: .audio)[0]
+    
+    let mixedComposition = AVMutableComposition()
+    let originalVideoComposition = mixedComposition
+      .addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
+    let originalAudioComposition = mixedComposition
+      .addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+    originalAudioComposition.preferredVolume = 0.75
+    
+    originalVideoComposition.preferredTransform = originalVideoTrack.preferredTransform
     
     do {
-      try compositionVideoTrack.insertTimeRange(timerange, of: videoTrack, at: CMTime.zero)
-      compositionVideoTrack.preferredTransform = videoTrack.preferredTransform
+      try originalVideoComposition.insertTimeRange(CMTimeRange(start: .zero,
+                                                               duration: originalVideoTrack.timeRange.duration),
+                                                   of: originalVideoTrack,
+                                                   at: .zero)
+      try originalAudioComposition.insertTimeRange(CMTimeRange(start: .zero,
+                                                               duration: originalVideoTrack.timeRange.duration),
+                                                   of: originalAudioTrack,
+                                                   at: .zero)
+      
+      for sound in project.sounds {
+        let soundAsset = AVAsset(url: sound.type.fileUrl)
+        let soundTrack = soundAsset.tracks(withMediaType: .audio)[0]
+        let soundComposition = mixedComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+        
+        let soundCompositionStartTime = CMTime(seconds: sound.timestamp, preferredTimescale: originalVideoTrack.naturalTimeScale)//CMTime(seconds: 0.0, preferredTimescale: originalVideoTrack.naturalTimeScale) //CMTime(seconds: sound.timestamp, preferredTimescale: originalVideoTrack.naturalTimeScale)
+        try soundComposition.insertTimeRange(CMTimeRange(start: .zero,
+                                                         duration: soundTrack.timeRange.duration),
+                                             of: soundTrack,
+                                             at: soundCompositionStartTime)
+      }
     } catch let error {
       completionHandler(.failure(error))
     }
     
-    // Adding watermark to video
-    let watermarkFilter = CIFilter(name: "CISourceOverCompositing")!
-    let watermarkImage = CIImage(image: UIImage(named: "watermark")!)!
-    let videoComposition = AVVideoComposition(asset: inputAsset) { (filteringRequest) in
-      let source = filteringRequest.sourceImage.clampedToExtent()
-      let transform = CGAffineTransform(translationX: 16.0, y: 16.0)
-      
-      watermarkFilter.setValue(source, forKey: "inputBackgroundImage")
-      watermarkFilter.setValue(watermarkImage.transformed(by: transform), forKey: "inputImage")
-      filteringRequest.finish(with: watermarkFilter.outputImage!, context: nil)
-    }
+//    // Adding watermark to video
+//    let watermarkFilter = CIFilter(name: "CISourceOverCompositing")!
+//    let watermarkImage = CIImage(image: UIImage(named: "watermark")!)!
+//    let videoComposition = AVVideoComposition(asset: inputAsset) { (filteringRequest) in
+//      let source = filteringRequest.sourceImage.clampedToExtent()
+//      let transform = CGAffineTransform(translationX: 16.0, y: 16.0)
+//
+//      watermarkFilter.setValue(source, forKey: "inputBackgroundImage")
+//      watermarkFilter.setValue(watermarkImage.transformed(by: transform), forKey: "inputImage")
+//      filteringRequest.finish(with: watermarkFilter.outputImage!, context: nil)
+//    }
     
-    guard let exportSession = AVAssetExportSession(asset: inputAsset, presetName: AVAssetExportPreset640x480) else {
+    guard let exportSession = AVAssetExportSession(asset: mixedComposition, presetName: AVAssetExportPresetHighestQuality) else {
       completionHandler(.failure(RenderingError.noExportSession))
       return
     }
     
     exportSession.outputURL = outputUrl
     exportSession.outputFileType = AVFileType.mov
-    exportSession.shouldOptimizeForNetworkUse = true
-    exportSession.videoComposition = videoComposition
+//    exportSession.shouldOptimizeForNetworkUse = true
+//    exportSession.videoComposition = mixedComposition
     exportSession.exportAsynchronously { () -> Void in
       switch exportSession.status {
       case .completed:
