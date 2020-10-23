@@ -16,6 +16,13 @@ class Project {
   
   var sounds: [Sound] = []
   
+  var outputFolderUrl: URL {
+    return URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+      .appendingPathComponent("Documents", isDirectory: true)
+      .appendingPathComponent("Projects", isDirectory: true)
+      .appendingPathComponent(id, isDirectory: true)
+  }
+  
   init(name: String, duration: Double, originalUrl: URL) {
     self.id = UUID().uuidString
     self.name = name

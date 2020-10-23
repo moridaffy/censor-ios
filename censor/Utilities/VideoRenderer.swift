@@ -18,14 +18,19 @@ class VideoRenderer {
     
     // TODO: optionally add watermark
     
-    let inputAsset = AVAsset(url: project.originalUrl)
-    let outputUrl = URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
-      .appendingPathComponent("Documents", isDirectory: true)
-      .appendingPathComponent("Projects", isDirectory: true)
-      .appendingPathComponent(project.id, isDirectory: true)
-      .appendingPathComponent("output.mov", isDirectory: false)
-    createOutputUrl(outputUrl)
+    let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: project)
+    guard let inputUrl = inputUrlResponse.0 else {
+      completionHandler(.failure(inputUrlResponse.1 ?? RenderingError.fileProbablyGotDeleted))
+      return
+    }
     
+    let outputUrlResponse = StorageManager.shared.getOutputUrl(forProject: project)
+    guard let outputUrl = outputUrlResponse.0 else {
+      completionHandler(.failure(outputUrlResponse.1 ?? RenderingError.folderCreationFailed))
+      return
+    }
+    
+    let inputAsset = AVAsset(url: inputUrl)
     let originalVideoTrack = inputAsset.tracks(withMediaType: .video)[0]
     let originalAudioTrack = inputAsset.tracks(withMediaType: .audio)[0]
     
@@ -53,7 +58,7 @@ class VideoRenderer {
         let soundTrack = soundAsset.tracks(withMediaType: .audio)[0]
         let soundComposition = mixedComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
         
-        let soundCompositionStartTime = CMTime(seconds: sound.timestamp, preferredTimescale: originalVideoTrack.naturalTimeScale)//CMTime(seconds: 0.0, preferredTimescale: originalVideoTrack.naturalTimeScale) //CMTime(seconds: sound.timestamp, preferredTimescale: originalVideoTrack.naturalTimeScale)
+        let soundCompositionStartTime = CMTime(seconds: sound.timestamp, preferredTimescale: originalVideoTrack.naturalTimeScale)
         try soundComposition.insertTimeRange(CMTimeRange(start: .zero,
                                                          duration: soundTrack.timeRange.duration),
                                              of: soundTrack,
@@ -183,30 +188,15 @@ class VideoRenderer {
     }
     
   }
-  
-  private func createOutputUrl(_ url: URL) {
-    let folderPath = url
-      .path
-      .split(separator: "/")
-      .dropLast()
-      .joined(separator: "/")
-    
-    if !filemanager.fileExists(atPath: folderPath, isDirectory: UnsafeMutablePointer<ObjCBool>.init(bitPattern: 1)) {
-      do {
-        try filemanager.createDirectory(at: URL(fileURLWithPath: folderPath, isDirectory: true), withIntermediateDirectories: true, attributes: nil)
-      } catch let error {
-        print(error)
-        fatalError()
-      }
-    }
-  }
 }
 
 extension VideoRenderer {
   enum RenderingError: Error {
     case noExportSession
     case exportSessionFailed
+    case folderCreationFailed
     case savingFailed
+    case fileProbablyGotDeleted
   }
   
   enum AudioMode {
