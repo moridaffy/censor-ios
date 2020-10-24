@@ -7,13 +7,22 @@
 
 import Foundation
 
-struct Sound {
+struct Sound: Codable {
   let timestamp: Double
-  let type: SoundType
+  private let typeValue: String
+  
+  var type: SoundType {
+    return SoundType(rawValue: typeValue) ?? .horn1
+  }
+  
+  init(timestamp: Double, type: SoundType) {
+    self.timestamp = timestamp
+    self.typeValue = type.rawValue
+  }
 }
 
 extension Sound {
-  enum SoundType {
+  enum SoundType: String {
     case horn1
     case horn2
     

@@ -120,6 +120,10 @@ class ProjectListViewController: UIViewController {
   @objc func addProjectButtonTapped() {
     present(imagePickerController, animated: true, completion: nil)
   }
+  
+  func reloadTableView() {
+    tableView.reloadData()
+  }
 }
 
 extension ProjectListViewController: UITableViewDelegate {

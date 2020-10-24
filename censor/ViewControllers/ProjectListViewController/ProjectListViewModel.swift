@@ -11,9 +11,18 @@ class ProjectListViewModel {
   
   let mediaType: String = "public.movie"
   
-  private(set) var projects: [Project] = []
-  
   var selectedFileUrl: URL?
+  
+  weak var view: ProjectListViewController?
+  private(set) var projects: [Project] = [] {
+    didSet {
+      view?.reloadTableView()
+    }
+  }
+  
+  init() {
+    projects = StorageManager.shared.getProjects()
+  }
   
   func createNewProject(name: String, originalUrl: URL) -> Project {
     let videoDuration = AVAsset(url: originalUrl).duration.seconds
@@ -25,7 +34,7 @@ class ProjectListViewModel {
     projects.append(project)
     selectedFileUrl = nil
     
-    // TODO: saving project locally for later use
+    StorageManager.shared.saveProject(project)
     
     return project
   }

@@ -12,6 +12,11 @@ class StorageManager {
   static let shared = StorageManager()
   
   private let filemanager = FileManager.default
+  private lazy var projectListUrl: URL = {
+    return URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
+      .appendingPathComponent("Documents", isDirectory: true)
+      .appendingPathComponent("project_list.json", isDirectory: false)
+  }()
   
   /// Create a folder for storing input and output videos of project
   /// - Parameter project: folder will be created for this project
@@ -59,6 +64,35 @@ class StorageManager {
     }
   }
   
+  func saveProject(_ project: Project) {
+    var existingProjects = getProjects()
+    if let projectIndex = existingProjects.firstIndex(where: { $0.id == project.id }) {
+      existingProjects[projectIndex] = project
+    } else {
+      existingProjects.append(project)
+    }
+    writeProjectsToDisk(existingProjects)
+  }
+  
+  func deleteProject(_ project: Project) {
+    var existingProjects = getProjects()
+    guard let projectIndex = existingProjects.firstIndex(where: { $0.id == project.id }) else { return }
+    existingProjects.remove(at: projectIndex)
+    writeProjectsToDisk(existingProjects)
+  }
+  
+  func getProjects() -> [Project] {
+    guard filemanager.fileExists(atPath: projectListUrl.path),
+          let projectsData = try? String(contentsOf: projectListUrl).data(using: .utf8),
+          let projects = try? JSONDecoder().decode([Project].self, from: projectsData) else { return [] }
+    return projects
+  }
+  
+  private func writeProjectsToDisk(_ projects: [Project]) {
+    let projectsData = try? JSONEncoder().encode(projects)
+    try? projectsData?.write(to: projectListUrl)
+  }
+  
   private func createFolderIfNeeded(atPath path: String) -> Error? {
     var isDirectory: ObjCBool = false
     guard !filemanager.fileExists(atPath: path, isDirectory: &isDirectory) else { return nil }
@@ -68,11 +102,5 @@ class StorageManager {
     } catch let error {
       return error
     }
-  }
-}
-
-extension StorageManager {
-  enum StorageError: Error {
-    
   }
 }

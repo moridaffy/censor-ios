@@ -27,6 +27,7 @@
 		0C2BFF2D253F3A5500ED700D /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF2C253F3A5500ED700D /* RootViewModel.swift */; };
 		0C2BFF31253F43AB00ED700D /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF30253F43AB00ED700D /* EditorViewController.swift */; };
 		0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF34253F43F000ED700D /* EditorViewModel.swift */; };
+		0C6904A525449D920096E323 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6904A425449D920096E323 /* DateHelper.swift */; };
 		0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FBA7A2542B3160071BFFA /* StorageManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +54,7 @@
 		0C2BFF2C253F3A5500ED700D /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		0C2BFF30253F43AB00ED700D /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		0C2BFF34253F43F000ED700D /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
+		0C6904A425449D920096E323 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		0C9FBA7A2542B3160071BFFA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -100,6 +102,7 @@
 				0C29141D254087B8009BDB52 /* SoundManager.swift */,
 				0C9FBA7A2542B3160071BFFA /* StorageManager.swift */,
 				0C2914242540A569009BDB52 /* VideoRenderer.swift */,
+				0C6904A425449D920096E323 /* DateHelper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -270,6 +273,7 @@
 				0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */,
 				0C2914252540A569009BDB52 /* VideoRenderer.swift in Sources */,
 				0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */,
+				0C6904A525449D920096E323 /* DateHelper.swift in Sources */,
 				0C2BFF31253F43AB00ED700D /* EditorViewController.swift in Sources */,
 				0C2BFF22253F36CC00ED700D /* RootViewController.swift in Sources */,
 			);

@@ -7,15 +7,22 @@
 
 import Foundation
 
-class Project {
+class Project: Codable {
   let id: String
   let name: String
   let duration: Double
-  let originalUrl: URL
-  let creationDate: Date
+  
+  private let originalUrlValue: String
+  private let creationDateValue: String
   
   var sounds: [Sound] = []
   
+  var originalUrl: URL {
+    return URL(string: originalUrlValue)!
+  }
+  var creationDate: Date {
+    return DateHelper.shared.getDate(from: creationDateValue, of: .full) ?? Date()
+  }
   var outputFolderUrl: URL {
     return URL(fileURLWithPath: NSHomeDirectory(), isDirectory: true)
       .appendingPathComponent("Documents", isDirectory: true)
@@ -27,8 +34,8 @@ class Project {
     self.id = UUID().uuidString
     self.name = name
     self.duration = duration
-    self.originalUrl = originalUrl
-    self.creationDate = Date()
+    self.originalUrlValue = originalUrl.absoluteString
+    self.creationDateValue = DateHelper.shared.getString(from: Date(), of: .full)
   }
   
 }
