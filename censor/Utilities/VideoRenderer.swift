@@ -16,8 +16,6 @@ class VideoRenderer {
   
   func renderVideo(project: Project, addWatermark: Bool, completionHandler: @escaping (Result<URL, Error>) -> Void) {
     
-    // TODO: optionally add watermark
-    
     let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: project)
     guard let inputUrl = inputUrlResponse.0 else {
       completionHandler(.failure(inputUrlResponse.1 ?? RenderingError.fileProbablyGotDeleted))
@@ -39,7 +37,6 @@ class VideoRenderer {
       .addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
     let originalAudioComposition = mixedComposition
       .addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
-    originalAudioComposition.preferredVolume = 0.75
     
     originalVideoComposition.preferredTransform = originalVideoTrack.preferredTransform
     
@@ -68,27 +65,34 @@ class VideoRenderer {
       completionHandler(.failure(error))
     }
     
-//    // Adding watermark to video
-//    let watermarkFilter = CIFilter(name: "CISourceOverCompositing")!
-//    let watermarkImage = CIImage(image: UIImage(named: "watermark")!)!
-//    let videoComposition = AVVideoComposition(asset: inputAsset) { (filteringRequest) in
-//      let source = filteringRequest.sourceImage.clampedToExtent()
-//      let transform = CGAffineTransform(translationX: 16.0, y: 16.0)
-//
-//      watermarkFilter.setValue(source, forKey: "inputBackgroundImage")
-//      watermarkFilter.setValue(watermarkImage.transformed(by: transform), forKey: "inputImage")
-//      filteringRequest.finish(with: watermarkFilter.outputImage!, context: nil)
-//    }
+    let session: AVAssetExportSession? = {
+      if addWatermark {
+        let watermarkFilter = CIFilter(name: "CISourceOverCompositing")!
+        let watermarkImage = CIImage(image: UIImage(named: "watermark")!)!
+        let watermarkVideoComposition = AVVideoComposition(asset: mixedComposition) { (filteringRequest) in
+          let source = filteringRequest.sourceImage.clampedToExtent()
+          let transform = CGAffineTransform(translationX: 16.0, y: 16.0)
+
+          watermarkFilter.setValue(source, forKey: "inputBackgroundImage")
+          watermarkFilter.setValue(watermarkImage.transformed(by: transform), forKey: "inputImage")
+          filteringRequest.finish(with: watermarkFilter.outputImage!, context: nil)
+        }
+        
+        let exportSession = AVAssetExportSession(asset: mixedComposition, presetName: AVAssetExportPresetHighestQuality)
+        exportSession?.videoComposition = watermarkVideoComposition
+        return exportSession
+      } else {
+        let exportSession = AVAssetExportSession(asset: mixedComposition, presetName: AVAssetExportPresetHighestQuality)
+        return exportSession
+      }
+    }()
     
-    guard let exportSession = AVAssetExportSession(asset: mixedComposition, presetName: AVAssetExportPresetHighestQuality) else {
+    guard let exportSession = session else {
       completionHandler(.failure(RenderingError.noExportSession))
       return
     }
-    
     exportSession.outputURL = outputUrl
     exportSession.outputFileType = AVFileType.mov
-//    exportSession.shouldOptimizeForNetworkUse = true
-//    exportSession.videoComposition = mixedComposition
     exportSession.exportAsynchronously { () -> Void in
       switch exportSession.status {
       case .completed:
@@ -97,96 +101,6 @@ class VideoRenderer {
         completionHandler(.failure(exportSession.error ?? RenderingError.exportSessionFailed))
       }
     }
-  }
-  
-  func mergeVideoAndAudio(videoUrl: URL,
-                          audioUrl: URL,
-                          shouldFlipHorizontally: Bool = false,
-                          completion: @escaping (_ error: Error?, _ url: URL?) -> Void) {
-    
-    let mixComposition = AVMutableComposition()
-    
-    //start merge
-    
-    let aVideoAsset = AVAsset(url: videoUrl)
-    let aAudioAsset = AVAsset(url: audioUrl)
-    
-    let compositionAddVideo = mixComposition.addMutableTrack(withMediaType: .video,
-                                                             preferredTrackID: kCMPersistentTrackID_Invalid)!
-    
-    let compositionAddAudio = mixComposition.addMutableTrack(withMediaType: .audio,
-                                                             preferredTrackID: kCMPersistentTrackID_Invalid)!
-    
-    let compositionAddAudioOfVideo = mixComposition.addMutableTrack(withMediaType: .audio,
-                                                                    preferredTrackID: kCMPersistentTrackID_Invalid)!
-    
-    let aVideoAssetTrack: AVAssetTrack = aVideoAsset.tracks(withMediaType: .video)[0]
-    let aAudioOfVideoAssetTrack: AVAssetTrack? = aVideoAsset.tracks(withMediaType: .audio).first
-    let aAudioAssetTrack: AVAssetTrack = aAudioAsset.tracks(withMediaType: .audio)[0]
-    
-    // Default must have tranformation
-    compositionAddVideo.preferredTransform = aVideoAssetTrack.preferredTransform
-    
-    if shouldFlipHorizontally {
-      // Flip video horizontally
-      var frontalTransform: CGAffineTransform = CGAffineTransform(scaleX: -1.0, y: 1.0)
-      frontalTransform = frontalTransform.translatedBy(x: -aVideoAssetTrack.naturalSize.width, y: 0.0)
-      frontalTransform = frontalTransform.translatedBy(x: 0.0, y: -aVideoAssetTrack.naturalSize.width)
-      compositionAddVideo.preferredTransform = frontalTransform
-    }
-    
-    do {
-      try compositionAddVideo.insertTimeRange(CMTimeRangeMake(start: .zero,
-                                                                          duration: aVideoAssetTrack.timeRange.duration),
-                                                          of: aVideoAssetTrack,
-                                                          at: .zero)
-      
-      //In my case my audio file is longer then video file so i took videoAsset duration
-      //instead of audioAsset duration
-      try compositionAddAudio.insertTimeRange(CMTimeRangeMake(start: .zero,
-                                                                          duration: aVideoAssetTrack.timeRange.duration),
-                                                          of: aAudioAssetTrack,
-                                                          at: .zero)
-      
-      // adding audio (of the video if exists) asset to the final composition
-      if let aAudioOfVideoAssetTrack = aAudioOfVideoAssetTrack {
-        try compositionAddAudioOfVideo.insertTimeRange(CMTimeRangeMake(start: .zero,
-                                                                                   duration: aVideoAssetTrack.timeRange.duration),
-                                                                   of: aAudioOfVideoAssetTrack,
-                                                                   at: .zero)
-      }
-    } catch {
-      print(error.localizedDescription)
-    }
-    
-    // Exporting
-    let savePathUrl: URL = URL(fileURLWithPath: NSHomeDirectory() + "/Documents/newVideo.mp4")
-    do { // delete old video
-      try FileManager.default.removeItem(at: savePathUrl)
-    } catch { print(error.localizedDescription) }
-    
-    let assetExport: AVAssetExportSession = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality)!
-    assetExport.outputFileType = .mp4
-    assetExport.outputURL = savePathUrl
-    assetExport.shouldOptimizeForNetworkUse = true
-    
-    assetExport.exportAsynchronously { () -> Void in
-      switch assetExport.status {
-      case AVAssetExportSessionStatus.completed:
-        print("success")
-        completion(nil, savePathUrl)
-      case AVAssetExportSessionStatus.failed:
-        print("failed \(assetExport.error?.localizedDescription ?? "error nil")")
-        completion(assetExport.error, nil)
-      case AVAssetExportSessionStatus.cancelled:
-        print("cancelled \(assetExport.error?.localizedDescription ?? "error nil")")
-        completion(assetExport.error, nil)
-      default:
-        print("complete")
-        completion(assetExport.error, nil)
-      }
-    }
-    
   }
 }
 
