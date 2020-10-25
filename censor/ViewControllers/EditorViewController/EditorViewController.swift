@@ -358,6 +358,7 @@ class EditorViewController: UIViewController {
   @objc private func soundViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
     guard let soundIndex = gestureRecognizer.view?.tag else { fatalError() }
     viewModel.addedSounds.remove(at: soundIndex - 1)
+    viewModel.currentSoundIndex -= 1
   }
   
   func addedSoundsUpdated() {
