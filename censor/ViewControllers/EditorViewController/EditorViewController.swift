@@ -29,6 +29,7 @@ class EditorViewController: UIViewController {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.textColor = UIColor.white
     label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
+    label.text = "00:00"
     return label
   }()
   
@@ -36,13 +37,6 @@ class EditorViewController: UIViewController {
     let progressView = UIProgressView()
     progressView.translatesAutoresizingMaskIntoConstraints = false
     return progressView
-  }()
-  
-  private let controlButtonsContainerView: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = UIColor.clear
-    return view
   }()
   
   private let restartButton: UIButton = {
@@ -83,12 +77,43 @@ class EditorViewController: UIViewController {
     return button
   }()
   
+  private let saveButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle(nil, for: .normal)
+    button.setImage(UIImage(systemName: "archivebox"), for: .normal)
+    return button
+  }()
+  
+  private let exportButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle(nil, for: .normal)
+    button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+    return button
+  }()
+  
+  private let rightBarButtonItemView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.backgroundColor = .clear
+    return view
+  }()
+  
+  var videoProgressViewWidth: CGFloat {
+    let videoProgressViewWidth = videoProgressView.frame.size.width
+    return videoProgressViewWidth == 0.0
+      ? UIScreen.main.bounds.width - 16.0 - 60.0 - 16.0
+      : videoProgressViewWidth
+  }
+  
   private var soundViews: [UIView] = []
   
   private let viewModel: EditorViewModel
   
   private var playerLayer: AVPlayerLayer?
-  private var playerNotificationToken: Any?
+  private var playerPeriodicNotificationToken: Any?
+  private var playerBoundaryNotificationToken: Any?
   
   init(viewModel: EditorViewModel) {
     self.viewModel = viewModel
@@ -98,6 +123,8 @@ class EditorViewController: UIViewController {
     view.backgroundColor = .systemGray6
     
     setupLayout()
+    
+    setupPlayer()
   }
   
   required init?(coder: NSCoder) {
@@ -109,7 +136,6 @@ class EditorViewController: UIViewController {
     
     setupNavigationBar()
     setupButtons()
-    setupPlayer()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -126,15 +152,16 @@ class EditorViewController: UIViewController {
   
   private func setupLayout() {
     let controlButtonSide: CGFloat = 40.0
+    let controlButtonsStackView = UIStackView(arrangedSubviews: [restartButton, audioModeButton, soundSelectorButton])
+    controlButtonsStackView.translatesAutoresizingMaskIntoConstraints = false
+    controlButtonsStackView.spacing = 16.0
+    controlButtonsStackView.distribution = .equalSpacing
     
     view.addSubview(playerContainerView)
     view.addSubview(controlsContainerView)
     controlsContainerView.addSubview(videoProgressLabel)
     controlsContainerView.addSubview(videoProgressView)
-    controlsContainerView.addSubview(controlButtonsContainerView)
-    controlButtonsContainerView.addSubview(restartButton)
-    controlButtonsContainerView.addSubview(audioModeButton)
-    controlButtonsContainerView.addSubview(soundSelectorButton)
+    controlsContainerView.addSubview(controlButtonsStackView)
     view.addSubview(recordButton)
     
     view.addConstraints([
@@ -157,41 +184,44 @@ class EditorViewController: UIViewController {
       videoProgressView.leftAnchor.constraint(equalTo: videoProgressLabel.rightAnchor),
       videoProgressView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
       
-      controlButtonsContainerView.topAnchor.constraint(equalTo: videoProgressView.bottomAnchor, constant: 16.0),
-      controlButtonsContainerView.centerXAnchor.constraint(equalTo: controlsContainerView.centerXAnchor),
-      controlButtonsContainerView.heightAnchor.constraint(equalToConstant: controlButtonSide),
-      
-      audioModeButton.centerXAnchor.constraint(equalTo: controlButtonsContainerView.centerXAnchor),
-      audioModeButton.centerYAnchor.constraint(equalTo: controlButtonsContainerView.centerYAnchor),
-      audioModeButton.heightAnchor.constraint(equalToConstant: controlButtonSide),
-      audioModeButton.widthAnchor.constraint(equalToConstant: controlButtonSide),
-      
-      restartButton.centerYAnchor.constraint(equalTo: audioModeButton.centerYAnchor),
-      restartButton.leftAnchor.constraint(equalTo: controlButtonsContainerView.leftAnchor),
-      restartButton.rightAnchor.constraint(equalTo: audioModeButton.leftAnchor, constant: -8.0),
-      restartButton.heightAnchor.constraint(equalToConstant: controlButtonSide),
-      restartButton.widthAnchor.constraint(equalToConstant: controlButtonSide),
-      
-      soundSelectorButton.centerYAnchor.constraint(equalTo: audioModeButton.centerYAnchor),
-      soundSelectorButton.leftAnchor.constraint(equalTo: restartButton.rightAnchor, constant: 8.0),
-      soundSelectorButton.rightAnchor.constraint(equalTo: controlButtonsContainerView.rightAnchor),
-      soundSelectorButton.heightAnchor.constraint(equalToConstant: controlButtonSide),
-      soundSelectorButton.widthAnchor.constraint(equalToConstant: controlButtonSide),
+      controlButtonsStackView.topAnchor.constraint(equalTo: videoProgressView.bottomAnchor, constant: 16.0),
+      controlButtonsStackView.centerXAnchor.constraint(equalTo: controlsContainerView.centerXAnchor),
+      controlButtonsStackView.heightAnchor.constraint(equalToConstant: controlButtonSide),
       
       recordButton.heightAnchor.constraint(equalToConstant: 50.0),
       recordButton.widthAnchor.constraint(equalToConstant: 50.0),
       recordButton.bottomAnchor.constraint(equalTo: playerContainerView.bottomAnchor, constant: -32.0),
       recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
     ])
+    
+    addedSoundsUpdated()
   }
   
   private func setupNavigationBar() {
     title = viewModel.project.name
     
-    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
-                                                        style: .done,
-                                                        target: self,
-                                                        action: #selector(exportButtonTapped))
+    rightBarButtonItemView.addSubview(saveButton)
+    rightBarButtonItemView.addSubview(exportButton)
+    
+    rightBarButtonItemView.addConstraints([
+      saveButton.topAnchor.constraint(equalTo: rightBarButtonItemView.topAnchor),
+      saveButton.leftAnchor.constraint(equalTo: rightBarButtonItemView.leftAnchor),
+      saveButton.bottomAnchor.constraint(equalTo: rightBarButtonItemView.bottomAnchor),
+      saveButton.widthAnchor.constraint(equalToConstant: 24.0),
+      saveButton.heightAnchor.constraint(equalToConstant: 24.0),
+      
+      exportButton.leftAnchor.constraint(equalTo: saveButton.rightAnchor, constant: 16.0),
+      exportButton.topAnchor.constraint(equalTo: rightBarButtonItemView.topAnchor),
+      exportButton.rightAnchor.constraint(equalTo: rightBarButtonItemView.rightAnchor),
+      exportButton.bottomAnchor.constraint(equalTo: rightBarButtonItemView.bottomAnchor),
+      exportButton.heightAnchor.constraint(equalTo: saveButton.heightAnchor),
+      exportButton.widthAnchor.constraint(equalTo: saveButton.widthAnchor)
+    ])
+    
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButtonItemView)
+    
+    saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
+    exportButton.addTarget(self, action: #selector(exportButtonTapped), for: .touchUpInside)
   }
   
   private func setupButtons() {
@@ -211,18 +241,28 @@ class EditorViewController: UIViewController {
     playerLayer.player?.play()
     
     setupPeriodicTimeObserver()
+    setupBoundaryTimeObserver()
   }
   
   private func setupPeriodicTimeObserver() {
-    let notificationTime = CMTime(seconds: 0.1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-    playerNotificationToken = playerLayer?.player?.addPeriodicTimeObserver(forInterval: notificationTime, queue: .main, using: { [weak self] (time) in
-      guard let self = self else { return }
-      self.updateVideoProgress(with: time.seconds)
+    let notificationTime = CMTime(seconds: 0.1, preferredTimescale: viewModel.preferredTimescale)
+    playerPeriodicNotificationToken = playerLayer?.player?.addPeriodicTimeObserver(forInterval: notificationTime, queue: .main, using: { [weak self] (time) in
+      self?.updateVideoProgress(with: time.seconds)
     })
   }
   
   private func setupBoundaryTimeObserver() {
-    // TODO: setup playing previously added sounds on video playback
+    if let playerBoundaryNotificationToken = playerBoundaryNotificationToken {
+      playerLayer?.player?.removeTimeObserver(playerBoundaryNotificationToken)
+      self.playerBoundaryNotificationToken = nil
+    }
+    
+    guard !viewModel.addedSounds.isEmpty else { return }
+    let boundaryTimes: [NSValue] = viewModel.addedSounds
+      .compactMap({ NSValue(time: CMTime(seconds: $0.timestamp, preferredTimescale: viewModel.preferredTimescale)) })
+    playerBoundaryNotificationToken = playerLayer?.player?.addBoundaryTimeObserver(forTimes: boundaryTimes, queue: .main, using: { [weak self] in
+      self?.playAddedSound()
+    })
   }
   
   private func updateVideoProgress(with time: Double) {
@@ -230,18 +270,21 @@ class EditorViewController: UIViewController {
     videoProgressView.progress = Float(time / viewModel.project.duration)
   }
   
+  private func playAddedSound() {
+    let sound = viewModel.addedSounds[viewModel.currentSoundIndex]
+    SoundManager.shared.playSound(sound)
+    viewModel.currentSoundIndex += 1
+  }
+  
   private func getSoundView(for sound: Sound, at index: Int) -> UIView {
-    let completionPercent = CGFloat(sound.timestamp / viewModel.project.duration)
-    
     let viewSize = CGSize(width: 20.0, height: 20.0)
-    let xOffset: CGFloat = viewSize.width / 2.0
-    let yOffest = viewSize.height / 2.0
-    let viewOrigin = CGPoint(x: videoProgressView.frame.minX + videoProgressView.frame.size.width * completionPercent - xOffset,
-                             y: videoProgressView.frame.midY - yOffest)
+    let completionPercent = CGFloat(sound.timestamp / viewModel.project.duration)
+    let soundViewLeftConstant = videoProgressViewWidth * completionPercent - viewSize.width / 2.0
     
     let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundViewTapped))
     
-    let label = UILabel(frame: CGRect(origin: viewOrigin, size: viewSize))
+    let label = UILabel(frame: .zero)
+    label.translatesAutoresizingMaskIntoConstraints = false
     label.backgroundColor = UIColor.red
     label.text = String(index + 1)
     label.textAlignment = .center
@@ -252,7 +295,22 @@ class EditorViewController: UIViewController {
     label.tag = index + 1
     label.isUserInteractionEnabled = true
     label.addGestureRecognizer(tapGestureRecognizer)
+    
+    controlsContainerView.addSubview(label)
+    controlsContainerView.addConstraints([
+      label.widthAnchor.constraint(equalToConstant: viewSize.width),
+      label.heightAnchor.constraint(equalToConstant: viewSize.height),
+      label.centerYAnchor.constraint(equalTo: videoProgressView.centerYAnchor),
+      label.leftAnchor.constraint(equalTo: videoProgressView.leftAnchor, constant: soundViewLeftConstant)
+    ])
+    
     return label
+  }
+  
+  @objc private func saveButtonTapped() {
+    let project = viewModel.project
+    project.sounds = viewModel.addedSounds
+    StorageManager.shared.saveProject(project)
   }
   
   @objc private func exportButtonTapped() {
@@ -278,6 +336,7 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func restartButtonTapped() {
+    viewModel.currentSoundIndex = 0
     playerLayer?.player?.seek(to: CMTime.zero)
     playerLayer?.player?.play()
   }
@@ -310,9 +369,9 @@ class EditorViewController: UIViewController {
     
     for i in 0..<viewModel.addedSounds.count {
       let soundView = getSoundView(for: viewModel.addedSounds[i], at: i)
-      soundView.willMove(toSuperview: controlsContainerView)
-      controlsContainerView.addSubview(soundView)
       soundViews.append(soundView)
     }
+    
+    setupBoundaryTimeObserver()
   }
 }

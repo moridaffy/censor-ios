@@ -10,14 +10,21 @@ import Photos
 
 class EditorViewModel {
   
+  let preferredTimescale = CMTimeScale(NSEC_PER_SEC)
+  
   let project: Project
   
   var isPlayingVideo: Bool = true
+  var currentSoundIndex: Int = 0
   
   var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
   var selectedSoundType: Sound.SoundType = .horn1
-  var addedSounds: [Sound] = [] {
-    didSet {
+  var addedSounds: [Sound] {
+    get {
+      return project.sounds
+    }
+    set {
+      project.sounds = newValue
       view?.addedSoundsUpdated()
     }
   }
@@ -46,7 +53,6 @@ class EditorViewModel {
   }
   
   func renderProject(completionHandler: @escaping (Error?) -> Void) {
-    project.sounds = addedSounds
     VideoRenderer.shared.renderVideo(project: project, addWatermark: true) { (result) in
       switch result {
       case .success(let outputUrl):
