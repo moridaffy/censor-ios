@@ -38,5 +38,4 @@ class SoundSelectorTableViewCell: UITableViewCell {
       titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16.0)
     ])
   }
-  
 }

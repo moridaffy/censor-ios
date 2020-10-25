@@ -29,6 +29,13 @@ class StorageManager {
     if let folderCreationError = createFolderIfNeeded(atPath: outputFolderUrl.path) {
       return (nil, folderCreationError)
     } else {
+      if filemanager.fileExists(atPath: outputUrl.path) {
+        do {
+          try filemanager.removeItem(at: outputUrl)
+        } catch let error {
+          return (nil, error)
+        }
+      }
       return (outputUrl, nil)
     }
   }
