@@ -22,9 +22,23 @@ struct Sound: Codable {
 }
 
 extension Sound {
-  enum SoundType: String {
+  enum SoundType: String, CaseIterable {
+    
+    static var allCasesSorted: [SoundType] {
+      return allCases.sorted(by: { $0.title < $1.title })
+    }
+    
     case horn1
     case horn2
+    
+    var title: String {
+      switch self {
+      case .horn1:
+        return "Horn 1"
+      case .horn2:
+        return "Horn 2"
+      }
+    }
     
     var filename: String {
       switch self {

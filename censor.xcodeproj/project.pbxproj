@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C0351832545FA5A00BC3461 /* SoundSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */; };
+		0C0351862545FA6800BC3461 /* SoundSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */; };
+		0C03518925460C9F00BC3461 /* SoundSelectorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */; };
 		0C29140025403374009BDB52 /* ProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2913FF25403374009BDB52 /* ProjectListViewController.swift */; };
 		0C29140425403398009BDB52 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29140325403398009BDB52 /* ProjectListViewModel.swift */; };
 		0C2914072540375D009BDB52 /* ProjectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2914062540375D009BDB52 /* ProjectListTableViewCell.swift */; };
@@ -32,6 +35,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewController.swift; sourceTree = "<group>"; };
+		0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewModel.swift; sourceTree = "<group>"; };
+		0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorTableViewCell.swift; sourceTree = "<group>"; };
 		0C2913FF25403374009BDB52 /* ProjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewController.swift; sourceTree = "<group>"; };
 		0C29140325403398009BDB52 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
 		0C2914062540375D009BDB52 /* ProjectListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListTableViewCell.swift; sourceTree = "<group>"; };
@@ -69,6 +75,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0C0351812545FA4500BC3461 /* SoundSelectorViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */,
+				0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */,
+				0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */,
+			);
+			path = SoundSelectorViewController;
+			sourceTree = "<group>";
+		};
 		0C2913FE25403364009BDB52 /* ProjectListViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,6 +161,7 @@
 				0C2BFF20253F36B600ED700D /* RootViewController */,
 				0C2913FE25403364009BDB52 /* ProjectListViewController */,
 				0C2BFF2F253F439200ED700D /* EditorViewController */,
+				0C0351812545FA4500BC3461 /* SoundSelectorViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -263,6 +280,7 @@
 				0C29140D25403D47009BDB52 /* UINavigationController+CompletionHandler.swift in Sources */,
 				0C29140025403374009BDB52 /* ProjectListViewController.swift in Sources */,
 				0C2914072540375D009BDB52 /* ProjectListTableViewCell.swift in Sources */,
+				0C0351832545FA5A00BC3461 /* SoundSelectorViewController.swift in Sources */,
 				0C2BFF29253F385400ED700D /* UIViewController+NavigaionController.swift in Sources */,
 				0C29141E254087B8009BDB52 /* SoundManager.swift in Sources */,
 				0C29140A254038E5009BDB52 /* Project.swift in Sources */,
@@ -274,6 +292,8 @@
 				0C2914252540A569009BDB52 /* VideoRenderer.swift in Sources */,
 				0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */,
 				0C6904A525449D920096E323 /* DateHelper.swift in Sources */,
+				0C0351862545FA6800BC3461 /* SoundSelectorViewModel.swift in Sources */,
+				0C03518925460C9F00BC3461 /* SoundSelectorTableViewCell.swift in Sources */,
 				0C2BFF31253F43AB00ED700D /* EditorViewController.swift in Sources */,
 				0C2BFF22253F36CC00ED700D /* RootViewController.swift in Sources */,
 			);

@@ -347,7 +347,8 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func soundSelectorButtonTapped() {
-    // TODO: display sound selection screen
+    let soundSelectorViewController = SoundSelectorViewController(delegate: self)
+    present(soundSelectorViewController.embedInNavigationController(), animated: true, completion: nil)
   }
   
   @objc private func recordButtonPressed() {
@@ -374,5 +375,11 @@ class EditorViewController: UIViewController {
     }
     
     setupBoundaryTimeObserver()
+  }
+}
+
+extension EditorViewController: SoundSelectorViewControllerDelegate {
+  func didSelectSoundType(_ type: Sound.SoundType) {
+    viewModel.selectedSoundType = type
   }
 }
