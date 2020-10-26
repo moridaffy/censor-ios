@@ -44,6 +44,12 @@ class ProjectListViewController: UIViewController {
     setupTableView()
   }
   
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    viewModel.reloadProjects()
+  }
+  
   private func setupLayout() {
     view.addSubview(tableView)
     
@@ -138,7 +144,7 @@ extension ProjectListViewController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    return 52.0
+    return 80.0
   }
 }
 

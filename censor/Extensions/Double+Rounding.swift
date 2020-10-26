@@ -47,4 +47,13 @@ extension Double {
     let divisor = pow(10.0, Double(symbols))
     return (self * divisor).rounded() / divisor
   }
+  
+  func timeString() -> String {
+    let minutes = (self / 60.0).rounded()
+    let seconds = (self - minutes * 60.0).rounded()
+    
+    return [minutes, seconds]
+      .compactMap({ $0.roundedString(symbolsAfter: 0, symbolsBefore: 2) })
+      .joined(separator: ":")
+  }
 }

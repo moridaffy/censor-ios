@@ -266,7 +266,7 @@ class EditorViewController: UIViewController {
   }
   
   private func updateVideoProgress(with time: Double) {
-    videoProgressLabel.text = viewModel.getProgressTimeString(for: time)
+    videoProgressLabel.text = time.timeString()
     videoProgressView.progress = Float(time / viewModel.project.duration)
   }
   

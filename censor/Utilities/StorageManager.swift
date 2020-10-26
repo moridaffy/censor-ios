@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import class UIKit.UIImage
 
 class StorageManager {
   
@@ -69,6 +70,21 @@ class StorageManager {
       // File doesn't exist in PhotoLibrary and project's folder
       fatalError()
     }
+  }
+  
+  func savePreviewImage(forProject project: Project, image: UIImage) {
+    guard let previewImageData = image.pngData() else { return }
+    let previewImageUrl = project.outputFolderUrl
+      .appendingPathComponent("preview.png", isDirectory: false)
+    try? previewImageData.write(to: previewImageUrl)
+  }
+  
+  func getPreviewImage(forProject project: Project) -> UIImage? {
+    let previewImageUrl = project.outputFolderUrl
+      .appendingPathComponent("preview.png", isDirectory: false)
+    guard filemanager.fileExists(atPath: previewImageUrl.path),
+          let previewImage = UIImage(contentsOfFile: previewImageUrl.path) else { return nil }
+    return previewImage
   }
   
   func saveProject(_ project: Project) {

@@ -21,6 +21,10 @@ class ProjectListViewModel {
   }
   
   init() {
+    reloadProjects()
+  }
+  
+  func reloadProjects() {
     projects = StorageManager.shared.getProjects()
   }
   

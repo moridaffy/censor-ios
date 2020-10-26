@@ -43,15 +43,6 @@ class EditorViewModel {
     SoundManager.shared.playSound(sound)
   }
   
-  func getProgressTimeString(for timestamp: Double) -> String {
-    let minutes = (timestamp / 60.0).rounded()
-    let seconds = (timestamp - minutes * 60.0).rounded()
-    
-    return [minutes, seconds]
-      .compactMap({ $0.roundedString(symbolsAfter: 0, symbolsBefore: 2) })
-      .joined(separator: ":")
-  }
-  
   func renderProject(completionHandler: @escaping (Error?) -> Void) {
     VideoRenderer.shared.renderVideo(project: project, addWatermark: true) { (result) in
       switch result {

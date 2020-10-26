@@ -72,7 +72,7 @@ class VideoRenderer {
         let watermarkVideoComposition = AVVideoComposition(asset: mixedComposition) { (filteringRequest) in
           let source = filteringRequest.sourceImage.clampedToExtent()
           let transform = CGAffineTransform(translationX: 16.0, y: 16.0)
-
+          
           watermarkFilter.setValue(source, forKey: "inputBackgroundImage")
           watermarkFilter.setValue(watermarkImage.transformed(by: transform), forKey: "inputImage")
           filteringRequest.finish(with: watermarkFilter.outputImage!, context: nil)
@@ -99,6 +99,42 @@ class VideoRenderer {
         completionHandler(.success(outputUrl))
       default:
         completionHandler(.failure(exportSession.error ?? RenderingError.exportSessionFailed))
+      }
+    }
+  }
+  
+  func getPreviewImage(for project: Project, completionHandler: @escaping (UIImage?) -> Void) {
+    if let previewImage = StorageManager.shared.getPreviewImage(forProject: project) {
+      DispatchQueue.main.async {
+        completionHandler(previewImage)
+      }
+      return
+    }
+    
+    DispatchQueue.global(qos: .background).async {
+      let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: project)
+      guard let inputUrl = inputUrlResponse.0 else {
+        completionHandler(nil)
+        return
+      }
+      
+      let inputAsset = AVAsset(url: inputUrl)
+      let inputAssetImageGenerator = AVAssetImageGenerator(asset: inputAsset)
+      inputAssetImageGenerator.appliesPreferredTrackTransform = true
+      inputAssetImageGenerator.apertureMode = AVAssetImageGenerator.ApertureMode.encodedPixels
+      
+      let previewCgImage: CGImage
+      do {
+        previewCgImage = try inputAssetImageGenerator.copyCGImage(at: CMTime(seconds: 0.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), actualTime: nil)
+      } catch let error {
+        print("🔥 Failed to render preview image for project \(project.id):\n\(error.localizedDescription)")
+        return completionHandler(nil)
+      }
+      
+      let previewImage = UIImage(cgImage: previewCgImage)
+      StorageManager.shared.savePreviewImage(forProject: project, image: previewImage)
+      DispatchQueue.main.async {
+        completionHandler(previewImage)
       }
     }
   }
