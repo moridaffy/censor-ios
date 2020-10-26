@@ -62,8 +62,8 @@ class ProjectListViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    let addProjectButton = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addProjectButtonTapped))
-    navigationItem.rightBarButtonItem = addProjectButton
+    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonTapped))
+    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addProjectButtonTapped))
   }
   
   private func setupTableView() {
@@ -115,6 +115,11 @@ class ProjectListViewController: UIViewController {
     let editorViewModel = EditorViewModel(project: project)
     let editorViewController = EditorViewController(viewModel: editorViewModel)
     navigationController?.pushViewController(editorViewController, animated: true)
+  }
+  
+  @objc private func settingsButtonTapped() {
+    let settingsViewController = SettingsViewController().embedInNavigationController()
+    present(settingsViewController, animated: true, completion: nil)
   }
   
   @objc func addProjectButtonTapped() {
