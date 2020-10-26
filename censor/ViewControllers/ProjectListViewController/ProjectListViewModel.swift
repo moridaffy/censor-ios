@@ -42,4 +42,9 @@ class ProjectListViewModel {
     
     return project
   }
+  
+  func deleteProject(at row: Int) {
+    StorageManager.shared.deleteProject(projects[row])
+    projects.remove(at: row)
+  }
 }

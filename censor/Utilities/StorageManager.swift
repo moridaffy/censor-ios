@@ -98,6 +98,8 @@ class StorageManager {
   }
   
   func deleteProject(_ project: Project) {
+    try? filemanager.removeItem(atPath: project.outputFolderUrl.path)
+    
     var existingProjects = getProjects()
     guard let projectIndex = existingProjects.firstIndex(where: { $0.id == project.id }) else { return }
     existingProjects.remove(at: projectIndex)

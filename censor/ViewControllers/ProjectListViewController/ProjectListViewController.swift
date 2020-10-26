@@ -47,6 +47,8 @@ class ProjectListViewController: UIViewController {
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
     
+    viewModel.view = self
+    
     viewModel.reloadProjects()
   }
   
@@ -145,6 +147,22 @@ extension ProjectListViewController: UITableViewDelegate {
   
   func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
     return 80.0
+  }
+  
+//  func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
+//    let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (_, _) in
+//      self.viewModel.deleteProject(at: indexPath.row)
+//    }
+//    deleteAction.backgroundColor = UIColor.systemRed
+//    return [deleteAction]
+//  }
+  
+  func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
+      self.viewModel.deleteProject(at: indexPath.row)
+    }
+    deleteAction.backgroundColor = UIColor.systemRed
+    return UISwipeActionsConfiguration(actions: [deleteAction])
   }
 }
 
