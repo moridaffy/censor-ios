@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol VideoTimelineViewDelegate: class {
+  func didChangeProgress(toValue value: Float)
+}
+
 class VideoTimelineView: UIView {
   
   static let height: CGFloat = 60.0
@@ -47,17 +51,22 @@ class VideoTimelineView: UIView {
     return imageView
   }
   
+  private weak var delegate: VideoTimelineViewDelegate?
+  
   override init(frame: CGRect) {
     super.init(frame: .zero)
     
     setupLayout()
+    setupActions()
   }
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func update(project: Project) {
+  func update(project: Project, delegate: VideoTimelineViewDelegate?) {
+    self.delegate = delegate
+    
     StorageManager.shared.getPreviewImages(forProject: project, completionHandler: { [weak self] (images) in
       guard images.count == Project.previewImagesCount else { return }
       for i in 0..<images.count {
@@ -103,5 +112,13 @@ class VideoTimelineView: UIView {
       progressSlider.leftAnchor.constraint(equalTo: previewImagesContainerView.leftAnchor),
       progressSlider.rightAnchor.constraint(equalTo: previewImagesContainerView.rightAnchor)
     ])
+  }
+  
+  private func setupActions() {
+    progressSlider.addTarget(self, action: #selector(progressSliderValueChanged), for: .valueChanged)
+  }
+  
+  @objc private func progressSliderValueChanged() {
+    delegate?.didChangeProgress(toValue: progressSlider.value)
   }
 }

@@ -24,28 +24,13 @@ class EditorViewController: UIViewController {
     return view
   }()
   
-//  private let videoProgressLabel: UILabel = {
-//    let label = UILabel()
-//    label.translatesAutoresizingMaskIntoConstraints = false
-//    label.textColor = UIColor.white
-//    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
-//    label.text = "00:00"
-//    return label
-//  }()
-//
-//  private let videoProgressView: UIProgressView = {
-//    let progressView = UIProgressView()
-//    progressView.translatesAutoresizingMaskIntoConstraints = false
-//    return progressView
-//  }()
-  
   private let videoTimelineView: VideoTimelineView = {
     let videoTimelineView = VideoTimelineView()
     videoTimelineView.translatesAutoresizingMaskIntoConstraints = false
     return videoTimelineView
   }()
   
-  private let restartButton: UIButton = {
+  private let playButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle(nil, for: .normal)
@@ -106,13 +91,6 @@ class EditorViewController: UIViewController {
     return view
   }()
   
-//  var videoProgressViewWidth: CGFloat {
-//    let videoProgressViewWidth = videoProgressView.frame.size.width
-//    return videoProgressViewWidth == 0.0
-//      ? UIScreen.main.bounds.width - 16.0 - 60.0 - 16.0
-//      : videoProgressViewWidth
-//  }
-  
   private var soundViews: [UIView] = []
   
   private let viewModel: EditorViewModel
@@ -143,7 +121,7 @@ class EditorViewController: UIViewController {
     setupNavigationBar()
     setupButtons()
     
-    videoTimelineView.update(project: viewModel.project)
+    videoTimelineView.update(project: viewModel.project, delegate: self)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -160,15 +138,13 @@ class EditorViewController: UIViewController {
   
   private func setupLayout() {
     let controlButtonSide: CGFloat = 40.0
-    let controlButtonsStackView = UIStackView(arrangedSubviews: [restartButton, audioModeButton, soundSelectorButton])
+    let controlButtonsStackView = UIStackView(arrangedSubviews: [playButton, audioModeButton, soundSelectorButton])
     controlButtonsStackView.translatesAutoresizingMaskIntoConstraints = false
     controlButtonsStackView.spacing = 16.0
     controlButtonsStackView.distribution = .equalSpacing
     
     view.addSubview(playerContainerView)
     view.addSubview(controlsContainerView)
-//    controlsContainerView.addSubview(videoProgressLabel)
-//    controlsContainerView.addSubview(videoProgressView)
     controlsContainerView.addSubview(videoTimelineView)
     controlsContainerView.addSubview(controlButtonsStackView)
     view.addSubview(recordButton)
@@ -182,23 +158,11 @@ class EditorViewController: UIViewController {
       controlsContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
       controlsContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
       controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-//      controlsContainerView.heightAnchor.constraint(equalToConstant: 100.0),
       
       videoTimelineView.topAnchor.constraint(equalTo: controlsContainerView.topAnchor, constant: 12.0),
       videoTimelineView.leftAnchor.constraint(equalTo: controlsContainerView.leftAnchor, constant: 16.0),
       videoTimelineView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
       videoTimelineView.heightAnchor.constraint(equalToConstant: VideoTimelineView.height),
-      
-//      videoProgressLabel.topAnchor.constraint(equalTo: controlsContainerView.topAnchor, constant: 16.0),
-//      videoProgressLabel.leftAnchor.constraint(equalTo: controlsContainerView.leftAnchor, constant: 16.0),
-//      videoProgressLabel.widthAnchor.constraint(equalToConstant: 60.0),
-//      videoProgressLabel.heightAnchor.constraint(equalToConstant: 15.0),
-//
-//      videoProgressView.centerYAnchor.constraint(equalTo: videoProgressLabel.centerYAnchor),
-//      videoProgressView.leftAnchor.constraint(equalTo: videoProgressLabel.rightAnchor),
-//      videoProgressView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
-      
-//      controlButtonsStackView.topAnchor.constraint(equalTo: videoProgressView.bottomAnchor, constant: 16.0),
       
       controlButtonsStackView.topAnchor.constraint(equalTo: videoTimelineView.bottomAnchor, constant: 12.0),
       controlButtonsStackView.centerXAnchor.constraint(equalTo: controlsContainerView.centerXAnchor),
@@ -243,7 +207,7 @@ class EditorViewController: UIViewController {
   
   private func setupButtons() {
     recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchDown)
-    restartButton.addTarget(self, action: #selector(restartButtonTapped), for: .touchUpInside)
+    playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
     audioModeButton.addTarget(self, action: #selector(audioModeButtonTapped), for: .touchUpInside)
     soundSelectorButton.addTarget(self, action: #selector(soundSelectorButtonTapped), for: .touchUpInside)
     
@@ -264,7 +228,11 @@ class EditorViewController: UIViewController {
   private func setupPeriodicTimeObserver() {
     let notificationTime = CMTime(seconds: VideoTimelineView.refreshInterval, preferredTimescale: viewModel.preferredTimescale)
     playerPeriodicNotificationToken = playerLayer?.player?.addPeriodicTimeObserver(forInterval: notificationTime, queue: .main, using: { [weak self] (time) in
-      self?.updateVideoProgress(with: time.seconds)
+      guard let self = self else { return }
+      self.updateVideoProgress(with: time.seconds)
+      if time.seconds == self.viewModel.project.duration {
+        self.viewModel.isPlayingVideo = false
+      }
     })
   }
   
@@ -283,9 +251,6 @@ class EditorViewController: UIViewController {
   }
   
   private func updateVideoProgress(with time: Double) {
-//    videoProgressLabel.text = time.timeString()
-//    videoProgressView.progress = Float(time / viewModel.project.duration)
-    
     videoTimelineView.updateProgress(withValue: Float(time / viewModel.project.duration))
   }
   
@@ -296,6 +261,7 @@ class EditorViewController: UIViewController {
   }
   
   private func getSoundView(for sound: Sound, at index: Int) -> UIView {
+    // TODO: Create new sound views for new VideoTimelineView
     let viewSize = CGSize(width: 20.0, height: 20.0)
     let completionPercent = CGFloat(sound.timestamp / viewModel.project.duration)
 //    let soundViewLeftConstant = videoProgressViewWidth * completionPercent - viewSize.width / 2.0
@@ -354,10 +320,17 @@ class EditorViewController: UIViewController {
     }
   }
   
-  @objc private func restartButtonTapped() {
-    viewModel.currentSoundIndex = 0
-    playerLayer?.player?.seek(to: CMTime.zero)
-    playerLayer?.player?.play()
+  @objc private func playButtonTapped() {
+    if viewModel.isPlayingVideo {
+      playerLayer?.player?.pause()
+    } else {
+      if playerLayer?.player?.currentTime().seconds == viewModel.project.duration {
+        viewModel.currentSoundIndex = 0
+        playerLayer?.player?.seek(to: CMTime.zero)
+      }
+      playerLayer?.player?.play()
+    }
+    viewModel.isPlayingVideo = !viewModel.isPlayingVideo
   }
   
   @objc private func audioModeButtonTapped() {
@@ -394,6 +367,22 @@ class EditorViewController: UIViewController {
     }
     
     setupBoundaryTimeObserver()
+  }
+  
+  func updatePlayButton() {
+    playButton.setImage(UIImage(systemName: viewModel.isPlayingVideo ? "pause.fill" : "play.fill")?.withRenderingMode(.alwaysTemplate), for: .normal)
+  }
+}
+
+extension EditorViewController: VideoTimelineViewDelegate {
+  func didChangeProgress(toValue value: Float) {
+    if viewModel.isPlayingVideo {
+      viewModel.isPlayingVideo = false
+      playerLayer?.player?.pause()
+    }
+    
+    let newTime = Double(value) * viewModel.project.duration
+    playerLayer?.player?.seek(to: CMTime(seconds: newTime, preferredTimescale: viewModel.preferredTimescale))
   }
 }
 

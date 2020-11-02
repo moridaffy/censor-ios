@@ -14,11 +14,16 @@ class EditorViewModel {
   
   let project: Project
   
-  var isPlayingVideo: Bool = true
   var currentSoundIndex: Int = 0
   
   var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
   var selectedSoundType: Sound.SoundType = .beep2sec
+  
+  var isPlayingVideo: Bool = true {
+    didSet {
+      view?.updatePlayButton()
+    }
+  }
   var addedSounds: [Sound] {
     get {
       return project.sounds
