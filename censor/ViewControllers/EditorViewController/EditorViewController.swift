@@ -215,7 +215,15 @@ class EditorViewController: UIViewController {
   }
   
   private func setupPlayer() {
-    let player = AVPlayer(url: viewModel.project.originalUrl)
+    let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: viewModel.project)
+    guard let inputUrl = inputUrlResponse.0 else {
+      showAlertError(error: inputUrlResponse.1,
+                     desc: "Unable to play video",
+                     critical: false)
+      return
+    }
+    
+    let player = AVPlayer(url: inputUrl)
     let playerLayer = AVPlayerLayer(player: player)
     playerContainerView.layer.addSublayer(playerLayer)
     self.playerLayer = playerLayer
@@ -264,30 +272,30 @@ class EditorViewController: UIViewController {
     // TODO: Create new sound views for new VideoTimelineView
     let viewSize = CGSize(width: 20.0, height: 20.0)
     let completionPercent = CGFloat(sound.timestamp / viewModel.project.duration)
-//    let soundViewLeftConstant = videoProgressViewWidth * completionPercent - viewSize.width / 2.0
-//
-//    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundViewTapped))
-//
+    let soundViewLeftConstant = (UIScreen.main.bounds.width - 16.0 - 16.0) * completionPercent - viewSize.width / 2.0
+    
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundViewTapped))
+    
     let label = UILabel(frame: .zero)
-//    label.translatesAutoresizingMaskIntoConstraints = false
-//    label.backgroundColor = UIColor.red
-//    label.text = String(index + 1)
-//    label.textAlignment = .center
-//    label.textColor = UIColor.white
-//    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
-//    label.layer.cornerRadius = viewSize.width / 2.0
-//    label.layer.masksToBounds = true
-//    label.tag = index + 1
-//    label.isUserInteractionEnabled = true
-//    label.addGestureRecognizer(tapGestureRecognizer)
-//
-//    controlsContainerView.addSubview(label)
-//    controlsContainerView.addConstraints([
-//      label.widthAnchor.constraint(equalToConstant: viewSize.width),
-//      label.heightAnchor.constraint(equalToConstant: viewSize.height),
-//      label.centerYAnchor.constraint(equalTo: videoProgressView.centerYAnchor),
-//      label.leftAnchor.constraint(equalTo: videoProgressView.leftAnchor, constant: soundViewLeftConstant)
-//    ])
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.backgroundColor = UIColor.red
+    label.text = String(index + 1)
+    label.textAlignment = .center
+    label.textColor = UIColor.white
+    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
+    label.layer.cornerRadius = viewSize.width / 2.0
+    label.layer.masksToBounds = true
+    label.tag = index + 1
+    label.isUserInteractionEnabled = true
+    label.addGestureRecognizer(tapGestureRecognizer)
+
+    controlsContainerView.addSubview(label)
+    controlsContainerView.addConstraints([
+      label.widthAnchor.constraint(equalToConstant: viewSize.width),
+      label.heightAnchor.constraint(equalToConstant: viewSize.height),
+      label.centerYAnchor.constraint(equalTo: videoTimelineView.centerYAnchor),
+      label.leftAnchor.constraint(equalTo: videoTimelineView.leftAnchor, constant: soundViewLeftConstant)
+    ])
     
     return label
   }
