@@ -43,6 +43,7 @@
 		0C8AEFF825470DCF005D00E1 /* SettingsIconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFF725470DCF005D00E1 /* SettingsIconCollectionViewCell.swift */; };
 		0C901C4F2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C4E2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift */; };
 		0C901C532550641800988CB2 /* VideoTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C522550641800988CB2 /* VideoTimelineView.swift */; };
+		0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C672550757F00988CB2 /* UIView+Rendering.swift */; };
 		0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FBA7A2542B3160071BFFA /* StorageManager.swift */; };
 		0CA62C1A2548121D00C1DE37 /* car_crash_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0A2548121C00C1DE37 /* car_crash_5.mp3 */; };
 		0CA62C1B2548121D00C1DE37 /* explosion_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0B2548121C00C1DE37 /* explosion_1.mp3 */; };
@@ -101,6 +102,7 @@
 		0C8AEFF725470DCF005D00E1 /* SettingsIconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIconCollectionViewCell.swift; sourceTree = "<group>"; };
 		0C901C4E2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification.Name+CustomNotifications.swift"; sourceTree = "<group>"; };
 		0C901C522550641800988CB2 /* VideoTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimelineView.swift; sourceTree = "<group>"; };
+		0C901C672550757F00988CB2 /* UIView+Rendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Rendering.swift"; sourceTree = "<group>"; };
 		0C9FBA7A2542B3160071BFFA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		0CA62C0A2548121C00C1DE37 /* car_crash_5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_crash_5.mp3; sourceTree = "<group>"; };
 		0CA62C0B2548121C00C1DE37 /* explosion_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion_1.mp3; sourceTree = "<group>"; };
@@ -252,6 +254,7 @@
 			children = (
 				0C2BFF28253F385400ED700D /* UIViewController+NavigaionController.swift */,
 				0C29140F25403FB7009BDB52 /* UIViewController+Alerts.swift */,
+				0C901C672550757F00988CB2 /* UIView+Rendering.swift */,
 				0C29140C25403D47009BDB52 /* UINavigationController+CompletionHandler.swift */,
 				0C8AEFDC2546EE90005D00E1 /* UITableViewCell+Separator.swift */,
 				0C2914212540A2AE009BDB52 /* Double+Rounding.swift */,
@@ -444,6 +447,7 @@
 				0C29140425403398009BDB52 /* ProjectListViewModel.swift in Sources */,
 				0C8AEFD32546E944005D00E1 /* SettingsViewController.swift in Sources */,
 				0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */,
+				0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */,
 				0C2914252540A569009BDB52 /* VideoRenderer.swift in Sources */,
 				0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */,
 				0C6904A525449D920096E323 /* DateHelper.swift in Sources */,

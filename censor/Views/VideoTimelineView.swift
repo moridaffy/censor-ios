@@ -9,34 +9,41 @@ import UIKit
 
 class VideoTimelineView: UIView {
   
+  static let height: CGFloat = 60.0
+  static let refreshInterval: Double = 0.1
+  
   private let previewImagesContainerView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
     view.layer.cornerRadius = 6.0
+    view.layer.masksToBounds = true
     view.layer.borderWidth = 2.0
     view.layer.borderColor = UIColor.white.cgColor
-    
-    view.backgroundColor = .red
-    
     return view
   }()
   
-  private lazy var previewImageView1: UIImageView = getImageView(tag: 1)
-  private lazy var previewImageView2: UIImageView = getImageView(tag: 2)
-  private lazy var previewImageView3: UIImageView = getImageView(tag: 3)
-  private lazy var previewImageView4: UIImageView = getImageView(tag: 4)
-  private lazy var previewImageView5: UIImageView = getImageView(tag: 5)
-  private lazy var previewImageView6: UIImageView = getImageView(tag: 6)
-  private lazy var previewImageView7: UIImageView = getImageView(tag: 7)
-  private lazy var previewImageView8: UIImageView = getImageView(tag: 8)
+  private var previewImagesViews: [UIImageView] = []
+  
+  private let progressSlider: UISlider = {
+    let thumbView = UIView(frame: CGRect(origin: .zero,
+                                         size: CGSize(width: 10.0 , height: VideoTimelineView.height)))
+    thumbView.layer.cornerRadius = thumbView.frame.width / 2.0
+    thumbView.layer.masksToBounds = true
+    thumbView.backgroundColor = .red
+    
+    let slider = UISlider()
+    slider.translatesAutoresizingMaskIntoConstraints = false
+    slider.setThumbImage(thumbView.toImage(), for: .normal)
+    slider.minimumTrackTintColor = UIColor.clear
+    slider.maximumTrackTintColor = UIColor.clear
+    return slider
+  }()
   
   private func getImageView(tag: Int) -> UIImageView {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.contentMode = .scaleAspectFit
-    
-    imageView.backgroundColor = .blue
-    
+    imageView.contentMode = .scaleAspectFill
+    imageView.layer.masksToBounds = true
     return imageView
   }
   
@@ -50,25 +57,36 @@ class VideoTimelineView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  func update(project: Project) {
+    StorageManager.shared.getPreviewImages(forProject: project, completionHandler: { [weak self] (images) in
+      guard images.count == Project.previewImagesCount else { return }
+      for i in 0..<images.count {
+        self?.previewImagesViews[i].image = images[i]
+      }
+    })
+  }
+  
+  func updateProgress(withValue value: Float) {
+    UIView.animate(withDuration: VideoTimelineView.refreshInterval) {
+      self.progressSlider.setValue(value, animated: true)
+    }
+  }
+  
   private func setupLayout() {
-    let previewImagesStackView = UIStackView(arrangedSubviews: [
-      previewImageView1,
-      previewImageView2,
-      previewImageView3,
-      previewImageView4,
-      previewImageView5,
-      previewImageView6,
-      previewImageView7,
-      previewImageView8
-    ])
+    for i in 0..<Project.previewImagesCount {
+      previewImagesViews.append(getImageView(tag: i + 1))
+    }
+    
+    let previewImagesStackView = UIStackView(arrangedSubviews: previewImagesViews)
     previewImagesStackView.translatesAutoresizingMaskIntoConstraints = false
     previewImagesStackView.axis = .horizontal
-//    previewImagesStackView.alignment = .fill
+    //    previewImagesStackView.alignment = .fill
     previewImagesStackView.distribution = .fillEqually
     
     
     addSubview(previewImagesContainerView)
     previewImagesContainerView.addSubview(previewImagesStackView)
+    addSubview(progressSlider)
     
     addConstraints([
       previewImagesContainerView.topAnchor.constraint(equalTo: topAnchor, constant: 4.0),
@@ -79,7 +97,11 @@ class VideoTimelineView: UIView {
       previewImagesStackView.topAnchor.constraint(equalTo: previewImagesContainerView.topAnchor),
       previewImagesStackView.leftAnchor.constraint(equalTo: previewImagesContainerView.leftAnchor),
       previewImagesStackView.rightAnchor.constraint(equalTo: previewImagesContainerView.rightAnchor),
-      previewImagesStackView.bottomAnchor.constraint(equalTo: previewImagesContainerView.bottomAnchor)
+      previewImagesStackView.bottomAnchor.constraint(equalTo: previewImagesContainerView.bottomAnchor),
+      
+      progressSlider.centerYAnchor.constraint(equalTo: previewImagesContainerView.centerYAnchor),
+      progressSlider.leftAnchor.constraint(equalTo: previewImagesContainerView.leftAnchor),
+      progressSlider.rightAnchor.constraint(equalTo: previewImagesContainerView.rightAnchor)
     ])
   }
 }

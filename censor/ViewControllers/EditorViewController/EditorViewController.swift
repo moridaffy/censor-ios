@@ -24,19 +24,25 @@ class EditorViewController: UIViewController {
     return view
   }()
   
-  private let videoProgressLabel: UILabel = {
-    let label = UILabel()
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.textColor = UIColor.white
-    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
-    label.text = "00:00"
-    return label
-  }()
+//  private let videoProgressLabel: UILabel = {
+//    let label = UILabel()
+//    label.translatesAutoresizingMaskIntoConstraints = false
+//    label.textColor = UIColor.white
+//    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
+//    label.text = "00:00"
+//    return label
+//  }()
+//
+//  private let videoProgressView: UIProgressView = {
+//    let progressView = UIProgressView()
+//    progressView.translatesAutoresizingMaskIntoConstraints = false
+//    return progressView
+//  }()
   
-  private let videoProgressView: UIProgressView = {
-    let progressView = UIProgressView()
-    progressView.translatesAutoresizingMaskIntoConstraints = false
-    return progressView
+  private let videoTimelineView: VideoTimelineView = {
+    let videoTimelineView = VideoTimelineView()
+    videoTimelineView.translatesAutoresizingMaskIntoConstraints = false
+    return videoTimelineView
   }()
   
   private let restartButton: UIButton = {
@@ -100,12 +106,12 @@ class EditorViewController: UIViewController {
     return view
   }()
   
-  var videoProgressViewWidth: CGFloat {
-    let videoProgressViewWidth = videoProgressView.frame.size.width
-    return videoProgressViewWidth == 0.0
-      ? UIScreen.main.bounds.width - 16.0 - 60.0 - 16.0
-      : videoProgressViewWidth
-  }
+//  var videoProgressViewWidth: CGFloat {
+//    let videoProgressViewWidth = videoProgressView.frame.size.width
+//    return videoProgressViewWidth == 0.0
+//      ? UIScreen.main.bounds.width - 16.0 - 60.0 - 16.0
+//      : videoProgressViewWidth
+//  }
   
   private var soundViews: [UIView] = []
   
@@ -136,6 +142,8 @@ class EditorViewController: UIViewController {
     
     setupNavigationBar()
     setupButtons()
+    
+    videoTimelineView.update(project: viewModel.project)
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -159,8 +167,9 @@ class EditorViewController: UIViewController {
     
     view.addSubview(playerContainerView)
     view.addSubview(controlsContainerView)
-    controlsContainerView.addSubview(videoProgressLabel)
-    controlsContainerView.addSubview(videoProgressView)
+//    controlsContainerView.addSubview(videoProgressLabel)
+//    controlsContainerView.addSubview(videoProgressView)
+    controlsContainerView.addSubview(videoTimelineView)
     controlsContainerView.addSubview(controlButtonsStackView)
     view.addSubview(recordButton)
     
@@ -173,20 +182,28 @@ class EditorViewController: UIViewController {
       controlsContainerView.leftAnchor.constraint(equalTo: view.leftAnchor),
       controlsContainerView.rightAnchor.constraint(equalTo: view.rightAnchor),
       controlsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      controlsContainerView.heightAnchor.constraint(equalToConstant: 100.0),
+//      controlsContainerView.heightAnchor.constraint(equalToConstant: 100.0),
       
-      videoProgressLabel.topAnchor.constraint(equalTo: controlsContainerView.topAnchor, constant: 16.0),
-      videoProgressLabel.leftAnchor.constraint(equalTo: controlsContainerView.leftAnchor, constant: 16.0),
-      videoProgressLabel.widthAnchor.constraint(equalToConstant: 60.0),
-      videoProgressLabel.heightAnchor.constraint(equalToConstant: 15.0),
+      videoTimelineView.topAnchor.constraint(equalTo: controlsContainerView.topAnchor, constant: 12.0),
+      videoTimelineView.leftAnchor.constraint(equalTo: controlsContainerView.leftAnchor, constant: 16.0),
+      videoTimelineView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
+      videoTimelineView.heightAnchor.constraint(equalToConstant: VideoTimelineView.height),
       
-      videoProgressView.centerYAnchor.constraint(equalTo: videoProgressLabel.centerYAnchor),
-      videoProgressView.leftAnchor.constraint(equalTo: videoProgressLabel.rightAnchor),
-      videoProgressView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
+//      videoProgressLabel.topAnchor.constraint(equalTo: controlsContainerView.topAnchor, constant: 16.0),
+//      videoProgressLabel.leftAnchor.constraint(equalTo: controlsContainerView.leftAnchor, constant: 16.0),
+//      videoProgressLabel.widthAnchor.constraint(equalToConstant: 60.0),
+//      videoProgressLabel.heightAnchor.constraint(equalToConstant: 15.0),
+//
+//      videoProgressView.centerYAnchor.constraint(equalTo: videoProgressLabel.centerYAnchor),
+//      videoProgressView.leftAnchor.constraint(equalTo: videoProgressLabel.rightAnchor),
+//      videoProgressView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
       
-      controlButtonsStackView.topAnchor.constraint(equalTo: videoProgressView.bottomAnchor, constant: 16.0),
+//      controlButtonsStackView.topAnchor.constraint(equalTo: videoProgressView.bottomAnchor, constant: 16.0),
+      
+      controlButtonsStackView.topAnchor.constraint(equalTo: videoTimelineView.bottomAnchor, constant: 12.0),
       controlButtonsStackView.centerXAnchor.constraint(equalTo: controlsContainerView.centerXAnchor),
       controlButtonsStackView.heightAnchor.constraint(equalToConstant: controlButtonSide),
+      controlButtonsStackView.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -16.0),
       
       recordButton.heightAnchor.constraint(equalToConstant: 50.0),
       recordButton.widthAnchor.constraint(equalToConstant: 50.0),
@@ -245,7 +262,7 @@ class EditorViewController: UIViewController {
   }
   
   private func setupPeriodicTimeObserver() {
-    let notificationTime = CMTime(seconds: 0.1, preferredTimescale: viewModel.preferredTimescale)
+    let notificationTime = CMTime(seconds: VideoTimelineView.refreshInterval, preferredTimescale: viewModel.preferredTimescale)
     playerPeriodicNotificationToken = playerLayer?.player?.addPeriodicTimeObserver(forInterval: notificationTime, queue: .main, using: { [weak self] (time) in
       self?.updateVideoProgress(with: time.seconds)
     })
@@ -266,8 +283,10 @@ class EditorViewController: UIViewController {
   }
   
   private func updateVideoProgress(with time: Double) {
-    videoProgressLabel.text = time.timeString()
-    videoProgressView.progress = Float(time / viewModel.project.duration)
+//    videoProgressLabel.text = time.timeString()
+//    videoProgressView.progress = Float(time / viewModel.project.duration)
+    
+    videoTimelineView.updateProgress(withValue: Float(time / viewModel.project.duration))
   }
   
   private func playAddedSound() {
@@ -279,30 +298,30 @@ class EditorViewController: UIViewController {
   private func getSoundView(for sound: Sound, at index: Int) -> UIView {
     let viewSize = CGSize(width: 20.0, height: 20.0)
     let completionPercent = CGFloat(sound.timestamp / viewModel.project.duration)
-    let soundViewLeftConstant = videoProgressViewWidth * completionPercent - viewSize.width / 2.0
-    
-    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundViewTapped))
-    
+//    let soundViewLeftConstant = videoProgressViewWidth * completionPercent - viewSize.width / 2.0
+//
+//    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundViewTapped))
+//
     let label = UILabel(frame: .zero)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.backgroundColor = UIColor.red
-    label.text = String(index + 1)
-    label.textAlignment = .center
-    label.textColor = UIColor.white
-    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
-    label.layer.cornerRadius = viewSize.width / 2.0
-    label.layer.masksToBounds = true
-    label.tag = index + 1
-    label.isUserInteractionEnabled = true
-    label.addGestureRecognizer(tapGestureRecognizer)
-    
-    controlsContainerView.addSubview(label)
-    controlsContainerView.addConstraints([
-      label.widthAnchor.constraint(equalToConstant: viewSize.width),
-      label.heightAnchor.constraint(equalToConstant: viewSize.height),
-      label.centerYAnchor.constraint(equalTo: videoProgressView.centerYAnchor),
-      label.leftAnchor.constraint(equalTo: videoProgressView.leftAnchor, constant: soundViewLeftConstant)
-    ])
+//    label.translatesAutoresizingMaskIntoConstraints = false
+//    label.backgroundColor = UIColor.red
+//    label.text = String(index + 1)
+//    label.textAlignment = .center
+//    label.textColor = UIColor.white
+//    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
+//    label.layer.cornerRadius = viewSize.width / 2.0
+//    label.layer.masksToBounds = true
+//    label.tag = index + 1
+//    label.isUserInteractionEnabled = true
+//    label.addGestureRecognizer(tapGestureRecognizer)
+//
+//    controlsContainerView.addSubview(label)
+//    controlsContainerView.addConstraints([
+//      label.widthAnchor.constraint(equalToConstant: viewSize.width),
+//      label.heightAnchor.constraint(equalToConstant: viewSize.height),
+//      label.centerYAnchor.constraint(equalTo: videoProgressView.centerYAnchor),
+//      label.leftAnchor.constraint(equalTo: videoProgressView.leftAnchor, constant: soundViewLeftConstant)
+//    ])
     
     return label
   }
