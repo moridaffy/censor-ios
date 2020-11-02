@@ -22,6 +22,14 @@ class SoundSelectorViewModel {
   weak var view: SoundSelectorViewController?
   
   init() {
-    self.displayedSoundTypes = availableSoundTypes
+    updateDisplayedSoundTypes()
+  }
+  
+  func updateDisplayedSoundTypes() {
+    if searchText.isEmpty {
+      displayedSoundTypes = availableSoundTypes
+    } else {
+      displayedSoundTypes = availableSoundTypes.filter({ $0.title.lowercased().contains(searchText.lowercased()) })
+    }
   }
 }
