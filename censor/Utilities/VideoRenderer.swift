@@ -103,14 +103,7 @@ class VideoRenderer {
     }
   }
   
-  func getPreviewImage(for project: Project, completionHandler: @escaping (UIImage?) -> Void) {
-    if let previewImage = StorageManager.shared.getPreviewImage(forProject: project) {
-      DispatchQueue.main.async {
-        completionHandler(previewImage)
-      }
-      return
-    }
-    
+  func getPreviewImage(for project: Project, atTime time: Double = 0.0, completionHandler: @escaping (UIImage?) -> Void) {
     DispatchQueue.global(qos: .background).async {
       let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: project)
       guard let inputUrl = inputUrlResponse.0 else {
@@ -125,14 +118,13 @@ class VideoRenderer {
       
       let previewCgImage: CGImage
       do {
-        previewCgImage = try inputAssetImageGenerator.copyCGImage(at: CMTime(seconds: 0.0, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), actualTime: nil)
+        previewCgImage = try inputAssetImageGenerator.copyCGImage(at: CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC)), actualTime: nil)
       } catch let error {
         print("🔥 Failed to render preview image for project \(project.id):\n\(error.localizedDescription)")
         return completionHandler(nil)
       }
       
       let previewImage = UIImage(cgImage: previewCgImage)
-      StorageManager.shared.savePreviewImage(forProject: project, image: previewImage)
       DispatchQueue.main.async {
         completionHandler(previewImage)
       }

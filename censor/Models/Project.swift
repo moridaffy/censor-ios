@@ -8,6 +8,9 @@
 import Foundation
 
 class Project: Codable {
+  
+  static let previewImagesCount: Int = 8
+  
   let id: String
   let name: String
   let duration: Double

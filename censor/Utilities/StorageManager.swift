@@ -72,22 +72,37 @@ class StorageManager {
     }
   }
   
-  func savePreviewImage(forProject project: Project, image: UIImage) {
-    guard let previewImageData = image.pngData() else { return }
-    let previewImageUrl = project.outputFolderUrl
-      .appendingPathComponent("preview.png", isDirectory: false)
-    try? previewImageData.write(to: previewImageUrl)
+  func savePreviewImages(forProject project: Project, images: [UIImage]) {
+    for i in 0..<images.count {
+      if let previewImageData = images[i].pngData() {
+        let previewImageUrl = project.outputFolderUrl
+          .appendingPathComponent("preview_\(i + 1).png", isDirectory: false)
+        try? previewImageData.write(to: previewImageUrl)
+      }
+    }
   }
   
-  func getPreviewImage(forProject project: Project) -> UIImage? {
-    let previewImageUrl = project.outputFolderUrl
-      .appendingPathComponent("preview.png", isDirectory: false)
-    guard filemanager.fileExists(atPath: previewImageUrl.path),
-          let previewImage = UIImage(contentsOfFile: previewImageUrl.path) else { return nil }
-    return previewImage
+  func getPreviewImages(forProject project: Project, completionHandler: ([UIImage]) -> Void) {
+    var images: [UIImage] = []
+    var pendingImages = Project.previewImagesCount {
+      didSet {
+        if pendingImages == 0 {
+          completionHandler(images)
+        }
+      }
+    }
+    for i in 0..<Project.previewImagesCount {
+      let previewImageUrl = project.outputFolderUrl
+        .appendingPathComponent("preview_\(i + 1).png", isDirectory: false)
+      if filemanager.fileExists(atPath: previewImageUrl.path),
+         let previewImage = UIImage(contentsOfFile: previewImageUrl.path) {
+        images.append(previewImage)
+      }
+      pendingImages -= 1
+    }
   }
   
-  func saveProject(_ project: Project) {
+  func saveProject(_ project: Project, newProject: Bool = false, completionHandler: (() -> Void)?) {
     var existingProjects = getProjects()
     if let projectIndex = existingProjects.firstIndex(where: { $0.id == project.id }) {
       existingProjects[projectIndex] = project
@@ -95,6 +110,12 @@ class StorageManager {
       existingProjects.append(project)
     }
     writeProjectsToDisk(existingProjects)
+    
+    if newProject {
+      generateImagesForProject(project, completionHandler: completionHandler)
+    } else {
+      completionHandler?()
+    }
   }
   
   func deleteProject(_ project: Project) {
@@ -126,6 +147,30 @@ class StorageManager {
       return nil
     } catch let error {
       return error
+    }
+  }
+  
+  private func generateImagesForProject(_ project: Project, completionHandler: (() -> Void)?) {
+    var pendingImages: Int = Project.previewImagesCount
+    var previewImages: [UIImage] = [] {
+      didSet {
+        pendingImages -= 1
+        if pendingImages == 0 {
+          savePreviewImages(forProject: project, images: previewImages)
+          completionHandler?()
+        }
+      }
+    }
+    
+    for i in 0..<pendingImages {
+      let time = project.duration / Double(Project.previewImagesCount) * Double(i)
+      VideoRenderer.shared.getPreviewImage(for: project, atTime: time) { (image) in
+        if let image = image {
+          previewImages.append(image)
+        } else {
+          print("🔥 Failed to create preview image for project \(project.id) at \(time)")
+        }
+      }
     }
   }
 }

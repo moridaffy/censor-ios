@@ -58,8 +58,10 @@ class ProjectListTableViewCell: UITableViewCell {
     durationLabel.text = project.duration.timeString()
     creationDateLabel.text = project.creationDate.description
     
-    VideoRenderer.shared.getPreviewImage(for: project) { [weak self] (image) in
-      self?.updatePreviewImage(with: image)
+    StorageManager.shared.getPreviewImages(forProject: project) { [weak self] (images) in
+      if let previewImage = images.first {
+        self?.updatePreviewImage(with: previewImage)
+      }
     }
   }
   

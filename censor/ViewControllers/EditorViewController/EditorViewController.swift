@@ -310,7 +310,7 @@ class EditorViewController: UIViewController {
   @objc private func saveButtonTapped() {
     let project = viewModel.project
     project.sounds = viewModel.addedSounds
-    StorageManager.shared.saveProject(project)
+    StorageManager.shared.saveProject(project, completionHandler: nil)
   }
   
   @objc private func exportButtonTapped() {

@@ -28,7 +28,7 @@ class ProjectListViewModel {
     projects = StorageManager.shared.getProjects()
   }
   
-  func createNewProject(name: String, originalUrl: URL) -> Project {
+  func createNewProject(name: String, originalUrl: URL, completionHandler: @escaping (Project) -> Void) {
     let videoDuration = AVAsset(url: originalUrl).duration.seconds
     let project = Project(name: name, duration: videoDuration, originalUrl: originalUrl)
     
@@ -38,9 +38,9 @@ class ProjectListViewModel {
     projects.append(project)
     selectedFileUrl = nil
     
-    StorageManager.shared.saveProject(project)
-    
-    return project
+    StorageManager.shared.saveProject(project, newProject: true) {
+      completionHandler(project)
+    }
   }
   
   func deleteProject(at row: Int) {

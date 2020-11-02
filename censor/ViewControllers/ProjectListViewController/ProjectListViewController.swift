@@ -93,8 +93,9 @@ class ProjectListViewController: UIViewController {
       return
     }
     
-    let project = viewModel.createNewProject(name: name, originalUrl: originalUrl)
-    presentEditorViewController(for: project)
+    viewModel.createNewProject(name: name, originalUrl: originalUrl) { [weak self] (project) in
+      self?.presentEditorViewController(for: project)
+    }
   }
   
   private func presentNewProjectAlert() {
