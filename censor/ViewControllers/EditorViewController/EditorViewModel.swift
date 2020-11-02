@@ -18,7 +18,7 @@ class EditorViewModel {
   var currentSoundIndex: Int = 0
   
   var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
-  var selectedSoundType: Sound.SoundType = .horn1
+  var selectedSoundType: Sound.SoundType = .beep2sec
   var addedSounds: [Sound] {
     get {
       return project.sounds
@@ -40,7 +40,7 @@ class EditorViewModel {
     addedSounds = (addedSounds + [sound])
       .sorted(by: { $0.timestamp < $1.timestamp })
     
-    SoundManager.shared.playSound(sound)
+    SoundManager.shared.playSound(sound.type)
   }
   
   func renderProject(completionHandler: @escaping (Error?) -> Void) {

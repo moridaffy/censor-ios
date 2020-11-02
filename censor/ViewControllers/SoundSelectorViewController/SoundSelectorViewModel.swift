@@ -10,6 +10,7 @@ import Foundation
 class SoundSelectorViewModel {
   
   var searchText: String = ""
+  var currentlyPlayingSound: Sound.SoundType?
   
   private let availableSoundTypes: [Sound.SoundType] = Sound.SoundType.allCasesSorted
   private(set) var displayedSoundTypes: [Sound.SoundType] = [] {

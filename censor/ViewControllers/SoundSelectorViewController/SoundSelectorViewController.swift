@@ -99,7 +99,23 @@ extension SoundSelectorViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SoundSelectorTableViewCell.self)) as? SoundSelectorTableViewCell else { fatalError() }
-    cell.update(soundType: viewModel.displayedSoundTypes[indexPath.row])
+    let soundType = viewModel.displayedSoundTypes[indexPath.row]
+    cell.update(soundType: soundType,
+                isPlaying: viewModel.currentlyPlayingSound == soundType,
+                delegate: self)
     return cell
+  }
+}
+
+extension SoundSelectorViewController: SoundSelectorTableViewCellDelegate {
+  func didTapPlayButton(for soundType: Sound.SoundType) -> Bool {
+    guard viewModel.currentlyPlayingSound == nil else { return false }
+    viewModel.currentlyPlayingSound = soundType
+    SoundManager.shared.playSound(soundType)
+    return true
+  }
+  
+  func didFinishPlaying(soundType: Sound.SoundType) {
+    viewModel.currentlyPlayingSound = nil
   }
 }

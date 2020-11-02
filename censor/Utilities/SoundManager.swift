@@ -7,31 +7,37 @@
 
 import AVFoundation
 
-class SoundManager {
+class SoundManager: NSObject {
   
   static let shared = SoundManager()
   
   private var players: [String: AVAudioPlayer] = [:]
   private var lastActivePlayer: AVAudioPlayer?
   
-  private func getPlayerFor(sound: Sound) -> AVAudioPlayer? {
-    if let player = players[sound.type.filename] {
+  private func getPlayerFor(soundType: Sound.SoundType) -> AVAudioPlayer? {
+    if let player = players[soundType.filename] {
       return player
-    } else if let player = try? AVAudioPlayer(contentsOf: sound.type.fileUrl) {
-      players[sound.type.filename] = player
+    } else if let player = try? AVAudioPlayer(contentsOf: soundType.fileUrl) {
+      player.delegate = self
+      players[soundType.filename] = player
       return player
     } else {
       return nil
     }
   }
   
-  func playSound(_ sound: Sound) {
+  func playSound(_ soundType: Sound.SoundType) {
     if let lastActivePlayer = lastActivePlayer {
       lastActivePlayer.stop()
     }
-    lastActivePlayer = getPlayerFor(sound: sound)
+    lastActivePlayer = getPlayerFor(soundType: soundType)
     lastActivePlayer?.currentTime = 0.0
     lastActivePlayer?.play()
   }
-  
+}
+
+extension SoundManager: AVAudioPlayerDelegate {
+  func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+    NotificationCenter.default.post(name: .soundPlayerFinishedPlaying, object: nil, userInfo: nil)
+  }
 }

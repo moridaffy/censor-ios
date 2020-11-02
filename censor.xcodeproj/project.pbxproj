@@ -17,8 +17,6 @@
 		0C29140D25403D47009BDB52 /* UINavigationController+CompletionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29140C25403D47009BDB52 /* UINavigationController+CompletionHandler.swift */; };
 		0C29141025403FB7009BDB52 /* UIViewController+Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29140F25403FB7009BDB52 /* UIViewController+Alerts.swift */; };
 		0C29141325405906009BDB52 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29141225405906009BDB52 /* Sound.swift */; };
-		0C29141925408792009BDB52 /* horn_2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0C29141725408792009BDB52 /* horn_2.wav */; };
-		0C29141A25408792009BDB52 /* horn_1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 0C29141825408792009BDB52 /* horn_1.wav */; };
 		0C29141E254087B8009BDB52 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29141D254087B8009BDB52 /* SoundManager.swift */; };
 		0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2914212540A2AE009BDB52 /* Double+Rounding.swift */; };
 		0C2914252540A569009BDB52 /* VideoRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2914242540A569009BDB52 /* VideoRenderer.swift */; };
@@ -43,7 +41,24 @@
 		0C8AEFF225470C1F005D00E1 /* SettingsIconsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFF125470C1F005D00E1 /* SettingsIconsTableViewCell.swift */; };
 		0C8AEFF525470CAC005D00E1 /* SettingsIconsTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFF425470CAC005D00E1 /* SettingsIconsTableViewCellModel.swift */; };
 		0C8AEFF825470DCF005D00E1 /* SettingsIconCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFF725470DCF005D00E1 /* SettingsIconCollectionViewCell.swift */; };
+		0C901C4F2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C4E2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift */; };
 		0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FBA7A2542B3160071BFFA /* StorageManager.swift */; };
+		0CA62C1A2548121D00C1DE37 /* car_crash_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0A2548121C00C1DE37 /* car_crash_5.mp3 */; };
+		0CA62C1B2548121D00C1DE37 /* explosion_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0B2548121C00C1DE37 /* explosion_1.mp3 */; };
+		0CA62C1C2548121D00C1DE37 /* beep_1sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0C2548121C00C1DE37 /* beep_1sec.mp3 */; };
+		0CA62C1D2548121D00C1DE37 /* car_crash_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0D2548121C00C1DE37 /* car_crash_2.mp3 */; };
+		0CA62C1E2548121D00C1DE37 /* car_crash_4.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0E2548121C00C1DE37 /* car_crash_4.mp3 */; };
+		0CA62C1F2548121D00C1DE37 /* beep_025sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0F2548121C00C1DE37 /* beep_025sec.mp3 */; };
+		0CA62C202548121D00C1DE37 /* car_crash_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C102548121D00C1DE37 /* car_crash_1.mp3 */; };
+		0CA62C212548121D00C1DE37 /* car_horn_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C112548121D00C1DE37 /* car_horn_2.mp3 */; };
+		0CA62C222548121D00C1DE37 /* car_horn_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C122548121D00C1DE37 /* car_horn_1.mp3 */; };
+		0CA62C232548121D00C1DE37 /* car_crash_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C132548121D00C1DE37 /* car_crash_3.mp3 */; };
+		0CA62C242548121D00C1DE37 /* beep_2sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C142548121D00C1DE37 /* beep_2sec.mp3 */; };
+		0CA62C252548121D00C1DE37 /* car_fast_breaking_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C152548121D00C1DE37 /* car_fast_breaking_1.mp3 */; };
+		0CA62C262548121D00C1DE37 /* explosion_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C162548121D00C1DE37 /* explosion_3.mp3 */; };
+		0CA62C272548121D00C1DE37 /* car_fast_breaking_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C172548121D00C1DE37 /* car_fast_breaking_2.mp3 */; };
+		0CA62C282548121D00C1DE37 /* explosion_2.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C182548121D00C1DE37 /* explosion_2.mp3 */; };
+		0CA62C292548121D00C1DE37 /* beep_05sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C192548121D00C1DE37 /* beep_05sec.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,8 +72,6 @@
 		0C29140C25403D47009BDB52 /* UINavigationController+CompletionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+CompletionHandler.swift"; sourceTree = "<group>"; };
 		0C29140F25403FB7009BDB52 /* UIViewController+Alerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Alerts.swift"; sourceTree = "<group>"; };
 		0C29141225405906009BDB52 /* Sound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
-		0C29141725408792009BDB52 /* horn_2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = horn_2.wav; sourceTree = "<group>"; };
-		0C29141825408792009BDB52 /* horn_1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = horn_1.wav; sourceTree = "<group>"; };
 		0C29141D254087B8009BDB52 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		0C2914212540A2AE009BDB52 /* Double+Rounding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Rounding.swift"; sourceTree = "<group>"; };
 		0C2914242540A569009BDB52 /* VideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRenderer.swift; sourceTree = "<group>"; };
@@ -85,7 +98,24 @@
 		0C8AEFF125470C1F005D00E1 /* SettingsIconsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIconsTableViewCell.swift; sourceTree = "<group>"; };
 		0C8AEFF425470CAC005D00E1 /* SettingsIconsTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIconsTableViewCellModel.swift; sourceTree = "<group>"; };
 		0C8AEFF725470DCF005D00E1 /* SettingsIconCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsIconCollectionViewCell.swift; sourceTree = "<group>"; };
+		0C901C4E2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSNotification.Name+CustomNotifications.swift"; sourceTree = "<group>"; };
 		0C9FBA7A2542B3160071BFFA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		0CA62C0A2548121C00C1DE37 /* car_crash_5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_crash_5.mp3; sourceTree = "<group>"; };
+		0CA62C0B2548121C00C1DE37 /* explosion_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion_1.mp3; sourceTree = "<group>"; };
+		0CA62C0C2548121C00C1DE37 /* beep_1sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep_1sec.mp3; sourceTree = "<group>"; };
+		0CA62C0D2548121C00C1DE37 /* car_crash_2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_crash_2.mp3; sourceTree = "<group>"; };
+		0CA62C0E2548121C00C1DE37 /* car_crash_4.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_crash_4.mp3; sourceTree = "<group>"; };
+		0CA62C0F2548121C00C1DE37 /* beep_025sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep_025sec.mp3; sourceTree = "<group>"; };
+		0CA62C102548121D00C1DE37 /* car_crash_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_crash_1.mp3; sourceTree = "<group>"; };
+		0CA62C112548121D00C1DE37 /* car_horn_2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_horn_2.mp3; sourceTree = "<group>"; };
+		0CA62C122548121D00C1DE37 /* car_horn_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_horn_1.mp3; sourceTree = "<group>"; };
+		0CA62C132548121D00C1DE37 /* car_crash_3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_crash_3.mp3; sourceTree = "<group>"; };
+		0CA62C142548121D00C1DE37 /* beep_2sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep_2sec.mp3; sourceTree = "<group>"; };
+		0CA62C152548121D00C1DE37 /* car_fast_breaking_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_fast_breaking_1.mp3; sourceTree = "<group>"; };
+		0CA62C162548121D00C1DE37 /* explosion_3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion_3.mp3; sourceTree = "<group>"; };
+		0CA62C172548121D00C1DE37 /* car_fast_breaking_2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_fast_breaking_2.mp3; sourceTree = "<group>"; };
+		0CA62C182548121D00C1DE37 /* explosion_2.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion_2.mp3; sourceTree = "<group>"; };
+		0CA62C192548121D00C1DE37 /* beep_05sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep_05sec.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -130,8 +160,22 @@
 		0C29141625408786009BDB52 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				0C29141825408792009BDB52 /* horn_1.wav */,
-				0C29141725408792009BDB52 /* horn_2.wav */,
+				0CA62C0C2548121C00C1DE37 /* beep_1sec.mp3 */,
+				0CA62C142548121D00C1DE37 /* beep_2sec.mp3 */,
+				0CA62C192548121D00C1DE37 /* beep_05sec.mp3 */,
+				0CA62C0F2548121C00C1DE37 /* beep_025sec.mp3 */,
+				0CA62C102548121D00C1DE37 /* car_crash_1.mp3 */,
+				0CA62C0D2548121C00C1DE37 /* car_crash_2.mp3 */,
+				0CA62C132548121D00C1DE37 /* car_crash_3.mp3 */,
+				0CA62C0E2548121C00C1DE37 /* car_crash_4.mp3 */,
+				0CA62C0A2548121C00C1DE37 /* car_crash_5.mp3 */,
+				0CA62C152548121D00C1DE37 /* car_fast_breaking_1.mp3 */,
+				0CA62C172548121D00C1DE37 /* car_fast_breaking_2.mp3 */,
+				0CA62C122548121D00C1DE37 /* car_horn_1.mp3 */,
+				0CA62C112548121D00C1DE37 /* car_horn_2.mp3 */,
+				0CA62C0B2548121C00C1DE37 /* explosion_1.mp3 */,
+				0CA62C182548121D00C1DE37 /* explosion_2.mp3 */,
+				0CA62C162548121D00C1DE37 /* explosion_3.mp3 */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -208,6 +252,7 @@
 				0C29140C25403D47009BDB52 /* UINavigationController+CompletionHandler.swift */,
 				0C8AEFDC2546EE90005D00E1 /* UITableViewCell+Separator.swift */,
 				0C2914212540A2AE009BDB52 /* Double+Rounding.swift */,
+				0C901C4E2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -337,10 +382,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0CA62C1E2548121D00C1DE37 /* car_crash_4.mp3 in Resources */,
+				0CA62C232548121D00C1DE37 /* car_crash_3.mp3 in Resources */,
+				0CA62C202548121D00C1DE37 /* car_crash_1.mp3 in Resources */,
+				0CA62C292548121D00C1DE37 /* beep_05sec.mp3 in Resources */,
 				0C2BFF16253F35CC00ED700D /* LaunchScreen.storyboard in Resources */,
-				0C29141A25408792009BDB52 /* horn_1.wav in Resources */,
+				0CA62C1F2548121D00C1DE37 /* beep_025sec.mp3 in Resources */,
+				0CA62C1A2548121D00C1DE37 /* car_crash_5.mp3 in Resources */,
+				0CA62C252548121D00C1DE37 /* car_fast_breaking_1.mp3 in Resources */,
+				0CA62C212548121D00C1DE37 /* car_horn_2.mp3 in Resources */,
+				0CA62C1B2548121D00C1DE37 /* explosion_1.mp3 in Resources */,
+				0CA62C222548121D00C1DE37 /* car_horn_1.mp3 in Resources */,
+				0CA62C282548121D00C1DE37 /* explosion_2.mp3 in Resources */,
+				0CA62C262548121D00C1DE37 /* explosion_3.mp3 in Resources */,
+				0CA62C272548121D00C1DE37 /* car_fast_breaking_2.mp3 in Resources */,
+				0CA62C242548121D00C1DE37 /* beep_2sec.mp3 in Resources */,
+				0CA62C1C2548121D00C1DE37 /* beep_1sec.mp3 in Resources */,
+				0CA62C1D2548121D00C1DE37 /* car_crash_2.mp3 in Resources */,
 				0C2BFF13253F35CC00ED700D /* Assets.xcassets in Resources */,
-				0C29141925408792009BDB52 /* horn_2.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +425,7 @@
 				0C8AEFDA2546ED4B005D00E1 /* SettingsTitleTableViewCell.swift in Sources */,
 				0C2BFF0A253F35CB00ED700D /* AppDelegate.swift in Sources */,
 				0C2BFF2D253F3A5500ED700D /* RootViewModel.swift in Sources */,
+				0C901C4F2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift in Sources */,
 				0C8AEFF825470DCF005D00E1 /* SettingsIconCollectionViewCell.swift in Sources */,
 				0C8AEFEB2546F7FA005D00E1 /* SettingsTipsTableViewCell.swift in Sources */,
 				0C29141025403FB7009BDB52 /* UIViewController+Alerts.swift in Sources */,

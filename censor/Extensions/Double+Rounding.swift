@@ -48,12 +48,17 @@ extension Double {
     return (self * divisor).rounded() / divisor
   }
   
-  func timeString() -> String {
-    let minutes = (self / 60.0).rounded()
-    let seconds = (self - minutes * 60.0).rounded()
-    
-    return [minutes, seconds]
-      .compactMap({ $0.roundedString(symbolsAfter: 0, symbolsBefore: 2) })
-      .joined(separator: ":")
+  func timeString(withMs: Bool = false) -> String {
+    if withMs, self < 1.0 {
+      let ms = self * 100.0
+      return "00:00:\(ms.roundedString(symbolsAfter: 0, symbolsBefore: 2))"
+    } else {
+      let minutes = (self / 60.0).rounded()
+      let seconds = (self - minutes * 60.0).rounded()
+      
+      return [minutes, seconds]
+        .compactMap({ $0.roundedString(symbolsAfter: 0, symbolsBefore: 2) })
+        .joined(separator: ":")
+    }
   }
 }
