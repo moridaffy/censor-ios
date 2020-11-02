@@ -34,23 +34,23 @@ class EditorViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle(nil, for: .normal)
-    button.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+    button.layer.cornerRadius = 4.0
+    button.layer.masksToBounds = true
+    button.backgroundColor = UIColor.tertiarySystemBackground
     return button
   }()
   
-  private let audioModeButton: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle(nil, for: .normal)
-    return button
-  }()
-  
-  private let soundSelectorButton: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle(nil, for: .normal)
-    button.setImage(UIImage(systemName: "music.note"), for: .normal)
-    return button
+  private let controlsCollectionView: UICollectionView = {
+    let collectionViewLayout = UICollectionViewFlowLayout()
+    collectionViewLayout.scrollDirection = .horizontal
+    let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+    collectionView.translatesAutoresizingMaskIntoConstraints = false
+    collectionView.backgroundColor = UIColor.clear
+    collectionView.showsHorizontalScrollIndicator = false
+    
+    collectionView.register(EditorButtonCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: EditorButtonCollectionViewCell.self))
+    
+    return collectionView
   }()
   
   private let recordButton: UIButton = {
@@ -120,6 +120,7 @@ class EditorViewController: UIViewController {
     
     setupNavigationBar()
     setupButtons()
+    setupCollectionView()
     
     videoTimelineView.update(project: viewModel.project, delegate: self)
   }
@@ -137,16 +138,11 @@ class EditorViewController: UIViewController {
   }
   
   private func setupLayout() {
-    let controlButtonSide: CGFloat = 40.0
-    let controlButtonsStackView = UIStackView(arrangedSubviews: [playButton, audioModeButton, soundSelectorButton])
-    controlButtonsStackView.translatesAutoresizingMaskIntoConstraints = false
-    controlButtonsStackView.spacing = 16.0
-    controlButtonsStackView.distribution = .equalSpacing
-    
     view.addSubview(playerContainerView)
     view.addSubview(controlsContainerView)
     controlsContainerView.addSubview(videoTimelineView)
-    controlsContainerView.addSubview(controlButtonsStackView)
+    controlsContainerView.addSubview(playButton)
+    controlsContainerView.addSubview(controlsCollectionView)
     view.addSubview(recordButton)
     
     view.addConstraints([
@@ -164,10 +160,16 @@ class EditorViewController: UIViewController {
       videoTimelineView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
       videoTimelineView.heightAnchor.constraint(equalToConstant: VideoTimelineView.height),
       
-      controlButtonsStackView.topAnchor.constraint(equalTo: videoTimelineView.bottomAnchor, constant: 12.0),
-      controlButtonsStackView.centerXAnchor.constraint(equalTo: controlsContainerView.centerXAnchor),
-      controlButtonsStackView.heightAnchor.constraint(equalToConstant: controlButtonSide),
-      controlButtonsStackView.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -16.0),
+      playButton.topAnchor.constraint(equalTo: videoTimelineView.bottomAnchor, constant: 8.0),
+      playButton.leftAnchor.constraint(equalTo: videoTimelineView.leftAnchor),
+      playButton.heightAnchor.constraint(equalToConstant: 40.0),
+      playButton.widthAnchor.constraint(equalToConstant: 40.0),
+      
+      controlsCollectionView.topAnchor.constraint(equalTo: playButton.topAnchor),
+      controlsCollectionView.bottomAnchor.constraint(equalTo: playButton.bottomAnchor),
+      controlsCollectionView.leftAnchor.constraint(equalTo: playButton.rightAnchor, constant: 8.0),
+      controlsCollectionView.rightAnchor.constraint(equalTo: videoTimelineView.rightAnchor),
+      controlsCollectionView.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -16.0),
       
       recordButton.heightAnchor.constraint(equalToConstant: 50.0),
       recordButton.widthAnchor.constraint(equalToConstant: 50.0),
@@ -208,10 +210,16 @@ class EditorViewController: UIViewController {
   private func setupButtons() {
     recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchDown)
     playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
-    audioModeButton.addTarget(self, action: #selector(audioModeButtonTapped), for: .touchUpInside)
-    soundSelectorButton.addTarget(self, action: #selector(soundSelectorButtonTapped), for: .touchUpInside)
     
-    audioModeButton.setImage(UIImage(systemName: viewModel.selectedAudioMode.iconSystemName), for: .normal)
+//    audioModeButton.addTarget(self, action: #selector(audioModeButtonTapped), for: .touchUpInside)
+//    audioModeButton.setImage(UIImage(systemName: viewModel.selectedAudioMode.iconSystemName), for: .normal)
+    
+    updatePlayButton()
+  }
+  
+  private func setupCollectionView() {
+    controlsCollectionView.delegate = self
+    controlsCollectionView.dataSource = self
   }
   
   private func setupPlayer() {
@@ -343,10 +351,10 @@ class EditorViewController: UIViewController {
   
   @objc private func audioModeButtonTapped() {
     viewModel.selectedAudioMode = viewModel.selectedAudioMode.anotherMode
-    audioModeButton.setImage(UIImage(systemName: viewModel.selectedAudioMode.iconSystemName), for: .normal)
+//    audioModeButton.setImage(UIImage(systemName: viewModel.selectedAudioMode.iconSystemName), for: .normal)
   }
   
-  @objc private func soundSelectorButtonTapped() {
+  private func soundSelectorButtonTapped() {
     let soundSelectorViewController = SoundSelectorViewController(delegate: self)
     present(soundSelectorViewController.embedInNavigationController(), animated: true, completion: nil)
   }
@@ -382,6 +390,38 @@ class EditorViewController: UIViewController {
   }
 }
 
+extension EditorViewController: UICollectionViewDelegate {
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let cellModel = viewModel.controlCellModels[indexPath.row]
+    switch cellModel.type {
+    case .soundSelection:
+      soundSelectorButtonTapped()
+    }
+  }
+}
+
+extension EditorViewController: UICollectionViewDelegateFlowLayout {
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    let cellModel = viewModel.controlCellModels[indexPath.row]
+    let cellHeight: CGFloat = 40.0
+    let textWidth = cellModel.text.width(height: cellHeight, attributes: [.font: EditorButtonCollectionViewCell.textFont])
+    return CGSize(width: 8.0 + EditorButtonCollectionViewCell.iconSide + 8.0 + textWidth + 8.0, height: cellHeight)
+  }
+}
+
+extension EditorViewController: UICollectionViewDataSource {
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return viewModel.controlCellModels.count
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: EditorButtonCollectionViewCell.self), for: indexPath)
+            as? EditorButtonCollectionViewCell else { fatalError() }
+    cell.update(viewModel: viewModel.controlCellModels[indexPath.row])
+    return cell
+  }
+}
+
 extension EditorViewController: VideoTimelineViewDelegate {
   func didChangeProgress(toValue value: Float) {
     if viewModel.isPlayingVideo {
@@ -397,5 +437,9 @@ extension EditorViewController: VideoTimelineViewDelegate {
 extension EditorViewController: SoundSelectorViewControllerDelegate {
   func didSelectSoundType(_ type: Sound.SoundType) {
     viewModel.selectedSoundType = type
+    if let soundSelectionButtonIndex = viewModel.controlCellModels.firstIndex(where: { $0.type == .soundSelection }) {
+      viewModel.controlCellModels[soundSelectionButtonIndex].text = type.title
+      controlsCollectionView.reloadItems(at: [IndexPath(row: soundSelectionButtonIndex, section: 0)])
+    }
   }
 }

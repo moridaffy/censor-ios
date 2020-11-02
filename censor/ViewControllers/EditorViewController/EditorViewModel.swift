@@ -15,6 +15,7 @@ class EditorViewModel {
   let project: Project
   
   var currentSoundIndex: Int = 0
+  var controlCellModels: [EditorButtonCollectionViewCellModel]
   
   var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
   var selectedSoundType: Sound.SoundType = .beep2sec
@@ -38,6 +39,10 @@ class EditorViewModel {
   
   init(project: Project) {
     self.project = project
+    
+    self.controlCellModels = [
+      EditorButtonCollectionViewCellModel(type: .soundSelection, text: selectedSoundType.title)
+    ]
   }
   
   func addSound(at timestamp: Double) {
