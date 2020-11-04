@@ -34,7 +34,7 @@ class EditorViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle(nil, for: .normal)
-    button.layer.cornerRadius = 4.0
+    button.layer.cornerRadius = 6.0
     button.layer.masksToBounds = true
     button.backgroundColor = UIColor.tertiarySystemBackground
     return button
@@ -66,29 +66,6 @@ class EditorViewController: UIViewController {
     button.layer.borderWidth = 1.0
     button.backgroundColor = UIColor.red
     return button
-  }()
-  
-  private let saveButton: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle(nil, for: .normal)
-    button.setImage(UIImage(systemName: "archivebox"), for: .normal)
-    return button
-  }()
-  
-  private let exportButton: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle(nil, for: .normal)
-    button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
-    return button
-  }()
-  
-  private let rightBarButtonItemView: UIView = {
-    let view = UIView()
-    view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = .clear
-    return view
   }()
   
   private var soundViews: [UIView] = []
@@ -129,6 +106,16 @@ class EditorViewController: UIViewController {
     super.viewWillAppear(animated)
     
     viewModel.view = self
+  }
+  
+  override func viewWillDisappear(_ animated: Bool) {
+    if viewModel.projectNeedsSaving {
+      viewModel.saveProject {
+        super.viewWillDisappear(animated)
+      }
+    } else {
+      super.viewWillDisappear(animated)
+    }
   }
   
   override func viewWillLayoutSubviews() {
@@ -183,36 +170,15 @@ class EditorViewController: UIViewController {
   private func setupNavigationBar() {
     title = viewModel.project.name
     
-    rightBarButtonItemView.addSubview(saveButton)
-    rightBarButtonItemView.addSubview(exportButton)
-    
-    rightBarButtonItemView.addConstraints([
-      saveButton.topAnchor.constraint(equalTo: rightBarButtonItemView.topAnchor),
-      saveButton.leftAnchor.constraint(equalTo: rightBarButtonItemView.leftAnchor),
-      saveButton.bottomAnchor.constraint(equalTo: rightBarButtonItemView.bottomAnchor),
-      saveButton.widthAnchor.constraint(equalToConstant: 24.0),
-      saveButton.heightAnchor.constraint(equalToConstant: 24.0),
-      
-      exportButton.leftAnchor.constraint(equalTo: saveButton.rightAnchor, constant: 16.0),
-      exportButton.topAnchor.constraint(equalTo: rightBarButtonItemView.topAnchor),
-      exportButton.rightAnchor.constraint(equalTo: rightBarButtonItemView.rightAnchor),
-      exportButton.bottomAnchor.constraint(equalTo: rightBarButtonItemView.bottomAnchor),
-      exportButton.heightAnchor.constraint(equalTo: saveButton.heightAnchor),
-      exportButton.widthAnchor.constraint(equalTo: saveButton.widthAnchor)
-    ])
-    
-    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButtonItemView)
-    
-    saveButton.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
-    exportButton.addTarget(self, action: #selector(exportButtonTapped), for: .touchUpInside)
+    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+                                                        style: .plain,
+                                                        target: self,
+                                                        action: #selector(exportButtonTapped))
   }
   
   private func setupButtons() {
     recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchDown)
     playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
-    
-//    audioModeButton.addTarget(self, action: #selector(audioModeButtonTapped), for: .touchUpInside)
-//    audioModeButton.setImage(UIImage(systemName: viewModel.selectedAudioMode.iconSystemName), for: .normal)
     
     updatePlayButton()
   }
@@ -308,17 +274,23 @@ class EditorViewController: UIViewController {
     return label
   }
   
-  @objc private func saveButtonTapped() {
-    let project = viewModel.project
-    project.sounds = viewModel.addedSounds
-    StorageManager.shared.saveProject(project, completionHandler: nil)
+  private func resetPlayer() {
+    viewModel.currentSoundIndex = 0
+    playerLayer?.player?.pause()
+    playerLayer?.player?.seek(to: CMTime.zero)
+    viewModel.isPlayingVideo = false
   }
   
   @objc private func exportButtonTapped() {
+    resetPlayer()
     // TODO: block UI while rendering video
     // TODO: show rendering progress
+    
+    (navigationController as? DimmableNavigationController)?.showDimView(true, withLoading: true)
+    
     viewModel.renderProject { (error) in
       DispatchQueue.main.async { [weak self] in
+        (self?.navigationController as? DimmableNavigationController)?.showDimView(false, withLoading: true)
         if let error = error {
           self?.showAlertError(error: error,
                                desc: "Failed to render video",
@@ -341,8 +313,7 @@ class EditorViewController: UIViewController {
       playerLayer?.player?.pause()
     } else {
       if playerLayer?.player?.currentTime().seconds == viewModel.project.duration {
-        viewModel.currentSoundIndex = 0
-        playerLayer?.player?.seek(to: CMTime.zero)
+        resetPlayer()
       }
       playerLayer?.player?.play()
     }
@@ -367,7 +338,7 @@ class EditorViewController: UIViewController {
   @objc private func soundViewTapped(_ gestureRecognizer: UITapGestureRecognizer) {
     guard let soundIndex = gestureRecognizer.view?.tag else { fatalError() }
     viewModel.addedSounds.remove(at: soundIndex - 1)
-    viewModel.currentSoundIndex -= 1
+    resetPlayer()
   }
   
   func addedSoundsUpdated() {
@@ -396,6 +367,8 @@ extension EditorViewController: UICollectionViewDelegate {
     switch cellModel.type {
     case .soundSelection:
       soundSelectorButtonTapped()
+    case .export:
+      exportButtonTapped()
     }
   }
 }

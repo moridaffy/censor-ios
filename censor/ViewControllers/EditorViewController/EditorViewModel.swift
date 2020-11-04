@@ -15,6 +15,7 @@ class EditorViewModel {
   let project: Project
   
   var currentSoundIndex: Int = 0
+  var projectNeedsSaving: Bool = false
   var controlCellModels: [EditorButtonCollectionViewCellModel]
   
   var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
@@ -22,6 +23,7 @@ class EditorViewModel {
   
   var isPlayingVideo: Bool = true {
     didSet {
+      print("🔥 isPlayingVideo = \(isPlayingVideo)")
       view?.updatePlayButton()
     }
   }
@@ -30,6 +32,7 @@ class EditorViewModel {
       return project.sounds
     }
     set {
+      projectNeedsSaving = true
       project.sounds = newValue
       view?.addedSoundsUpdated()
     }
@@ -41,7 +44,8 @@ class EditorViewModel {
     self.project = project
     
     self.controlCellModels = [
-      EditorButtonCollectionViewCellModel(type: .soundSelection, text: selectedSoundType.title)
+      EditorButtonCollectionViewCellModel(type: .soundSelection, text: selectedSoundType.title),
+      EditorButtonCollectionViewCellModel(type: .export, text: NSLocalizedString("Export", comment: ""))
     ]
   }
   
@@ -73,5 +77,9 @@ class EditorViewModel {
         completionHandler(error)
       }
     }
+  }
+  
+  func saveProject(completionHandler: @escaping () -> Void) {
+    StorageManager.shared.saveProject(project, completionHandler: completionHandler)
   }
 }

@@ -22,11 +22,14 @@ class EditorButtonCollectionViewCellModel {
 extension EditorButtonCollectionViewCellModel {
   enum ButtonType {
     case soundSelection
+    case export
     
     var icon: UIImage? {
       switch self {
       case .soundSelection:
         return UIImage(systemName: "music.note")
+      case .export:
+        return UIImage(systemName: "square.and.arrow.up")
       }
     }
   }

@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIViewController {
-  func embedInNavigationController() -> UINavigationController {
-    return UINavigationController(rootViewController: self)
+  func embedInNavigationController() -> DimmableNavigationController {
+    return DimmableNavigationController(rootViewController: self)
   }
 }
