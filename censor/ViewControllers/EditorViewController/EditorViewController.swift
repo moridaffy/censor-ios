@@ -10,6 +10,38 @@ import UIKit
 
 class EditorViewController: UIViewController {
   
+  private let helpButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle(nil, for: .normal)
+    button.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
+    button.contentHorizontalAlignment = .fill
+    button.contentVerticalAlignment = .fill
+    
+    button.addConstraints([
+      button.heightAnchor.constraint(equalToConstant: 24.0),
+      button.widthAnchor.constraint(equalToConstant: 24.0)
+    ])
+    
+    return button
+  }()
+  
+  private let exportButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle(nil, for: .normal)
+    button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+    button.contentHorizontalAlignment = .fill
+    button.contentVerticalAlignment = .fill
+    
+    button.addConstraints([
+      button.heightAnchor.constraint(equalToConstant: 24.0),
+      button.widthAnchor.constraint(equalToConstant: 24.0)
+    ])
+    
+    return button
+  }()
+  
   private let playerContainerView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
@@ -170,10 +202,18 @@ class EditorViewController: UIViewController {
   private func setupNavigationBar() {
     title = viewModel.project.name
     
-    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
-                                                        style: .plain,
-                                                        target: self,
-                                                        action: #selector(exportButtonTapped))
+    let rightBarButtonView = UIStackView(arrangedSubviews: [helpButton, exportButton])
+    rightBarButtonView.translatesAutoresizingMaskIntoConstraints = false
+    rightBarButtonView.axis = .horizontal
+    rightBarButtonView.distribution = .equalSpacing
+    rightBarButtonView.spacing = 16.0
+    
+    navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButtonView)
+    
+//    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+//                                                        style: .plain,
+//                                                        target: self,
+//                                                        action: #selector(exportButtonTapped))
   }
   
   private func setupButtons() {
@@ -282,10 +322,10 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func exportButtonTapped() {
-    resetPlayer()
-    // TODO: block UI while rendering video
     // TODO: show rendering progress
+    // https://stackoverflow.com/questions/11090760/progress-bar-for-avassetexportsession
     
+    resetPlayer()
     (navigationController as? DimmableNavigationController)?.showDimView(true, withLoading: true)
     
     viewModel.renderProject { (error) in
@@ -379,6 +419,14 @@ extension EditorViewController: UICollectionViewDelegateFlowLayout {
     let cellHeight: CGFloat = 40.0
     let textWidth = cellModel.text.width(height: cellHeight, attributes: [.font: EditorButtonCollectionViewCell.textFont])
     return CGSize(width: 8.0 + EditorButtonCollectionViewCell.iconSide + 8.0 + textWidth + 8.0, height: cellHeight)
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    return 8.0
+  }
+  
+  func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+    return 8.0
   }
 }
 

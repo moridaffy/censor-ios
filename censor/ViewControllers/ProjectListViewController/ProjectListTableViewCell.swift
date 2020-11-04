@@ -14,6 +14,7 @@ class ProjectListTableViewCell: UITableViewCell {
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFill
     imageView.layer.masksToBounds = true
+    imageView.layer.cornerRadius = 6.0
     imageView.alpha = 0.0
     return imageView
   }()
@@ -56,7 +57,7 @@ class ProjectListTableViewCell: UITableViewCell {
   func update(project: Project) {
     titleLabel.text = project.name
     durationLabel.text = project.duration.timeString()
-    creationDateLabel.text = project.creationDate.description
+    creationDateLabel.text = DateHelper.shared.getString(from: project.creationDate, of: .humanTimeDate)
     
     StorageManager.shared.getPreviewImages(forProject: project) { [weak self] (images) in
       if let previewImage = images.first {
@@ -72,9 +73,9 @@ class ProjectListTableViewCell: UITableViewCell {
     contentView.addSubview(creationDateLabel)
     
     contentView.addConstraints([
-      previewImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      previewImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-      previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      previewImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0),
+      previewImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16.0),
+      previewImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0),
       previewImageView.widthAnchor.constraint(equalToConstant: 80.0),
       
       titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0),
