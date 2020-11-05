@@ -17,6 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let window = UIWindow()
     window.rootViewController = RootViewController().embedInNavigationController()
     window.makeKeyAndVisible()
+    
+    // TODO: fix colors for light mode and disable overriding
+    window.overrideUserInterfaceStyle = .dark
+    
     self.window = window
     
     print("🔥 HomeDirectory: \(NSHomeDirectory())")

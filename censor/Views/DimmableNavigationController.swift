@@ -37,6 +37,10 @@ class DimmableNavigationController: UINavigationController {
   override init(rootViewController: UIViewController) {
     super.init(rootViewController: rootViewController)
     
+    navigationBar.isTranslucent = false
+    navigationBar.barTintColor = ColorManager.shared.topBackground
+    navigationBar.tintColor = ColorManager.shared.accent
+    
     setupLayout()
   }
   

@@ -22,7 +22,7 @@ class VideoTimelineView: UIView {
     view.layer.cornerRadius = 6.0
     view.layer.masksToBounds = true
     view.layer.borderWidth = 2.0
-    view.layer.borderColor = UIColor.white.cgColor
+    view.layer.borderColor = ColorManager.shared.subtext50opacity.cgColor
     return view
   }()
   
@@ -31,9 +31,9 @@ class VideoTimelineView: UIView {
   private let progressSlider: UISlider = {
     let thumbView = UIView(frame: CGRect(origin: .zero,
                                          size: CGSize(width: 10.0 , height: VideoTimelineView.height)))
-    thumbView.layer.cornerRadius = thumbView.frame.width / 2.0
+    thumbView.layer.cornerRadius = thumbView.frame.width / 3.0
     thumbView.layer.masksToBounds = true
-    thumbView.backgroundColor = .red
+    thumbView.backgroundColor = ColorManager.shared.accent
     
     let slider = UISlider()
     slider.translatesAutoresizingMaskIntoConstraints = false

@@ -49,4 +49,12 @@ class ColorManager {
       : UIColor(red: 0.580, green: 0.580, blue: 0.580, alpha: 1.000)
   }
   
+  var subtext50opacity: UIColor {
+    return subtext.withAlphaComponent(0.5)
+  }
+  
+  var subtext25opacity: UIColor {
+    return subtext.withAlphaComponent(0.25)
+  }
+  
 }

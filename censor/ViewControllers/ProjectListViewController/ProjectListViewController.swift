@@ -95,13 +95,7 @@ class ProjectListViewController: UIViewController {
     tableView.dataSource = self
   }
   
-  private func createNewProject(with name: String?) {
-    guard let name = name, !name.isEmpty else {
-      showAlertError(error: nil,
-                     desc: "Enter project's name",
-                     critical: false)
-      return
-    }
+  private func createNewProject(with name: String) {
     guard let originalUrl = viewModel.selectedFileUrl else {
       showAlertError(error: nil,
                      desc: "File's url is empty for some reason :/",
@@ -115,20 +109,24 @@ class ProjectListViewController: UIViewController {
   }
   
   private func presentNewProjectAlert() {
+    let projectDefaultName: String = "Project #\(viewModel.projects.count + 1)"
     let alert = UIAlertController(title: "New project",
                                   message: "Enter new project's name",
                                   preferredStyle: .alert)
     alert.addTextField { (textField) in
-      textField.placeholder = "My cool movie"
+      textField.placeholder = projectDefaultName
       textField.autocapitalizationType = .sentences
       textField.autocorrectionType = .yes
-      
-      #if DEBUG
-      textField.text = "My cool movie"
-      #endif
     }
     alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { (_) in
-      self.createNewProject(with: alert.textFields?.first?.text)
+      let projectName: String = {
+        if let textFieldText = alert.textFields?.first?.text, !textFieldText.isEmpty {
+          return textFieldText
+        } else {
+          return projectDefaultName
+        }
+      }()
+      self.createNewProject(with: projectName)
     }))
     alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
       alert.dismiss(animated: true, completion: nil)

@@ -14,9 +14,10 @@ class EditorViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle(nil, for: .normal)
-    button.setImage(UIImage(systemName: "questionmark.circle"), for: .normal)
+    button.setImage(UIImage(systemName: "questionmark.circle")?.withRenderingMode(.alwaysTemplate), for: .normal)
     button.contentHorizontalAlignment = .fill
     button.contentVerticalAlignment = .fill
+    button.tintColor = ColorManager.shared.accent
     
     button.addConstraints([
       button.heightAnchor.constraint(equalToConstant: 24.0),
@@ -30,9 +31,10 @@ class EditorViewController: UIViewController {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle(nil, for: .normal)
-    button.setImage(UIImage(systemName: "square.and.arrow.up"), for: .normal)
+    button.setImage(UIImage(systemName: "square.and.arrow.up")?.withRenderingMode(.alwaysTemplate), for: .normal)
     button.contentHorizontalAlignment = .fill
     button.contentVerticalAlignment = .fill
+    button.tintColor = ColorManager.shared.accent
     
     button.addConstraints([
       button.heightAnchor.constraint(equalToConstant: 24.0),
@@ -45,14 +47,30 @@ class EditorViewController: UIViewController {
   private let playerContainerView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = UIColor.black
+    view.backgroundColor = ColorManager.shared.bottomBackground
     return view
+  }()
+  
+  private let recordButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitle(nil, for: .normal)
+    button.setImage(UIImage(systemName: "plus.circle.fill")?.withRenderingMode(.alwaysTemplate), for: .normal)
+    button.contentHorizontalAlignment = .fill
+    button.contentVerticalAlignment = .fill
+    button.layer.cornerRadius = 25.0
+    button.layer.masksToBounds = true
+    button.layer.borderWidth = 2.0
+    button.layer.borderColor = ColorManager.shared.accent.cgColor
+    button.backgroundColor = ColorManager.shared.accent
+    button.tintColor = ColorManager.shared.topBackground
+    return button
   }()
   
   private let controlsContainerView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = UIColor.systemGray6
+    view.backgroundColor = ColorManager.shared.topBackground
     return view
   }()
   
@@ -68,7 +86,8 @@ class EditorViewController: UIViewController {
     button.setTitle(nil, for: .normal)
     button.layer.cornerRadius = 6.0
     button.layer.masksToBounds = true
-    button.backgroundColor = UIColor.tertiarySystemBackground
+    button.backgroundColor = ColorManager.shared.subtext25opacity
+    button.tintColor = ColorManager.shared.accent
     return button
   }()
   
@@ -85,21 +104,6 @@ class EditorViewController: UIViewController {
     return collectionView
   }()
   
-  private let recordButton: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("-", for: .normal)
-    button.setTitle("+", for: .highlighted)
-    button.setTitleColor(UIColor.white, for: .normal)
-    button.setTitleColor(UIColor.white, for: .highlighted)
-    button.layer.cornerRadius = 25.0
-    button.layer.masksToBounds = true
-    button.layer.borderColor = UIColor.white.cgColor
-    button.layer.borderWidth = 1.0
-    button.backgroundColor = UIColor.red
-    return button
-  }()
-  
   private var soundViews: [UIView] = []
   
   private let viewModel: EditorViewModel
@@ -113,7 +117,7 @@ class EditorViewController: UIViewController {
     
     super.init(nibName: nil, bundle: nil)
     
-    view.backgroundColor = .systemGray6
+    view.backgroundColor = ColorManager.shared.topBackground
     
     setupLayout()
     
@@ -179,7 +183,7 @@ class EditorViewController: UIViewController {
       videoTimelineView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -16.0),
       videoTimelineView.heightAnchor.constraint(equalToConstant: VideoTimelineView.height),
       
-      playButton.topAnchor.constraint(equalTo: videoTimelineView.bottomAnchor, constant: 8.0),
+      playButton.topAnchor.constraint(equalTo: videoTimelineView.bottomAnchor, constant: 8.0 + 22.0),
       playButton.leftAnchor.constraint(equalTo: videoTimelineView.leftAnchor),
       playButton.heightAnchor.constraint(equalToConstant: 40.0),
       playButton.widthAnchor.constraint(equalToConstant: 40.0),
@@ -192,7 +196,7 @@ class EditorViewController: UIViewController {
       
       recordButton.heightAnchor.constraint(equalToConstant: 50.0),
       recordButton.widthAnchor.constraint(equalToConstant: 50.0),
-      recordButton.bottomAnchor.constraint(equalTo: playerContainerView.bottomAnchor, constant: -32.0),
+      recordButton.bottomAnchor.constraint(equalTo: playerContainerView.bottomAnchor, constant: -16.0),
       recordButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
     ])
     
@@ -209,11 +213,6 @@ class EditorViewController: UIViewController {
     rightBarButtonView.spacing = 16.0
     
     navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightBarButtonView)
-    
-//    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
-//                                                        style: .plain,
-//                                                        target: self,
-//                                                        action: #selector(exportButtonTapped))
   }
   
   private func setupButtons() {
@@ -283,35 +282,25 @@ class EditorViewController: UIViewController {
   }
   
   private func getSoundView(for sound: Sound, at index: Int) -> UIView {
-    // TODO: Create new sound views for new VideoTimelineView
-    let viewSize = CGSize(width: 20.0, height: 20.0)
     let completionPercent = CGFloat(sound.timestamp / viewModel.project.duration)
-    let soundViewLeftConstant = (UIScreen.main.bounds.width - 16.0 - 16.0) * completionPercent - viewSize.width / 2.0
+    let soundViewLeftConstant = (UIScreen.main.bounds.width - 16.0 - 16.0) * completionPercent - VideoTimelineSoundView.width / 2.0
     
-    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundViewTapped))
+    let soundView = VideoTimelineSoundView(index: index + 1)
+    soundView.translatesAutoresizingMaskIntoConstraints = false
+    soundView.isUserInteractionEnabled = true
     
-    let label = UILabel(frame: .zero)
-    label.translatesAutoresizingMaskIntoConstraints = false
-    label.backgroundColor = UIColor.red
-    label.text = String(index + 1)
-    label.textAlignment = .center
-    label.textColor = UIColor.white
-    label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
-    label.layer.cornerRadius = viewSize.width / 2.0
-    label.layer.masksToBounds = true
-    label.tag = index + 1
-    label.isUserInteractionEnabled = true
-    label.addGestureRecognizer(tapGestureRecognizer)
-
-    controlsContainerView.addSubview(label)
+    controlsContainerView.addSubview(soundView)
     controlsContainerView.addConstraints([
-      label.widthAnchor.constraint(equalToConstant: viewSize.width),
-      label.heightAnchor.constraint(equalToConstant: viewSize.height),
-      label.centerYAnchor.constraint(equalTo: videoTimelineView.centerYAnchor),
-      label.leftAnchor.constraint(equalTo: videoTimelineView.leftAnchor, constant: soundViewLeftConstant)
+      soundView.widthAnchor.constraint(equalToConstant: VideoTimelineSoundView.width),
+      soundView.heightAnchor.constraint(equalToConstant: VideoTimelineSoundView.height),
+      soundView.leftAnchor.constraint(equalTo: videoTimelineView.leftAnchor, constant: soundViewLeftConstant),
+      soundView.topAnchor.constraint(equalTo: videoTimelineView.bottomAnchor, constant: -1.0 * VideoTimelineView.height / 4.0)
     ])
     
-    return label
+    let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(soundViewTapped))
+    soundView.addGestureRecognizer(tapGestureRecognizer)
+    
+    return soundView
   }
   
   private func resetPlayer() {

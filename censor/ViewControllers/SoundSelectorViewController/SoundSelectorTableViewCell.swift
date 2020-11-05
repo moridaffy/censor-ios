@@ -19,6 +19,7 @@ class SoundSelectorTableViewCell: UITableViewCell {
     button.translatesAutoresizingMaskIntoConstraints = false
     button.setTitle(nil, for: .normal)
     button.setImage(UIImage(systemName: "play.circle")?.withRenderingMode(.alwaysTemplate), for: .normal)
+    button.tintColor = ColorManager.shared.accent
     return button
   }()
   
@@ -26,7 +27,7 @@ class SoundSelectorTableViewCell: UITableViewCell {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = UIFont.systemFont(ofSize: 16.0, weight: .regular)
-    label.textColor = UIColor.label
+    label.textColor = ColorManager.shared.text
     return label
   }()
   
@@ -34,7 +35,7 @@ class SoundSelectorTableViewCell: UITableViewCell {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
-    label.textColor = UIColor.placeholderText
+    label.textColor = ColorManager.shared.subtext
     return label
   }()
   

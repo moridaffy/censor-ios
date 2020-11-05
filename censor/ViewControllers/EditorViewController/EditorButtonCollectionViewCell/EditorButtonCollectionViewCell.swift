@@ -17,14 +17,14 @@ class EditorButtonCollectionViewCell: UICollectionViewCell {
     view.translatesAutoresizingMaskIntoConstraints = false
     view.layer.cornerRadius = 6.0
     view.layer.masksToBounds = true
-    view.backgroundColor = UIColor.tertiarySystemBackground
+    view.backgroundColor = ColorManager.shared.subtext25opacity
     return view
   }()
   
   private let iconImageView: UIImageView = {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
-    imageView.tintColor = UIColor.systemBlue
+    imageView.tintColor = ColorManager.shared.accent
     imageView.contentMode = .scaleAspectFit
     return imageView
   }()
@@ -32,7 +32,7 @@ class EditorButtonCollectionViewCell: UICollectionViewCell {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.textColor = UIColor.systemBlue
+    label.textColor = ColorManager.shared.accent
     label.font = EditorButtonCollectionViewCell.textFont
     return label
   }()
