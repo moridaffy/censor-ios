@@ -9,6 +9,8 @@ import UIKit
 
 class RootViewController: UIViewController {
   
+  static private(set) var shared: RootViewController!
+  
   private let createProjectButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +37,8 @@ class RootViewController: UIViewController {
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    
+    RootViewController.shared = self
     
     view.backgroundColor = .white
     

@@ -10,10 +10,11 @@ import UIKit
 class ProjectListViewController: UIViewController {
   
   private let tableView: UITableView = {
-    let tableView = UITableView()
+    let tableView = UITableView(frame: .zero, style: .insetGrouped)
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.tableFooterView = UIView()
     tableView.separatorInset = UIEdgeInsets(top: 0.0, left: 16.0, bottom: 0.0, right: 16.0)
+    tableView.backgroundColor = ColorManager.shared.bottomBackground
     
     tableView.register(ProjectListTableViewCell.self, forCellReuseIdentifier: String(describing: ProjectListTableViewCell.self))
     
@@ -72,8 +73,21 @@ class ProjectListViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear"), style: .plain, target: self, action: #selector(settingsButtonTapped))
-    navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.circle"), style: .plain, target: self, action: #selector(addProjectButtonTapped))
+    title = "Projects"
+    
+    let settingsBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear")?.withRenderingMode(.alwaysTemplate),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(settingsButtonTapped))
+    settingsBarButtonItem.tintColor = ColorManager.shared.accent
+    navigationItem.leftBarButtonItem = settingsBarButtonItem
+    
+    let addProjectBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.circle")?.withRenderingMode(.alwaysTemplate),
+                                                  style: .plain,
+                                                  target: self,
+                                                  action: #selector(addProjectButtonTapped))
+    addProjectBarButtonItem.tintColor = ColorManager.shared.accent
+    navigationItem.rightBarButtonItem = addProjectBarButtonItem
   }
   
   private func setupTableView() {

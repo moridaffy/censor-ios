@@ -29,6 +29,7 @@
 		0C2BFF31253F43AB00ED700D /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF30253F43AB00ED700D /* EditorViewController.swift */; };
 		0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF34253F43F000ED700D /* EditorViewModel.swift */; };
 		0C6904A525449D920096E323 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6904A425449D920096E323 /* DateHelper.swift */; };
+		0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A242554771F00C2CB14 /* ColorManager.swift */; };
 		0C73137B255353E50034D3B1 /* DimmableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C73137A255353E50034D3B1 /* DimmableNavigationController.swift */; };
 		0C8AEFD32546E944005D00E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */; };
 		0C8AEFD62546E955005D00E1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */; };
@@ -92,6 +93,7 @@
 		0C2BFF30253F43AB00ED700D /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		0C2BFF34253F43F000ED700D /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		0C6904A425449D920096E323 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
+		0C6F0A242554771F00C2CB14 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		0C73137A255353E50034D3B1 /* DimmableNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableNavigationController.swift; sourceTree = "<group>"; };
 		0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			children = (
 				0C29141D254087B8009BDB52 /* SoundManager.swift */,
 				0C9FBA7A2542B3160071BFFA /* StorageManager.swift */,
+				0C6F0A242554771F00C2CB14 /* ColorManager.swift */,
 				0C2914242540A569009BDB52 /* VideoRenderer.swift */,
 				0C6904A425449D920096E323 /* DateHelper.swift */,
 			);
@@ -454,6 +457,7 @@
 				0C29140025403374009BDB52 /* ProjectListViewController.swift in Sources */,
 				0C2914072540375D009BDB52 /* ProjectListTableViewCell.swift in Sources */,
 				0C8AEFEE2546F813005D00E1 /* SettingsTipsTableViewCellModel.swift in Sources */,
+				0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */,
 				0C0351832545FA5A00BC3461 /* SoundSelectorViewController.swift in Sources */,
 				0C2BFF29253F385400ED700D /* UIViewController+NavigaionController.swift in Sources */,
 				0C29141E254087B8009BDB52 /* SoundManager.swift in Sources */,
