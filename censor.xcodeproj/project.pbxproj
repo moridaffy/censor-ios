@@ -31,6 +31,7 @@
 		0C6904A525449D920096E323 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6904A425449D920096E323 /* DateHelper.swift */; };
 		0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A242554771F00C2CB14 /* ColorManager.swift */; };
 		0C6F0A282554857500C2CB14 /* VideoTimelineSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */; };
+		0C6F0A2F25549FB800C2CB14 /* RootButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A2E25549FB800C2CB14 /* RootButtonView.swift */; };
 		0C73137B255353E50034D3B1 /* DimmableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C73137A255353E50034D3B1 /* DimmableNavigationController.swift */; };
 		0C8AEFD32546E944005D00E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */; };
 		0C8AEFD62546E955005D00E1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */; };
@@ -96,6 +97,7 @@
 		0C6904A425449D920096E323 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		0C6F0A242554771F00C2CB14 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimelineSoundView.swift; sourceTree = "<group>"; };
+		0C6F0A2E25549FB800C2CB14 /* RootButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootButtonView.swift; sourceTree = "<group>"; };
 		0C73137A255353E50034D3B1 /* DimmableNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableNavigationController.swift; sourceTree = "<group>"; };
 		0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 			children = (
 				0C2BFF21253F36CC00ED700D /* RootViewController.swift */,
 				0C2BFF2C253F3A5500ED700D /* RootViewModel.swift */,
+				0C6F0A2E25549FB800C2CB14 /* RootButtonView.swift */,
 			);
 			path = RootViewController;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				0C8AEFF525470CAC005D00E1 /* SettingsIconsTableViewCellModel.swift in Sources */,
 				0C8AEFD62546E955005D00E1 /* SettingsViewModel.swift in Sources */,
 				0C29141325405906009BDB52 /* Sound.swift in Sources */,
+				0C6F0A2F25549FB800C2CB14 /* RootButtonView.swift in Sources */,
 				0C29140D25403D47009BDB52 /* UINavigationController+CompletionHandler.swift in Sources */,
 				0C29140025403374009BDB52 /* ProjectListViewController.swift in Sources */,
 				0C2914072540375D009BDB52 /* ProjectListTableViewCell.swift in Sources */,

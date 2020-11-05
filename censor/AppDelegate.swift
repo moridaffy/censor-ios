@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let window = UIWindow()
     window.rootViewController = RootViewController().embedInNavigationController()
     window.makeKeyAndVisible()
+    window.tintColor = ColorManager.shared.accent
     
     // TODO: fix colors for light mode and disable overriding
     window.overrideUserInterfaceStyle = .dark

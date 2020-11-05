@@ -10,28 +10,9 @@ import UIKit
 class RootViewController: UIViewController {
   
   static private(set) var shared: RootViewController!
-  
-  private let createProjectButton: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("New project", for: .normal)
-    button.setTitleColor(UIColor.white, for: .normal)
-    button.layer.cornerRadius = 6.0
-    button.layer.masksToBounds = true
-    button.backgroundColor = UIColor.systemBlue
-    return button
-  }()
-  
-  private let openProjectsListButton: UIButton = {
-    let button = UIButton()
-    button.translatesAutoresizingMaskIntoConstraints = false
-    button.setTitle("Existing projects", for: .normal)
-    button.setTitleColor(UIColor.white, for: .normal)
-    button.layer.cornerRadius = 6.0
-    button.layer.masksToBounds = true
-    button.backgroundColor = UIColor.systemBlue
-    return button
-  }()
+
+  private lazy var newProjectButton = RootButtonView(type: .newProject)
+  private lazy var existingProjectsButton = RootButtonView(type: .existingProjects)
   
   private let viewModel: RootViewModel = RootViewModel()
   
@@ -40,7 +21,7 @@ class RootViewController: UIViewController {
     
     RootViewController.shared = self
     
-    view.backgroundColor = .white
+    view.backgroundColor = ColorManager.shared.bottomBackground
     
     setupLayout()
   }
@@ -56,25 +37,25 @@ class RootViewController: UIViewController {
   }
   
   private func setupLayout() {
-    view.addSubview(createProjectButton)
-    view.addSubview(openProjectsListButton)
+    let buttonsStackView = UIStackView(arrangedSubviews: [newProjectButton, existingProjectsButton])
+    buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+    buttonsStackView.axis = .horizontal
+    buttonsStackView.alignment = .center
+    buttonsStackView.spacing = 16.0
+    
+    view.addSubview(buttonsStackView)
     
     view.addConstraints([
-      createProjectButton.heightAnchor.constraint(equalTo: openProjectsListButton.heightAnchor),
-      createProjectButton.leftAnchor.constraint(equalTo: openProjectsListButton.leftAnchor),
-      createProjectButton.rightAnchor.constraint(equalTo: openProjectsListButton.rightAnchor),
-      createProjectButton.bottomAnchor.constraint(equalTo: openProjectsListButton.topAnchor, constant: -16.0),
-      
-      openProjectsListButton.heightAnchor.constraint(equalToConstant: 50.0),
-      openProjectsListButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32.0),
-      openProjectsListButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32.0),
-      openProjectsListButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32.0)
+      buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      buttonsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32.0),
+      buttonsStackView.leftAnchor.constraint(greaterThanOrEqualTo: view.leftAnchor, constant: 32.0),
+      newProjectButton.heightAnchor.constraint(equalTo: existingProjectsButton.heightAnchor)
     ])
   }
   
   private func setupButtons() {
-    createProjectButton.addTarget(self, action: #selector(createProjectButtonTapped), for: .touchUpInside)
-    openProjectsListButton.addTarget(self, action: #selector(openProjectListButtonTapped), for: .touchUpInside)
+    newProjectButton.addTarget(self, action: #selector(createProjectButtonTapped))
+    existingProjectsButton.addTarget(self, action: #selector(openProjectListButtonTapped))
   }
   
   private func presentProjectListViewController(createNewProject: Bool) {
