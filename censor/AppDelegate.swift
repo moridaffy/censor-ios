@@ -15,12 +15,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
     let window = UIWindow()
-    window.rootViewController = RootViewController().embedInNavigationController()
-    window.makeKeyAndVisible()
-    window.tintColor = ColorManager.shared.accent
     
     // TODO: fix colors for light mode and disable overriding
     window.overrideUserInterfaceStyle = .dark
+    
+    window.rootViewController = RootViewController().embedInNavigationController()
+    window.makeKeyAndVisible()
+    window.tintColor = ColorManager.shared.accent
     
     self.window = window
     

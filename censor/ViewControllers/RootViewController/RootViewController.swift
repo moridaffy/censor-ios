@@ -10,6 +10,39 @@ import UIKit
 class RootViewController: UIViewController {
   
   static private(set) var shared: RootViewController!
+  
+  private let logoImageView: UIImageView = {
+    let imageView = UIImageView()
+    imageView.translatesAutoresizingMaskIntoConstraints = false
+    imageView.contentMode = .scaleAspectFit
+    return imageView
+  }()
+  
+  private let welcomeLabel: UILabel = {
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.textAlignment = .center
+    label.numberOfLines = 0
+    
+    let text = NSMutableAttributedString()
+    text.append(NSAttributedString(string: "Welcome to CenStory!",
+                                   attributes: [.font: UIFont.systemFont(ofSize: 30.0, weight: .semibold),
+                                                .foregroundColor: ColorManager.shared.text]))
+    text.append(NSAttributedString(string: "\n" + "Tap on one of the buttons bellow to continue",
+                                   attributes: [.font: UIFont.systemFont(ofSize: 16.0, weight: .regular),
+                                                .foregroundColor: ColorManager.shared.subtext]))
+    label.attributedText = text
+    
+    return label
+  }()
+  
+  private let buttonsContainerView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.backgroundColor = ColorManager.shared.topBackground
+    view.layer.cornerRadius = 6.0
+    return view
+  }()
 
   private lazy var newProjectButton = RootButtonView(type: .newProject)
   private lazy var existingProjectsButton = RootButtonView(type: .existingProjects)
@@ -22,6 +55,7 @@ class RootViewController: UIViewController {
     RootViewController.shared = self
     
     view.backgroundColor = ColorManager.shared.bottomBackground
+    logoImageView.image = ColorManager.shared.logoImage
     
     setupLayout()
   }
@@ -33,24 +67,73 @@ class RootViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
+    setupNavigationBar()
     setupButtons()
+    
+    // TODO: fixme
+    DispatchQueue.main.async {
+      self.buttonsContainerView.addDashedBorder(ofColor: ColorManager.shared.subtext,
+                                                borderWidth: 2.0,
+                                                cornerRadius: self.buttonsContainerView.layer.cornerRadius)
+    }
   }
   
   private func setupLayout() {
+    let logoImageViewWidth: CGFloat = UIScreen.main.bounds.width - 128.0
+    
     let buttonsStackView = UIStackView(arrangedSubviews: [newProjectButton, existingProjectsButton])
     buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
     buttonsStackView.axis = .horizontal
     buttonsStackView.alignment = .center
     buttonsStackView.spacing = 16.0
     
-    view.addSubview(buttonsStackView)
+    view.addSubview(logoImageView)
+    view.addSubview(welcomeLabel)
+    view.addSubview(buttonsContainerView)
+    buttonsContainerView.addSubview(buttonsStackView)
     
     view.addConstraints([
-      buttonsStackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      buttonsStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32.0),
-      buttonsStackView.leftAnchor.constraint(greaterThanOrEqualTo: view.leftAnchor, constant: 32.0),
-      newProjectButton.heightAnchor.constraint(equalTo: existingProjectsButton.heightAnchor)
+      logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64.0),
+      logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      logoImageView.heightAnchor.constraint(equalToConstant: logoImageViewWidth),
+      logoImageView.widthAnchor.constraint(equalToConstant: logoImageViewWidth),
+      
+      welcomeLabel.topAnchor.constraint(equalTo: logoImageView.bottomAnchor, constant: 32.0),
+      welcomeLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32.0),
+      welcomeLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32.0),
+      welcomeLabel.bottomAnchor.constraint(lessThanOrEqualTo: buttonsContainerView.topAnchor, constant: -16.0),
+      
+      buttonsContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+      buttonsContainerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32.0),
+      buttonsContainerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32.0),
+      buttonsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32.0),
+      
+      buttonsStackView.topAnchor.constraint(equalTo: buttonsContainerView.topAnchor, constant: 16.0),
+      buttonsStackView.leftAnchor.constraint(equalTo: buttonsContainerView.leftAnchor, constant: 16.0),
+      buttonsStackView.rightAnchor.constraint(equalTo: buttonsContainerView.rightAnchor, constant: -16.0),
+      buttonsStackView.bottomAnchor.constraint(equalTo: buttonsContainerView.bottomAnchor, constant: -16.0),
+      
+      newProjectButton.heightAnchor.constraint(equalTo: existingProjectsButton.heightAnchor),
+      newProjectButton.widthAnchor.constraint(equalTo: existingProjectsButton.widthAnchor)
     ])
+  }
+  
+  private func setupNavigationBar() {
+    title = "CenStory"
+    
+    let settingsBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear")?.withRenderingMode(.alwaysTemplate),
+                                                style: .plain,
+                                                target: self,
+                                                action: #selector(settingsButtonTapped))
+    settingsBarButtonItem.tintColor = ColorManager.shared.accent
+    navigationItem.leftBarButtonItem = settingsBarButtonItem
+    
+    let helpBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "questionmark.circle")?.withRenderingMode(.alwaysTemplate),
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(helpButtonTapped))
+    helpBarButtonItem.tintColor = ColorManager.shared.accent
+    navigationItem.rightBarButtonItem = helpBarButtonItem
   }
   
   private func setupButtons() {
@@ -59,19 +142,37 @@ class RootViewController: UIViewController {
   }
   
   private func presentProjectListViewController(createNewProject: Bool) {
-    let projectListViewModel = ProjectListViewModel()
-    let projectListViewController = ProjectListViewController(viewModel: projectListViewModel)
-    navigationController?.pushViewController(projectListViewController, animated: true, completion: {
-      guard createNewProject else { return }
-      projectListViewController.addProjectButtonTapped()
-    })
+    // TODO: fixme
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      let projectListViewModel = ProjectListViewModel()
+      let projectListViewController = ProjectListViewController(viewModel: projectListViewModel)
+      self.navigationController?.pushViewController(projectListViewController, animated: true, completion: {
+        guard createNewProject else { return }
+        projectListViewController.addProjectButtonTapped()
+      })
+    }
+  }
+  
+  @objc private func settingsButtonTapped() {
+    let settingsViewController = SettingsViewController().embedInNavigationController()
+    present(settingsViewController, animated: true, completion: nil)
+  }
+  
+  @objc private func helpButtonTapped() {
+    // TODO
   }
   
   @objc private func createProjectButtonTapped() {
+    guard !viewModel.buttonTapped else { return }
+    viewModel.buttonTapped = true
+    newProjectButton.startLoading(true)
     presentProjectListViewController(createNewProject: true)
   }
   
   @objc private func openProjectListButtonTapped() {
+    guard !viewModel.buttonTapped else { return }
+    viewModel.buttonTapped = true
+    existingProjectsButton.startLoading(true)
     presentProjectListViewController(createNewProject: false)
   }
 }

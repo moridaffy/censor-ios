@@ -216,6 +216,8 @@ class EditorViewController: UIViewController {
   }
   
   private func setupButtons() {
+    helpButton.addTarget(self, action: #selector(helpButtonTapped), for: .touchUpInside)
+    exportButton.addTarget(self, action: #selector(exportButtonTapped), for: .touchUpInside)
     recordButton.addTarget(self, action: #selector(recordButtonPressed), for: .touchDown)
     playButton.addTarget(self, action: #selector(playButtonTapped), for: .touchUpInside)
     
@@ -308,6 +310,10 @@ class EditorViewController: UIViewController {
     playerLayer?.player?.pause()
     playerLayer?.player?.seek(to: CMTime.zero)
     viewModel.isPlayingVideo = false
+  }
+  
+  @objc private func helpButtonTapped() {
+    // TODO
   }
   
   @objc private func exportButtonTapped() {

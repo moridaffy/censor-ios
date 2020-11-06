@@ -9,13 +9,12 @@ import UIKit
 
 class RootButtonView: UIView {
   
-  private let containerView: UIView = {
+  private let iconContainerView: UIView = {
     let view = UIView()
     view.translatesAutoresizingMaskIntoConstraints = false
-    view.backgroundColor = UIColor.clear
-    view.layer.cornerRadius = 6.0
-    view.layer.borderColor = ColorManager.shared.accent.cgColor
-    view.layer.borderWidth = 2.0
+    view.backgroundColor = ColorManager.shared.accent
+    view.layer.cornerRadius = 25.0
+    view.layer.masksToBounds = true
     return view
   }()
   
@@ -23,8 +22,17 @@ class RootButtonView: UIView {
     let imageView = UIImageView()
     imageView.translatesAutoresizingMaskIntoConstraints = false
     imageView.contentMode = .scaleAspectFit
-    imageView.tintColor = ColorManager.shared.accent
+    imageView.tintColor = ColorManager.shared.bottomBackground
     return imageView
+  }()
+  
+  private let loadingActivityIndicator: UIActivityIndicatorView = {
+    let activityIndicator = UIActivityIndicatorView(style: .medium)
+    activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+    activityIndicator.color = ColorManager.shared.bottomBackground
+    activityIndicator.startAnimating()
+    activityIndicator.isHidden = true
+    return activityIndicator
   }()
   
   private let titleLabel: UILabel = {
@@ -51,32 +59,40 @@ class RootButtonView: UIView {
   }
   
   private func setupLayout() {
-    addSubview(containerView)
-    containerView.addSubview(iconImageView)
-    containerView.addSubview(titleLabel)
+    addSubview(iconContainerView)
+    iconContainerView.addSubview(iconImageView)
+    iconContainerView.addSubview(loadingActivityIndicator)
+    addSubview(titleLabel)
     
     addConstraints([
-      containerView.topAnchor.constraint(equalTo: topAnchor),
-      containerView.leftAnchor.constraint(equalTo: leftAnchor),
-      containerView.rightAnchor.constraint(equalTo: rightAnchor),
-      containerView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      containerView.widthAnchor.constraint(equalToConstant: 128.0),
+      iconContainerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+      iconContainerView.topAnchor.constraint(equalTo: topAnchor, constant: 16.0),
+      iconContainerView.heightAnchor.constraint(equalToConstant: 50.0),
+      iconContainerView.widthAnchor.constraint(equalToConstant: 50.0),
       
-      iconImageView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
-      iconImageView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16.0),
-      iconImageView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 16.0),
-      iconImageView.heightAnchor.constraint(equalToConstant: 50.0),
+      iconImageView.topAnchor.constraint(equalTo: iconContainerView.topAnchor, constant: 8.0),
+      iconImageView.leftAnchor.constraint(equalTo: iconContainerView.leftAnchor, constant: 8.0),
+      iconImageView.rightAnchor.constraint(equalTo: iconContainerView.rightAnchor, constant: -8.0),
+      iconImageView.bottomAnchor.constraint(equalTo: iconContainerView.bottomAnchor, constant: -8.0),
       
-      titleLabel.topAnchor.constraint(equalTo: iconImageView.bottomAnchor, constant: 8.0),
-      titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 16.0),
-      titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -16.0),
-      titleLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -16.0)
+      loadingActivityIndicator.centerXAnchor.constraint(equalTo: iconContainerView.centerXAnchor),
+      loadingActivityIndicator.centerYAnchor.constraint(equalTo: iconContainerView.centerYAnchor),
+      
+      titleLabel.topAnchor.constraint(equalTo: iconContainerView.bottomAnchor, constant: 8.0),
+      titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 16.0),
+      titleLabel.rightAnchor.constraint(equalTo: rightAnchor, constant: -16.0),
+      titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16.0)
     ])
   }
   
   func updateButton(for type: ButtonType) {
     iconImageView.image = type.icon?.withRenderingMode(.alwaysTemplate)
     titleLabel.text = type.title
+  }
+  
+  func startLoading(_ start: Bool) {
+    iconImageView.isHidden = start
+    loadingActivityIndicator.isHidden = !start
   }
   
   func addTarget(_ target: Any?, action: Selector) {

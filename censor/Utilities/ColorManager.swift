@@ -12,7 +12,7 @@ class ColorManager {
   static let shared = ColorManager()
   
   var isDarkModeEnabled: Bool {
-    if RootViewController.shared.traitCollection.userInterfaceStyle == .dark {
+    if UIApplication.shared.windows.first?.traitCollection.userInterfaceStyle == .dark {
       return true
     } else {
       return false
@@ -55,6 +55,12 @@ class ColorManager {
   
   var subtext25opacity: UIColor {
     return subtext.withAlphaComponent(0.25)
+  }
+  
+  var logoImage: UIImage? {
+    return isDarkModeEnabled
+      ? UIImage(named: "logo_dark")
+      : UIImage(named: "logo_light")
   }
   
 }

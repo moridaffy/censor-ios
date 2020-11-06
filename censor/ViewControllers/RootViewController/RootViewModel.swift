@@ -9,4 +9,6 @@ import Foundation
 
 class RootViewModel {
   
+  var buttonTapped: Bool = false
+  
 }
