@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -49,6 +49,8 @@
 		0C901C532550641800988CB2 /* VideoTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C522550641800988CB2 /* VideoTimelineView.swift */; };
 		0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C672550757F00988CB2 /* UIView+Rendering.swift */; };
 		0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FBA7A2542B3160071BFFA /* StorageManager.swift */; };
+		0C9FD03D257BD5ED00EA70F1 /* Instructions in Frameworks */ = {isa = PBXBuildFile; productRef = 0C9FD03C257BD5ED00EA70F1 /* Instructions */; };
+		0C9FD040257BD6CF00EA70F1 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FD03F257BD6CF00EA70F1 /* SettingsManager.swift */; };
 		0CA62C1A2548121D00C1DE37 /* car_crash_5.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0A2548121C00C1DE37 /* car_crash_5.mp3 */; };
 		0CA62C1B2548121D00C1DE37 /* explosion_1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0B2548121C00C1DE37 /* explosion_1.mp3 */; };
 		0CA62C1C2548121D00C1DE37 /* beep_1sec.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CA62C0C2548121C00C1DE37 /* beep_1sec.mp3 */; };
@@ -115,6 +117,7 @@
 		0C901C522550641800988CB2 /* VideoTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimelineView.swift; sourceTree = "<group>"; };
 		0C901C672550757F00988CB2 /* UIView+Rendering.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Rendering.swift"; sourceTree = "<group>"; };
 		0C9FBA7A2542B3160071BFFA /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
+		0C9FD03F257BD6CF00EA70F1 /* SettingsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsManager.swift; sourceTree = "<group>"; };
 		0CA62C0A2548121C00C1DE37 /* car_crash_5.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = car_crash_5.mp3; sourceTree = "<group>"; };
 		0CA62C0B2548121C00C1DE37 /* explosion_1.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion_1.mp3; sourceTree = "<group>"; };
 		0CA62C0C2548121C00C1DE37 /* beep_1sec.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = beep_1sec.mp3; sourceTree = "<group>"; };
@@ -141,6 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0C9FD03D257BD5ED00EA70F1 /* Instructions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -206,6 +210,7 @@
 				0C6F0A242554771F00C2CB14 /* ColorManager.swift */,
 				0C2914242540A569009BDB52 /* VideoRenderer.swift */,
 				0C6904A425449D920096E323 /* DateHelper.swift */,
+				0C9FD03F257BD6CF00EA70F1 /* SettingsManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -384,6 +389,9 @@
 			dependencies = (
 			);
 			name = censor;
+			packageProductDependencies = (
+				0C9FD03C257BD5ED00EA70F1 /* Instructions */,
+			);
 			productName = censor;
 			productReference = 0C2BFF06253F35CB00ED700D /* censor.app */;
 			productType = "com.apple.product-type.application";
@@ -411,6 +419,9 @@
 				Base,
 			);
 			mainGroup = 0C2BFEFD253F35CB00ED700D;
+			packageReferences = (
+				0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */,
+			);
 			productRefGroup = 0C2BFF07253F35CB00ED700D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -473,6 +484,7 @@
 				0C8AEFDA2546ED4B005D00E1 /* SettingsTitleTableViewCell.swift in Sources */,
 				0C2BFF0A253F35CB00ED700D /* AppDelegate.swift in Sources */,
 				0C2BFF2D253F3A5500ED700D /* RootViewModel.swift in Sources */,
+				0C9FD040257BD6CF00EA70F1 /* SettingsManager.swift in Sources */,
 				0C901C4F2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift in Sources */,
 				0C8AEFF825470DCF005D00E1 /* SettingsIconCollectionViewCell.swift in Sources */,
 				0C8AEFEB2546F7FA005D00E1 /* SettingsTipsTableViewCell.swift in Sources */,
@@ -689,6 +701,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ephread/Instructions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0C9FD03C257BD5ED00EA70F1 /* Instructions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */;
+			productName = Instructions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 0C2BFEFE253F35CB00ED700D /* Project object */;
 }

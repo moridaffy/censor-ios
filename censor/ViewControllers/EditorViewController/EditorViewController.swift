@@ -5,6 +5,7 @@
 //  Created by Maxim Skryabin on 20.10.2020.
 //
 
+import Instructions
 import AVFoundation
 import UIKit
 
@@ -107,6 +108,7 @@ class EditorViewController: UIViewController {
   private var soundViews: [UIView] = []
   
   private let viewModel: EditorViewModel
+  private let coachMarksController = CoachMarksController()
   
   private var playerLayer: AVPlayerLayer?
   private var playerPeriodicNotificationToken: Any?
@@ -142,6 +144,8 @@ class EditorViewController: UIViewController {
     super.viewWillAppear(animated)
     
     viewModel.view = self
+    
+    setupCoachMarkers()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -273,6 +277,17 @@ class EditorViewController: UIViewController {
     })
   }
   
+  private func setupCoachMarkers() {
+    coachMarksController.dataSource = self
+    coachMarksController.delegate = self
+    coachMarksController.overlay.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+    
+    let coachMarkersDisplayed = SettingsManager.shared.getValue(of: Bool.self, for: .coachMarkersDisplayed) ?? false
+    if !coachMarkersDisplayed {
+      helpButtonTapped()
+    }
+  }
+  
   private func updateVideoProgress(with time: Double) {
     videoTimelineView.updateProgress(withValue: Float(time / viewModel.project.duration))
   }
@@ -313,7 +328,8 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func helpButtonTapped() {
-    // TODO
+    controlsCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: true)
+    coachMarksController.start(in: .window(over: self))
   }
   
   @objc private func exportButtonTapped() {
@@ -456,6 +472,67 @@ extension EditorViewController: SoundSelectorViewControllerDelegate {
     if let soundSelectionButtonIndex = viewModel.controlCellModels.firstIndex(where: { $0.type == .soundSelection }) {
       viewModel.controlCellModels[soundSelectionButtonIndex].text = type.title
       controlsCollectionView.reloadItems(at: [IndexPath(row: soundSelectionButtonIndex, section: 0)])
+    }
+  }
+}
+
+// MARK: - CoachMarksControllerDataSource & CoachMarksControllerDelegate
+
+extension EditorViewController: CoachMarksControllerDataSource {
+  func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
+    // TODO: надо бы получать кол-во элементов динамически, не хардкодить
+    return 8
+  }
+  
+  func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
+    return coachMarksController.helper.makeCoachMark(for: getCoachMarkerView(at: index))
+  }
+  
+  func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkViewsAt index: Int, madeFrom coachMark: CoachMark) -> (bodyView: (UIView & CoachMarkBodyView), arrowView: (UIView & CoachMarkArrowView)?) {
+    let coachViews = coachMarksController.helper.makeDefaultCoachViews(
+      withArrow: false,
+      arrowOrientation: coachMark.arrowOrientation
+    )
+    
+    coachViews.bodyView.hintLabel.text = getCoachMarkerString(at: index)
+    coachViews.bodyView.nextLabel.text = NSLocalizedString("OK", comment: "")
+    
+    return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
+  }
+  
+  // TODO: убирать шаг с маркером звука, если в проекте нет ни одного звука добавленного
+  private func getCoachMarkerView(at index: Int) -> UIView? {
+    return [
+      playerContainerView,
+      recordButton,
+      videoTimelineView,
+      soundViews.first,
+      playButton,
+      controlsCollectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.contentView,
+      exportButton,
+      helpButton
+    ][index]
+  }
+  
+  private func getCoachMarkerString(at index: Int) -> String {
+    return [
+      NSLocalizedString("This is the preview of your video", comment: ""),
+      NSLocalizedString("Tap this button to add sound at current position of the video", comment: ""),
+      NSLocalizedString("Here you can see the whole video timeline, it's current position and all added sounds", comment: ""),
+      NSLocalizedString("This is how added sound looks like. Tap it to remove it from timeline", comment: ""),
+      NSLocalizedString("Tap this button to play/pause your video", comment: ""),
+      NSLocalizedString("Tap this button to browse through all available sounds", comment: ""),
+      NSLocalizedString("Tap this button to start rendering and exporting your edited project", comment: ""),
+      NSLocalizedString("Tap this button to go through tutorial once again", comment: "")
+    ][index]
+  }
+}
+
+extension EditorViewController: CoachMarksControllerDelegate {
+  func coachMarksController(_ coachMarksController: CoachMarksController, willHide coachMark: CoachMark, at index: Int) {
+    if index == numberOfCoachMarks(for: coachMarksController) - 1 {
+      SettingsManager.shared.setValue(for: .coachMarkersDisplayed, value: true)
+      coachMarksController.stop(immediately: true)
     }
   }
 }
