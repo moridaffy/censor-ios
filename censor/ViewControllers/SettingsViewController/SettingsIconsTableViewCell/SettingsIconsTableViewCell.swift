@@ -32,6 +32,8 @@ class SettingsIconsTableViewCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
+    contentView.backgroundColor = ColorManager.shared.topBackground
+    
     setupLayout()
   }
   

@@ -19,6 +19,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
     label.textAlignment = .left
     label.numberOfLines = 0
     label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
+    label.textColor = ColorManager.shared.subtext
     label.text = """
     Developing and supporting mobile apps tike a lot of time and effort. I decided to make this app free so everyone can try it out and decide whether to keep it on his phone or delete it. If you enjoy using this app, you can say thanks and motivate me to work even harder on it by simply leaving a tip. You can even choose the amount of tip you want to give and give it as many times as you wish :) By leaving any tip, you support me and get access to some new features:
     • all ads magically will dissapear, as well as watermark on your exported videos
@@ -39,6 +40,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
+    contentView.backgroundColor = ColorManager.shared.topBackground
     selectionStyle = .none
     
     setupLayout()
@@ -83,7 +85,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
   private func getTipButtonView(forType type: SettingsTipsTableViewCellModel.TipType) -> UIView {
     let containerView = UIView()
     containerView.translatesAutoresizingMaskIntoConstraints = false
-    containerView.backgroundColor = UIColor.systemGray.withAlphaComponent(0.5)
+    containerView.backgroundColor = ColorManager.shared.subtext25opacity
     containerView.layer.cornerRadius = 6.0
     containerView.layer.masksToBounds = true
     
@@ -94,12 +96,13 @@ class SettingsTipsTableViewCell: UITableViewCell {
     titleLabel.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
     titleLabel.textAlignment = .center
     titleLabel.numberOfLines = 0
+    titleLabel.textColor = ColorManager.shared.accent
     
     let iconImageView = UIImageView()
     iconImageView.translatesAutoresizingMaskIntoConstraints = false
     iconImageView.isUserInteractionEnabled = false
     iconImageView.image = UIImage(named: type.iconName)?.withRenderingMode(.alwaysTemplate)
-    iconImageView.tintColor = UIColor.black
+    iconImageView.tintColor = ColorManager.shared.text
     iconImageView.contentMode = .scaleAspectFit
     
     let priceLabel = UILabel()
@@ -108,6 +111,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
     priceLabel.text = String(type.rawValue * 100) + "₽"
     priceLabel.font = UIFont.systemFont(ofSize: 13.0, weight: .regular)
     priceLabel.textAlignment = .center
+    priceLabel.textColor = ColorManager.shared.subtext
     
     let tapRecognizer: UITapGestureRecognizer = {
       switch type {

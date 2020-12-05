@@ -13,6 +13,7 @@ class SettingsViewController: UIViewController {
     let tableView = UITableView(frame: .zero, style: .grouped)
     tableView.translatesAutoresizingMaskIntoConstraints = false
     tableView.tableFooterView = UIView()
+    tableView.backgroundColor = ColorManager.shared.bottomBackground
     
     tableView.register(SettingsTitleTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsTitleTableViewCell.self))
     tableView.register(SettingsIconsTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsIconsTableViewCell.self))
@@ -26,6 +27,8 @@ class SettingsViewController: UIViewController {
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    
+    view.backgroundColor = UIColor.systemBackground
     
     setupLayout()
   }
@@ -56,6 +59,7 @@ class SettingsViewController: UIViewController {
     title = "Settings"
     
     let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
+    closeButton.tintColor = ColorManager.shared.accent
     navigationItem.rightBarButtonItem = closeButton
   }
   

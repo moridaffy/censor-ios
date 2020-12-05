@@ -14,6 +14,7 @@ class SettingsTitleTableViewCell: UITableViewCell {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.font = UIFont.systemFont(ofSize: 22.0, weight: .semibold)
     label.numberOfLines = 0
+    label.textColor = ColorManager.shared.text
     return label
   }()
   
@@ -21,6 +22,7 @@ class SettingsTitleTableViewCell: UITableViewCell {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
     
     removeSeparator()
+    contentView.backgroundColor = ColorManager.shared.topBackground
     selectionStyle = .none
     
     setupLayout()

@@ -12,7 +12,7 @@ class SettingsButtonTableViewCell: UITableViewCell {
   private let titleLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
-    label.textColor = UIColor.systemBlue
+    label.textColor = ColorManager.shared.accent
     label.font = UIFont.systemFont(ofSize: 17.0, weight: .regular)
     label.textAlignment = .center
     label.numberOfLines = 0
@@ -21,6 +21,8 @@ class SettingsButtonTableViewCell: UITableViewCell {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
+    
+    backgroundColor = ColorManager.shared.topBackground
     
     setupLayout()
   }
