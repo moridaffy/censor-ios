@@ -32,6 +32,13 @@
 		0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A242554771F00C2CB14 /* ColorManager.swift */; };
 		0C6F0A282554857500C2CB14 /* VideoTimelineSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */; };
 		0C6F0A2F25549FB800C2CB14 /* RootButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A2E25549FB800C2CB14 /* RootButtonView.swift */; };
+		0C71E3A425AF88D1005EC445 /* appicon_black_bw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C71E39E25AF88D0005EC445 /* appicon_black_bw@3x.png */; };
+		0C71E3A525AF88D1005EC445 /* appicon_black_bw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C71E39F25AF88D1005EC445 /* appicon_black_bw@2x.png */; };
+		0C71E3A625AF88D1005EC445 /* appicon_white_bw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C71E3A025AF88D1005EC445 /* appicon_white_bw@3x.png */; };
+		0C71E3A725AF88D1005EC445 /* appicon_white_color@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C71E3A125AF88D1005EC445 /* appicon_white_color@2x.png */; };
+		0C71E3A825AF88D1005EC445 /* appicon_white_color@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C71E3A225AF88D1005EC445 /* appicon_white_color@3x.png */; };
+		0C71E3A925AF88D1005EC445 /* appicon_white_bw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C71E3A325AF88D1005EC445 /* appicon_white_bw@2x.png */; };
+		0C71E3B025AF8F5B005EC445 /* appicon_black_color@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0C71E3AF25AF8F5B005EC445 /* appicon_black_color@3x.png */; };
 		0C73137B255353E50034D3B1 /* DimmableNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C73137A255353E50034D3B1 /* DimmableNavigationController.swift */; };
 		0C8AEFD32546E944005D00E1 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */; };
 		0C8AEFD62546E955005D00E1 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */; };
@@ -100,6 +107,13 @@
 		0C6F0A242554771F00C2CB14 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimelineSoundView.swift; sourceTree = "<group>"; };
 		0C6F0A2E25549FB800C2CB14 /* RootButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootButtonView.swift; sourceTree = "<group>"; };
+		0C71E39E25AF88D0005EC445 /* appicon_black_bw@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appicon_black_bw@3x.png"; sourceTree = "<group>"; };
+		0C71E39F25AF88D1005EC445 /* appicon_black_bw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appicon_black_bw@2x.png"; sourceTree = "<group>"; };
+		0C71E3A025AF88D1005EC445 /* appicon_white_bw@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appicon_white_bw@3x.png"; sourceTree = "<group>"; };
+		0C71E3A125AF88D1005EC445 /* appicon_white_color@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appicon_white_color@2x.png"; sourceTree = "<group>"; };
+		0C71E3A225AF88D1005EC445 /* appicon_white_color@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appicon_white_color@3x.png"; sourceTree = "<group>"; };
+		0C71E3A325AF88D1005EC445 /* appicon_white_bw@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appicon_white_bw@2x.png"; sourceTree = "<group>"; };
+		0C71E3AF25AF8F5B005EC445 /* appicon_black_color@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "appicon_black_color@3x.png"; sourceTree = "<group>"; };
 		0C73137A255353E50034D3B1 /* DimmableNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableNavigationController.swift; sourceTree = "<group>"; };
 		0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -174,6 +188,7 @@
 		0C29141525408780009BDB52 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0C71E39D25AF884B005EC445 /* AppIcons */,
 				0C29141625408786009BDB52 /* Sounds */,
 			);
 			path = Resources;
@@ -302,6 +317,20 @@
 				0C29141225405906009BDB52 /* Sound.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0C71E39D25AF884B005EC445 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				0C71E3AF25AF8F5B005EC445 /* appicon_black_color@3x.png */,
+				0C71E39F25AF88D1005EC445 /* appicon_black_bw@2x.png */,
+				0C71E39E25AF88D0005EC445 /* appicon_black_bw@3x.png */,
+				0C71E3A325AF88D1005EC445 /* appicon_white_bw@2x.png */,
+				0C71E3A025AF88D1005EC445 /* appicon_white_bw@3x.png */,
+				0C71E3A125AF88D1005EC445 /* appicon_white_color@2x.png */,
+				0C71E3A225AF88D1005EC445 /* appicon_white_color@3x.png */,
+			);
+			path = AppIcons;
 			sourceTree = "<group>";
 		};
 		0C8AEFD12546E931005D00E1 /* SettingsViewController */ = {
@@ -445,13 +474,20 @@
 				0CA62C1A2548121D00C1DE37 /* car_crash_5.mp3 in Resources */,
 				0CA62C252548121D00C1DE37 /* car_fast_breaking_1.mp3 in Resources */,
 				0CA62C212548121D00C1DE37 /* car_horn_2.mp3 in Resources */,
+				0C71E3A425AF88D1005EC445 /* appicon_black_bw@3x.png in Resources */,
 				0CA62C1B2548121D00C1DE37 /* explosion_1.mp3 in Resources */,
 				0CA62C222548121D00C1DE37 /* car_horn_1.mp3 in Resources */,
 				0CA62C282548121D00C1DE37 /* explosion_2.mp3 in Resources */,
 				0CA62C262548121D00C1DE37 /* explosion_3.mp3 in Resources */,
+				0C71E3A925AF88D1005EC445 /* appicon_white_bw@2x.png in Resources */,
+				0C71E3A625AF88D1005EC445 /* appicon_white_bw@3x.png in Resources */,
+				0C71E3A525AF88D1005EC445 /* appicon_black_bw@2x.png in Resources */,
+				0C71E3A825AF88D1005EC445 /* appicon_white_color@3x.png in Resources */,
 				0CA62C272548121D00C1DE37 /* car_fast_breaking_2.mp3 in Resources */,
 				0CA62C242548121D00C1DE37 /* beep_2sec.mp3 in Resources */,
 				0CA62C1C2548121D00C1DE37 /* beep_1sec.mp3 in Resources */,
+				0C71E3B025AF8F5B005EC445 /* appicon_black_color@3x.png in Resources */,
+				0C71E3A725AF88D1005EC445 /* appicon_white_color@2x.png in Resources */,
 				0CA62C1D2548121D00C1DE37 /* car_crash_2.mp3 in Resources */,
 				0C2BFF13253F35CC00ED700D /* Assets.xcassets in Resources */,
 			);

@@ -56,7 +56,7 @@ class SettingsViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    title = "Settings"
+    title = NSLocalizedString("Settings", comment: "")
     
     let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
     closeButton.tintColor = ColorManager.shared.accent
@@ -78,8 +78,8 @@ class SettingsViewController: UIViewController {
 }
 
 extension SettingsViewController: SettingsIconsTableViewCellDelegate {
-  func didSelectIcon() {
-    // TODO
+  func didSelectIcon(_ iconType: SettingsManager.AppIconType) {
+    SettingsManager.shared.setCustomIcon(iconType)
   }
 }
 

@@ -15,9 +15,8 @@ class SettingsIconCollectionViewCell: UICollectionViewCell {
     imageView.contentMode = .scaleAspectFit
     imageView.layer.cornerRadius = 6.0
     imageView.layer.masksToBounds = true
-    
-    imageView.backgroundColor = UIColor.red
-    
+    imageView.layer.borderWidth = 2.0
+    imageView.layer.borderColor = UIColor.white.cgColor
     return imageView
   }()
   
@@ -31,8 +30,8 @@ class SettingsIconCollectionViewCell: UICollectionViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func update(icon: UIImage) {
-    iconImageView.image = icon
+  func update(iconType: SettingsManager.AppIconType) {
+    iconImageView.image = iconType.previewImage
   }
   
   private func setupLayout() {

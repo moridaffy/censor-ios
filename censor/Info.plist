@@ -2,6 +2,33 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundleAlternateIcons</key>
+		<dict>
+			<key>white-bw</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>appicon_white_bw</string>
+				</array>
+			</dict>
+			<key>white-color</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>appicon_white_color</string>
+				</array>
+			</dict>
+			<key>black-bw</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>appicon_black_bw</string>
+				</array>
+			</dict>
+		</dict>
+	</dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>

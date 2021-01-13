@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SettingsIconsTableViewCellDelegate: class {
-  func didSelectIcon()
+  func didSelectIcon(_ iconType: SettingsManager.AppIconType)
 }
 
 class SettingsIconsTableViewCell: UITableViewCell {
@@ -27,6 +27,7 @@ class SettingsIconsTableViewCell: UITableViewCell {
     return collectionView
   }()
   
+  private var viewModel: SettingsIconsTableViewCellModel!
   private weak var delegate: SettingsIconsTableViewCellDelegate?
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -42,6 +43,7 @@ class SettingsIconsTableViewCell: UITableViewCell {
   }
   
   func update(viewModel: SettingsIconsTableViewCellModel, delegate: SettingsIconsTableViewCellDelegate) {
+    self.viewModel = viewModel
     self.delegate = delegate
     
     setupCollectionView()
@@ -73,18 +75,21 @@ extension SettingsIconsTableViewCell: UICollectionViewDelegateFlowLayout {
 }
 
 extension SettingsIconsTableViewCell: UICollectionViewDelegate {
-  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    delegate?.didSelectIcon(viewModel.icons[indexPath.row])
+  }
 }
 
 extension SettingsIconsTableViewCell: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-    return 5
+    return viewModel.icons.count
   }
   
   func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
     guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: String(describing: SettingsIconCollectionViewCell.self), for: indexPath)
             as? SettingsIconCollectionViewCell else { fatalError() }
-//    cell.update(icon: UIImage(named: "AppIcon")!)
+    let iconType = viewModel.icons[indexPath.row]
+    cell.update(iconType: iconType)
     return cell
   }
 }
