@@ -17,6 +17,7 @@ class EditorViewModel {
   var currentSoundIndex: Int = 0
   var projectNeedsSaving: Bool = false
   var controlCellModels: [EditorButtonCollectionViewCellModel]
+  var displayedHints: [EditorViewController.EditorHint] = []
   
   var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
   var selectedSoundType: Sound.SoundType = .beep2sec

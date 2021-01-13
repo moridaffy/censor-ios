@@ -328,6 +328,7 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func helpButtonTapped() {
+    generateHints()
     controlsCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: true)
     coachMarksController.start(in: .window(over: self))
   }
@@ -480,8 +481,7 @@ extension EditorViewController: SoundSelectorViewControllerDelegate {
 
 extension EditorViewController: CoachMarksControllerDataSource {
   func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
-    // TODO: надо бы получать кол-во элементов динамически, не хардкодить
-    return 8
+    return viewModel.displayedHints.count
   }
   
   func coachMarksController(_ coachMarksController: CoachMarksController, coachMarkAt index: Int) -> CoachMark {
@@ -500,31 +500,12 @@ extension EditorViewController: CoachMarksControllerDataSource {
     return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
   }
   
-  // TODO: убирать шаг с маркером звука, если в проекте нет ни одного звука добавленного
   private func getCoachMarkerView(at index: Int) -> UIView? {
-    return [
-      playerContainerView,
-      recordButton,
-      videoTimelineView,
-      soundViews.first,
-      playButton,
-      controlsCollectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.contentView,
-      exportButton,
-      helpButton
-    ][index]
+    return viewModel.displayedHints[index].view
   }
   
   private func getCoachMarkerString(at index: Int) -> String {
-    return [
-      NSLocalizedString("This is the preview of your video", comment: ""),
-      NSLocalizedString("Tap this button to add sound at current position of the video", comment: ""),
-      NSLocalizedString("Here you can see the whole video timeline, it's current position and all added sounds", comment: ""),
-      NSLocalizedString("This is how added sound looks like. Tap it to remove it from timeline", comment: ""),
-      NSLocalizedString("Tap this button to play/pause your video", comment: ""),
-      NSLocalizedString("Tap this button to browse through all available sounds", comment: ""),
-      NSLocalizedString("Tap this button to start rendering and exporting your edited project", comment: ""),
-      NSLocalizedString("Tap this button to go through tutorial once again", comment: "")
-    ][index]
+    return viewModel.displayedHints[index].text
   }
 }
 
@@ -533,6 +514,29 @@ extension EditorViewController: CoachMarksControllerDelegate {
     if index == numberOfCoachMarks(for: coachMarksController) - 1 {
       SettingsManager.shared.setValue(for: .coachMarkersDisplayed, value: true)
       coachMarksController.stop(immediately: true)
+      viewModel.displayedHints.removeAll()
     }
+  }
+}
+
+extension EditorViewController {
+  struct EditorHint {
+    let text: String
+    let view: UIView?
+  }
+  
+  func generateHints() {
+    var hints: [EditorHint] = []
+    hints.append(EditorHint(text: NSLocalizedString("This is the preview of your video", comment: ""), view: playerContainerView))
+    hints.append(EditorHint(text: NSLocalizedString("Tap this button to add sound at current position of the video", comment: ""), view: recordButton))
+    hints.append(EditorHint(text: NSLocalizedString("Here you can see the whole video timeline, it's current position and all added sounds", comment: ""), view: videoTimelineView))
+    if let soundView = soundViews.first {
+      hints.append(EditorHint(text: NSLocalizedString("This is how added sound looks like. Tap it to remove it from timeline", comment: ""), view: soundView))
+    }
+    hints.append(EditorHint(text: NSLocalizedString("Tap this button to play/pause your video", comment: ""), view: playButton))
+    hints.append(EditorHint(text: NSLocalizedString("Tap this button to browse through all available sounds", comment: ""), view: controlsCollectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.contentView))
+    hints.append(EditorHint(text: NSLocalizedString("Tap this button to start rendering and exporting your edited project", comment: ""), view: exportButton))
+    hints.append(EditorHint(text: NSLocalizedString("Tap this button to go through tutorial once again", comment: ""), view: helpButton))
+    viewModel.displayedHints = hints
   }
 }
