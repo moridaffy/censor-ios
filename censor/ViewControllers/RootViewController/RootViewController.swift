@@ -79,7 +79,8 @@ class RootViewController: UIViewController {
   }
   
   private func setupLayout() {
-    let logoImageViewWidth: CGFloat = UIScreen.main.bounds.width - 128.0
+    let logoImageViewTop: CGFloat = SettingsManager.shared.isIpad ? UIScreen.main.bounds.height / 4 : 64.0
+    let logoImageViewWidth: CGFloat = min(UIScreen.main.bounds.width - 128.0, 300.0)
     
     let buttonsStackView = UIStackView(arrangedSubviews: [newProjectButton, existingProjectsButton])
     buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -93,7 +94,7 @@ class RootViewController: UIViewController {
     buttonsContainerView.addSubview(buttonsStackView)
     
     view.addConstraints([
-      logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 64.0),
+      logoImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: logoImageViewTop),
       logoImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
       logoImageView.heightAnchor.constraint(equalToConstant: logoImageViewWidth),
       logoImageView.widthAnchor.constraint(equalToConstant: logoImageViewWidth),

@@ -5,11 +5,15 @@
 //  Created by Maxim Skryabin on 05.12.2020.
 //
 
-import Foundation
+import UIKit
 
 class SettingsManager {
   
   static let shared = SettingsManager()
+  
+  var isIpad: Bool {
+    return UIDevice.current.userInterfaceIdiom == .pad
+  }
   
   private let keyPrefix: String = {
     return (Bundle.main.bundleIdentifier ?? "ru.mskr.censor") + ".settings."
