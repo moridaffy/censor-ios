@@ -145,6 +145,12 @@ class EditorViewController: UIViewController {
     
     viewModel.view = self
     
+//    setupCoachMarkers()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    
     setupCoachMarkers()
   }
   
@@ -530,7 +536,7 @@ extension EditorViewController {
     hints.append(EditorHint(text: NSLocalizedString("This is the preview of your video", comment: ""), view: playerContainerView))
     hints.append(EditorHint(text: NSLocalizedString("Tap this button to add sound at current position of the video", comment: ""), view: recordButton))
     hints.append(EditorHint(text: NSLocalizedString("Here you can see the whole video timeline, it's current position and all added sounds", comment: ""), view: videoTimelineView))
-    if let soundView = soundViews.first {
+    if let soundView = soundViews.first, !viewModel.addedSounds.isEmpty {
       hints.append(EditorHint(text: NSLocalizedString("This is how added sound looks like. Tap it to remove it from timeline", comment: ""), view: soundView))
     }
     hints.append(EditorHint(text: NSLocalizedString("Tap this button to play/pause your video", comment: ""), view: playButton))
