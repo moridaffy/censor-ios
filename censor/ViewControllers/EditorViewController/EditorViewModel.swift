@@ -20,7 +20,7 @@ class EditorViewModel {
   var displayedHints: [EditorViewController.EditorHint] = []
   
   var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
-  var selectedSoundType: Sound.SoundType = .beep2sec
+  var selectedSoundType: SoundManager.SoundType = SoundManager.shared.allSoundTypes.first!
   
   var isPlayingVideo: Bool = true {
     didSet {
@@ -45,7 +45,7 @@ class EditorViewModel {
     self.project = project
     
     self.controlCellModels = [
-      EditorButtonCollectionViewCellModel(type: .soundSelection, text: selectedSoundType.title),
+      EditorButtonCollectionViewCellModel(type: .soundSelection, text: selectedSoundType.name),
       EditorButtonCollectionViewCellModel(type: .export, text: NSLocalizedString("Export", comment: ""))
     ]
   }

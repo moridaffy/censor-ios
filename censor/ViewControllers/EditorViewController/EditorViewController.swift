@@ -474,10 +474,10 @@ extension EditorViewController: VideoTimelineViewDelegate {
 }
 
 extension EditorViewController: SoundSelectorViewControllerDelegate {
-  func didSelectSoundType(_ type: Sound.SoundType) {
+  func didSelectSoundType(_ type: SoundManager.SoundType) {
     viewModel.selectedSoundType = type
     if let soundSelectionButtonIndex = viewModel.controlCellModels.firstIndex(where: { $0.type == .soundSelection }) {
-      viewModel.controlCellModels[soundSelectionButtonIndex].text = type.title
+      viewModel.controlCellModels[soundSelectionButtonIndex].text = type.name
       controlsCollectionView.reloadItems(at: [IndexPath(row: soundSelectionButtonIndex, section: 0)])
     }
   }

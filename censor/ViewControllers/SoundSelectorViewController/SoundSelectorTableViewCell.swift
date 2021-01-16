@@ -8,8 +8,8 @@
 import UIKit
 
 protocol SoundSelectorTableViewCellDelegate: class {
-  func didTapPlayButton(for soundType: Sound.SoundType) -> Bool
-  func didFinishPlaying(soundType: Sound.SoundType)
+  func didTapPlayButton(for soundType: SoundManager.SoundType) -> Bool
+  func didFinishPlaying(soundType: SoundManager.SoundType)
 }
 
 class SoundSelectorTableViewCell: UITableViewCell {
@@ -39,7 +39,7 @@ class SoundSelectorTableViewCell: UITableViewCell {
     return label
   }()
   
-  private var soundType: Sound.SoundType!
+  private var soundType: SoundManager.SoundType!
   weak var delegate: SoundSelectorTableViewCellDelegate?
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -52,11 +52,11 @@ class SoundSelectorTableViewCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func update(soundType: Sound.SoundType, isPlaying: Bool, delegate: SoundSelectorTableViewCellDelegate) {
+  func update(soundType: SoundManager.SoundType, isPlaying: Bool, delegate: SoundSelectorTableViewCellDelegate) {
     self.soundType = soundType
     self.delegate = delegate
     
-    titleLabel.text = soundType.title
+    titleLabel.text = soundType.name
     durationLabel.text = soundType.duration.timeString(withMs: true)
     playButton.setImage(UIImage(systemName: isPlaying ? "play.circle.fill" : "play.circle")?.withRenderingMode(.alwaysTemplate), for: .normal)
     

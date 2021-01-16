@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SoundSelectorViewControllerDelegate: class {
-  func didSelectSoundType(_ type: Sound.SoundType)
+  func didSelectSoundType(_ type: SoundManager.SoundType)
 }
 
 class SoundSelectorViewController: UIViewController {
@@ -163,14 +163,14 @@ extension SoundSelectorViewController: UITableViewDataSource {
 }
 
 extension SoundSelectorViewController: SoundSelectorTableViewCellDelegate {
-  func didTapPlayButton(for soundType: Sound.SoundType) -> Bool {
+  func didTapPlayButton(for soundType: SoundManager.SoundType) -> Bool {
     guard viewModel.currentlyPlayingSound == nil else { return false }
     viewModel.currentlyPlayingSound = soundType
     SoundManager.shared.playSound(soundType)
     return true
   }
   
-  func didFinishPlaying(soundType: Sound.SoundType) {
+  func didFinishPlaying(soundType: SoundManager.SoundType) {
     viewModel.currentlyPlayingSound = nil
   }
 }

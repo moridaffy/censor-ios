@@ -10,10 +10,10 @@ import Foundation
 class SoundSelectorViewModel {
   
   var searchText: String = ""
-  var currentlyPlayingSound: Sound.SoundType?
+  var currentlyPlayingSound: SoundManager.SoundType?
   
-  private let availableSoundTypes: [Sound.SoundType] = Sound.SoundType.allCasesSorted
-  private(set) var displayedSoundTypes: [Sound.SoundType] = [] {
+  private let availableSoundTypes: [SoundManager.SoundType] = SoundManager.shared.allSoundTypes
+  private(set) var displayedSoundTypes: [SoundManager.SoundType] = [] {
     didSet {
       view?.reloadTableView()
     }
@@ -29,7 +29,7 @@ class SoundSelectorViewModel {
     if searchText.isEmpty {
       displayedSoundTypes = availableSoundTypes
     } else {
-      displayedSoundTypes = availableSoundTypes.filter({ $0.title.lowercased().contains(searchText.lowercased()) })
+      displayedSoundTypes = availableSoundTypes.filter({ $0.name.lowercased().contains(searchText.lowercased()) })
     }
   }
 }
