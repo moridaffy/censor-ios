@@ -34,6 +34,18 @@ class DimmableNavigationController: UINavigationController {
     return activityIndicator
   }()
   
+  private let loadingProgressLabel: UILabel = {
+    let label = UILabel()
+    label.translatesAutoresizingMaskIntoConstraints = false
+    label.textAlignment = .center
+    label.textColor = UIColor.white
+    label.font = UIFont.systemFont(ofSize: 14.0, weight: .regular)
+    label.isHidden = true
+    return label
+  }()
+  
+  private var loadingIndicatorBottomConstraint: NSLayoutConstraint?
+  
   override init(rootViewController: UIViewController) {
     super.init(rootViewController: rootViewController)
     
@@ -52,6 +64,10 @@ class DimmableNavigationController: UINavigationController {
     view.addSubview(dimView)
     view.addSubview(loadingIndicatorContainerView)
     loadingIndicatorContainerView.addSubview(loadingIndicator)
+    loadingIndicatorContainerView.addSubview(loadingProgressLabel)
+    
+    let loadingIndicatorBottomConstraint = loadingIndicator.bottomAnchor.constraint(equalTo: loadingIndicatorContainerView.bottomAnchor, constant: -30.0)
+    self.loadingIndicatorBottomConstraint = loadingIndicatorBottomConstraint
     
     view.addConstraints([
       dimView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -61,11 +77,17 @@ class DimmableNavigationController: UINavigationController {
       
       loadingIndicatorContainerView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
       loadingIndicatorContainerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-      loadingIndicatorContainerView.heightAnchor.constraint(equalToConstant: 100.0),
       loadingIndicatorContainerView.widthAnchor.constraint(equalToConstant: 100.0),
       
-      loadingIndicator.centerYAnchor.constraint(equalTo: loadingIndicatorContainerView.centerYAnchor),
-      loadingIndicator.centerXAnchor.constraint(equalTo: loadingIndicatorContainerView.centerXAnchor)
+      loadingIndicator.centerXAnchor.constraint(equalTo: loadingIndicatorContainerView.centerXAnchor),
+      loadingIndicator.heightAnchor.constraint(equalToConstant: 40.0),
+      loadingIndicator.widthAnchor.constraint(equalToConstant: 40.0),
+      loadingIndicator.topAnchor.constraint(equalTo: loadingIndicatorContainerView.topAnchor, constant: 30.0),
+      loadingIndicatorBottomConstraint,
+      
+      loadingProgressLabel.topAnchor.constraint(equalTo: loadingIndicator.bottomAnchor, constant: 16.0),
+      loadingProgressLabel.leftAnchor.constraint(equalTo: loadingIndicatorContainerView.leftAnchor, constant: 16.0),
+      loadingProgressLabel.rightAnchor.constraint(equalTo: loadingIndicatorContainerView.rightAnchor, constant: -16.0)
     ])
   }
   
@@ -73,6 +95,17 @@ class DimmableNavigationController: UINavigationController {
     UIView.animate(withDuration: animated ? 0.25 : 0.0) {
       self.dimView.alpha = show ? 1.0 : 0.0
       self.loadingIndicatorContainerView.alpha = withLoading ? (show ? 1.0 : 0.0) : 0.0
+    }
+  }
+  
+  func updateProgress(with percents: Int?) {
+    if let percents = percents {
+      loadingIndicatorBottomConstraint?.constant = -30.0 - 14.0 - 16.0
+      loadingProgressLabel.isHidden = false
+      loadingProgressLabel.text = "\(percents)%"
+    } else {
+      loadingIndicatorBottomConstraint?.constant = -30.0
+      loadingProgressLabel.isHidden = true
     }
   }
   

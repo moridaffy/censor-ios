@@ -11,6 +11,8 @@ import UIKit
 
 class EditorViewController: UIViewController {
   
+  // MARK: - UI Elements
+  
   private let helpButton: UIButton = {
     let button = UIButton()
     button.translatesAutoresizingMaskIntoConstraints = false
@@ -105,14 +107,21 @@ class EditorViewController: UIViewController {
     return collectionView
   }()
   
-  private var soundViews: [UIView] = []
+  // MARK: - Properties
   
   private let viewModel: EditorViewModel
   private let coachMarksController = CoachMarksController()
   
+  private var soundViews: [UIView] = []
   private var playerLayer: AVPlayerLayer?
   private var playerPeriodicNotificationToken: Any?
   private var playerBoundaryNotificationToken: Any?
+  
+  private var dimmableNavigationController: DimmableNavigationController? {
+    return navigationController as? DimmableNavigationController
+  }
+  
+  // MARK: - Lifecycle
   
   init(viewModel: EditorViewModel) {
     self.viewModel = viewModel
@@ -144,8 +153,6 @@ class EditorViewController: UIViewController {
     super.viewWillAppear(animated)
     
     viewModel.view = self
-    
-//    setupCoachMarkers()
   }
   
   override func viewDidAppear(_ animated: Bool) {
@@ -169,6 +176,8 @@ class EditorViewController: UIViewController {
     
     playerLayer?.frame = playerContainerView.bounds
   }
+  
+  // MARK: - Configuring
   
   private func setupLayout() {
     view.addSubview(playerContainerView)
@@ -294,6 +303,8 @@ class EditorViewController: UIViewController {
     }
   }
   
+  // MARK: - Private methods
+  
   private func updateVideoProgress(with time: Double) {
     videoTimelineView.updateProgress(withValue: Float(time / viewModel.project.duration))
   }
@@ -333,6 +344,36 @@ class EditorViewController: UIViewController {
     viewModel.isPlayingVideo = false
   }
   
+  private func updateDimView(display: Bool) {
+    if display {
+      dimmableNavigationController?.showDimView(true, withLoading: true)
+      updateRenderingProgressNotifications(subscribe: true)
+    } else {
+      dimmableNavigationController?.showDimView(false, withLoading: true)
+      updateRenderingProgressNotifications(subscribe: false)
+    }
+  }
+  
+  private func updateRenderingProgressNotifications(subscribe: Bool) {
+    if subscribe {
+      NotificationCenter.default.addObserver(self,
+                                             selector: #selector(renderingProgressUpdatedNotificationReceived(_:)),
+                                             name: .renderingProgressUpdated,
+                                             object: nil)
+    } else {
+      NotificationCenter.default.removeObserver(self,
+                                                name: .renderingProgressUpdated,
+                                                object: nil)
+    }
+  }
+  
+  private func openSoundSelectorViewController() {
+    let soundSelectorViewController = SoundSelectorViewController(delegate: self)
+    present(soundSelectorViewController.embedInNavigationController(), animated: true, completion: nil)
+  }
+  
+  // MARK: - Actions
+  
   @objc private func helpButtonTapped() {
     generateHints()
     controlsCollectionView.scrollToItem(at: IndexPath(row: 0, section: 0), at: .left, animated: true)
@@ -340,15 +381,12 @@ class EditorViewController: UIViewController {
   }
   
   @objc private func exportButtonTapped() {
-    // TODO: show rendering progress
-    // https://stackoverflow.com/questions/11090760/progress-bar-for-avassetexportsession
-    
     resetPlayer()
-    (navigationController as? DimmableNavigationController)?.showDimView(true, withLoading: true)
+    updateDimView(display: true)
     
     viewModel.renderProject { (error) in
       DispatchQueue.main.async { [weak self] in
-        (self?.navigationController as? DimmableNavigationController)?.showDimView(false, withLoading: true)
+        self?.updateDimView(display: false)
         if let error = error {
           self?.showAlertError(error: error,
                                desc: "Failed to render video",
@@ -383,11 +421,6 @@ class EditorViewController: UIViewController {
 //    audioModeButton.setImage(UIImage(systemName: viewModel.selectedAudioMode.iconSystemName), for: .normal)
   }
   
-  private func soundSelectorButtonTapped() {
-    let soundSelectorViewController = SoundSelectorViewController(delegate: self)
-    present(soundSelectorViewController.embedInNavigationController(), animated: true, completion: nil)
-  }
-  
   @objc private func recordButtonPressed() {
     guard let timestamp = playerLayer?.player?.currentTime().seconds else { fatalError() }
     viewModel.addSound(at: timestamp)
@@ -398,6 +431,14 @@ class EditorViewController: UIViewController {
     viewModel.addedSounds.remove(at: soundIndex - 1)
     resetPlayer()
   }
+  
+  @objc private func renderingProgressUpdatedNotificationReceived(_ notification: Notification) {
+    guard let progress = notification.userInfo?["progress"] as? Double else { return }
+    let percentProgress = Int(progress * 100.0)
+    dimmableNavigationController?.updateProgress(with: percentProgress)
+  }
+  
+  // MARK: - Public methods
   
   func addedSoundsUpdated() {
     for oldView in soundViews {
@@ -419,17 +460,21 @@ class EditorViewController: UIViewController {
   }
 }
 
+// MARK: - UICollectionViewDelegate
+
 extension EditorViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let cellModel = viewModel.controlCellModels[indexPath.row]
     switch cellModel.type {
     case .soundSelection:
-      soundSelectorButtonTapped()
+      openSoundSelectorViewController()
     case .export:
       exportButtonTapped()
     }
   }
 }
+
+// MARK: - UICollectionViewDelegateFlowLayout
 
 extension EditorViewController: UICollectionViewDelegateFlowLayout {
   func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -448,6 +493,8 @@ extension EditorViewController: UICollectionViewDelegateFlowLayout {
   }
 }
 
+// MARK: - UICollectionViewDataSource
+
 extension EditorViewController: UICollectionViewDataSource {
   func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
     return viewModel.controlCellModels.count
@@ -461,6 +508,8 @@ extension EditorViewController: UICollectionViewDataSource {
   }
 }
 
+// MARK: - VideoTimelineViewDelegate
+
 extension EditorViewController: VideoTimelineViewDelegate {
   func didChangeProgress(toValue value: Float) {
     if viewModel.isPlayingVideo {
@@ -473,6 +522,8 @@ extension EditorViewController: VideoTimelineViewDelegate {
   }
 }
 
+// MARK: - SoundSelectorViewControllerDelegate
+
 extension EditorViewController: SoundSelectorViewControllerDelegate {
   func didSelectSoundType(_ type: SoundManager.SoundType) {
     viewModel.selectedSoundType = type
@@ -483,7 +534,7 @@ extension EditorViewController: SoundSelectorViewControllerDelegate {
   }
 }
 
-// MARK: - CoachMarksControllerDataSource & CoachMarksControllerDelegate
+// MARK: - CoachMarksControllerDataSource
 
 extension EditorViewController: CoachMarksControllerDataSource {
   func numberOfCoachMarks(for coachMarksController: CoachMarksController) -> Int {
@@ -515,6 +566,8 @@ extension EditorViewController: CoachMarksControllerDataSource {
   }
 }
 
+// MARK: - CoachMarksControllerDelegate
+
 extension EditorViewController: CoachMarksControllerDelegate {
   func coachMarksController(_ coachMarksController: CoachMarksController, willHide coachMark: CoachMark, at index: Int) {
     if index == numberOfCoachMarks(for: coachMarksController) - 1 {
@@ -524,6 +577,8 @@ extension EditorViewController: CoachMarksControllerDelegate {
     }
   }
 }
+
+// MARK: - EditorHint structure
 
 extension EditorViewController {
   struct EditorHint {

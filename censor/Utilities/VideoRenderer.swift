@@ -14,6 +14,29 @@ class VideoRenderer {
   
   private let filemanager = FileManager.default
   
+  private var renderingSession: AVAssetExportSession?
+  private var renderingProgressTimer: Timer?
+  
+  private func renderingFinished() {
+    renderingProgressTimer?.invalidate()
+    renderingProgressTimer = nil
+    renderingSession = nil
+  }
+  
+  @objc private func renderingProgressTimerFired() {
+    guard let renderingSession = renderingSession else {
+      renderingFinished()
+      return
+    }
+    
+    let renderingProgress = Double(renderingSession.progress)
+    if renderingProgress > 0.99 {
+      renderingFinished()
+    } else {
+      NotificationCenter.default.post(name: .renderingProgressUpdated, object: nil, userInfo: ["progress": renderingProgress])
+    }
+  }
+  
   func renderVideo(project: Project, addWatermark: Bool, completionHandler: @escaping (Result<URL, Error>) -> Void) {
     
     let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: project)
@@ -93,6 +116,16 @@ class VideoRenderer {
     }
     exportSession.outputURL = outputUrl
     exportSession.outputFileType = AVFileType.mov
+    self.renderingSession = exportSession
+    
+    let renderingProgressTimer = Timer.scheduledTimer(timeInterval: 0.1,
+                                                      target: self,
+                                                      selector: #selector(renderingProgressTimerFired),
+                                                      userInfo: nil,
+                                                      repeats: true)
+    renderingProgressTimer.fire()
+    self.renderingProgressTimer = renderingProgressTimer
+    
     exportSession.exportAsynchronously { () -> Void in
       switch exportSession.status {
       case .completed:
