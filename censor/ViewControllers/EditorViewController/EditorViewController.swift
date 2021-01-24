@@ -372,6 +372,26 @@ class EditorViewController: UIViewController {
     present(soundSelectorViewController.embedInNavigationController(), animated: true, completion: nil)
   }
   
+  private func openAudioModeSelectionAlert() {
+    var actions: [UIAlertAction] = VideoRenderer.AudioMode.allCases.compactMap { audioMode in
+      return UIAlertAction(title: audioMode.title, style: .default) { (_) in
+        self.updateSelectedAudioMode(to: audioMode)
+      }
+    }
+    actions.append(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in }))
+    showAlert(title: NSLocalizedString("Select audio mode", comment: ""),
+              body: nil,
+              button: nil,
+              actions: actions)
+  }
+  
+  private func updateSelectedAudioMode(to newValue: VideoRenderer.AudioMode) {
+    viewModel.selectedAudioMode = newValue
+    if let modeSelectionButtonIndex = viewModel.controlCellModels.firstIndex(where: { $0.type == .audioMode(selectedMode: newValue) }) {
+      controlsCollectionView.reloadItems(at: [IndexPath(row: modeSelectionButtonIndex, section: 0)])
+    }
+  }
+  
   // MARK: - Actions
   
   @objc private func helpButtonTapped() {
@@ -414,11 +434,6 @@ class EditorViewController: UIViewController {
       playerLayer?.player?.play()
     }
     viewModel.isPlayingVideo = !viewModel.isPlayingVideo
-  }
-  
-  @objc private func audioModeButtonTapped() {
-    viewModel.selectedAudioMode = viewModel.selectedAudioMode.anotherMode
-//    audioModeButton.setImage(UIImage(systemName: viewModel.selectedAudioMode.iconSystemName), for: .normal)
   }
   
   @objc private func recordButtonPressed() {
@@ -466,6 +481,8 @@ extension EditorViewController: UICollectionViewDelegate {
   func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
     let cellModel = viewModel.controlCellModels[indexPath.row]
     switch cellModel.type {
+    case .audioMode:
+      openAudioModeSelectionAlert()
     case .soundSelection:
       openSoundSelectorViewController()
     case .export:
@@ -528,7 +545,6 @@ extension EditorViewController: SoundSelectorViewControllerDelegate {
   func didSelectSoundType(_ type: SoundManager.SoundType) {
     viewModel.selectedSoundType = type
     if let soundSelectionButtonIndex = viewModel.controlCellModels.firstIndex(where: { $0.type == .soundSelection }) {
-      viewModel.controlCellModels[soundSelectionButtonIndex].text = type.name
       controlsCollectionView.reloadItems(at: [IndexPath(row: soundSelectionButtonIndex, section: 0)])
     }
   }

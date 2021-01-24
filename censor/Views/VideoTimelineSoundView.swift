@@ -67,7 +67,7 @@ extension VideoTimelineSoundView {
       paragraphStyle.lineBreakMode = .byTruncatingTail
       
       // Shape image
-      let shapeImage = UIImage(named: "map_selected_marker")!
+      let shapeImage = UIImage(named: "shape_sound_view")!
       let shapeRect = bounds
       ColorManager.shared.bottomBackground.setFill()
       

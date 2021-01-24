@@ -20,12 +20,15 @@ class EditorButtonCollectionViewCellModel {
 }
 
 extension EditorButtonCollectionViewCellModel {
-  enum ButtonType {
+  enum ButtonType: Equatable {
+    case audioMode(selectedMode: VideoRenderer.AudioMode)
     case soundSelection
     case export
     
     var icon: UIImage? {
       switch self {
+      case .audioMode(let selectedMode):
+        return UIImage(systemName: selectedMode.iconSystemName)
       case .soundSelection:
         return UIImage(systemName: "music.note")
       case .export:

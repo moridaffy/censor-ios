@@ -16,11 +16,19 @@ class EditorViewModel {
   
   var currentSoundIndex: Int = 0
   var projectNeedsSaving: Bool = false
-  var controlCellModels: [EditorButtonCollectionViewCellModel]
+  var controlCellModels: [EditorButtonCollectionViewCellModel] = []
   var displayedHints: [EditorViewController.EditorHint] = []
   
-  var selectedAudioMode: VideoRenderer.AudioMode = .overlayOriginal
-  var selectedSoundType: SoundManager.SoundType = SoundManager.shared.allSoundTypes.first!
+  var selectedSoundType: SoundManager.SoundType = SoundManager.shared.allSoundTypes.first! {
+    didSet {
+      generateCells()
+    }
+  }
+  var selectedAudioMode: VideoRenderer.AudioMode = .keepOriginal {
+    didSet {
+      generateCells()
+    }
+  }
   
   var isPlayingVideo: Bool = true {
     didSet {
@@ -44,7 +52,12 @@ class EditorViewModel {
   init(project: Project) {
     self.project = project
     
+    generateCells()
+  }
+  
+  private func generateCells() {
     self.controlCellModels = [
+      EditorButtonCollectionViewCellModel(type: .audioMode(selectedMode: selectedAudioMode), text: selectedAudioMode.shortTitle),
       EditorButtonCollectionViewCellModel(type: .soundSelection, text: selectedSoundType.name),
       EditorButtonCollectionViewCellModel(type: .export, text: NSLocalizedString("Export", comment: ""))
     ]

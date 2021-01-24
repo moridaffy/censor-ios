@@ -174,26 +174,39 @@ extension VideoRenderer {
     case fileProbablyGotDeleted
   }
   
-  enum AudioMode {
+  enum AudioMode: Equatable {
+    
+    static let allCases: [AudioMode] = [.muteOriginal, .silenceOriginal, .keepOriginal]
+    
     case muteOriginal
-    case overlayOriginal
+    case silenceOriginal
+    case keepOriginal
     
     var iconSystemName: String {
       switch self {
       case .muteOriginal:
-        return "speaker.zzz"
-      case .overlayOriginal:
-        return "speaker.2"
+        return "speaker.slash"
+      case .silenceOriginal:
+        return "speaker.wave.1"
+      case .keepOriginal:
+        return "speaker.wave.3"
       }
     }
     
-    var anotherMode: AudioMode {
+    var title: String {
       switch self {
       case .muteOriginal:
-        return .overlayOriginal
-      case .overlayOriginal:
-        return .muteOriginal
+        return NSLocalizedString("Mute original", comment: "")
+      case .silenceOriginal:
+        return NSLocalizedString("Silence original", comment: "")
+      case .keepOriginal:
+        return NSLocalizedString("Keep original", comment: "")
       }
+    }
+    
+    var shortTitle: String {
+      guard let shortTitle = title.split(separator: " ").first else { return NSLocalizedString("Error", comment: "") }
+      return String(shortTitle)
     }
   }
 }
