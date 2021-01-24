@@ -72,7 +72,7 @@ class EditorViewModel {
   }
   
   func renderProject(completionHandler: @escaping (Error?) -> Void) {
-    VideoRenderer.shared.renderVideo(project: project, addWatermark: true) { (result) in
+    VideoRenderer.shared.renderVideo(project: project, audioMode: selectedAudioMode, addWatermark: true) { (result) in
       switch result {
       case .success(let outputUrl):
         

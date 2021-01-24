@@ -380,7 +380,7 @@ class EditorViewController: UIViewController {
     }
     actions.append(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in }))
     showAlert(title: NSLocalizedString("Select audio mode", comment: ""),
-              body: nil,
+              body: NSLocalizedString("Select one of the audio overlaying modes available. It will be applied during final rendering process.\n\nMute original - completely mute original audio track while overlaying it with added sound\n\nSilence original - keep only 20% of original track's volume while overlaying it with added sound\n\nKeep original - don't change original audio track volume", comment: ""),
               button: nil,
               actions: actions)
   }

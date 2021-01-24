@@ -10,6 +10,10 @@ import UIKit
 
 class VideoRenderer {
   
+  private struct Config {
+    static let volumeRampDuration = 0.1
+  }
+  
   static let shared = VideoRenderer()
   
   private let filemanager = FileManager.default
@@ -37,8 +41,8 @@ class VideoRenderer {
     }
   }
   
-  func renderVideo(project: Project, addWatermark: Bool, completionHandler: @escaping (Result<URL, Error>) -> Void) {
-    
+  func renderVideo(project: Project, audioMode: AudioMode, addWatermark: Bool, completionHandler: @escaping (Result<URL, Error>) -> Void) {
+    // Verifying input and output URLs are valid
     let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: project)
     guard let inputUrl = inputUrlResponse.0 else {
       completionHandler(.failure(inputUrlResponse.1 ?? RenderingError.fileProbablyGotDeleted))
@@ -51,17 +55,24 @@ class VideoRenderer {
       return
     }
     
+    // Creating tracks
     let inputAsset = AVAsset(url: inputUrl)
     let originalVideoTrack = inputAsset.tracks(withMediaType: .video)[0]
     let originalAudioTrack = inputAsset.tracks(withMediaType: .audio)[0]
+    let originalAudioTrackId = CMPersistentTrackID(999)
     
     let mixedComposition = AVMutableComposition()
+    let audioMixedComposition = AVMutableAudioMix()
     let originalVideoComposition = mixedComposition
-      .addMutableTrack(withMediaType: .video, preferredTrackID: kCMPersistentTrackID_Invalid)!
+      .addMutableTrack(withMediaType: .video, preferredTrackID: CMPersistentTrackID(0))!
     let originalAudioComposition = mixedComposition
-      .addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
+      .addMutableTrack(withMediaType: .audio, preferredTrackID: originalAudioTrackId)!
     
+    let timescale = originalVideoTrack.naturalTimeScale
     originalVideoComposition.preferredTransform = originalVideoTrack.preferredTransform
+    
+    let originalAudioParameters = AVMutableAudioMixInputParameters()
+    originalAudioParameters.trackID = originalAudioTrackId
     
     do {
       try originalVideoComposition.insertTimeRange(CMTimeRange(start: .zero,
@@ -73,21 +84,46 @@ class VideoRenderer {
                                                    of: originalAudioTrack,
                                                    at: .zero)
       
+      // Adding sounds
       for sound in project.sounds {
         let soundAsset = AVAsset(url: sound.type.fileUrl)
         let soundTrack = soundAsset.tracks(withMediaType: .audio)[0]
         let soundComposition = mixedComposition.addMutableTrack(withMediaType: .audio, preferredTrackID: kCMPersistentTrackID_Invalid)!
-        
-        let soundCompositionStartTime = CMTime(seconds: sound.timestamp, preferredTimescale: originalVideoTrack.naturalTimeScale)
+        let soundCompositionStartTime = CMTime(seconds: sound.timestamp, preferredTimescale: timescale)
         try soundComposition.insertTimeRange(CMTimeRange(start: .zero,
                                                          duration: soundTrack.timeRange.duration),
                                              of: soundTrack,
                                              at: soundCompositionStartTime)
+        
+        // Changing original track volume if needed
+        switch audioMode {
+        case .keepOriginal:
+          break
+        case .muteOriginal:
+          let rampDuration = CMTime(seconds: Config.volumeRampDuration, preferredTimescale: timescale)
+          let removeVolumeTimeRange = CMTimeRange(start: soundCompositionStartTime, duration: rampDuration)
+          let returnVolumeTimeRange = CMTimeRange(start: CMTimeMakeWithSeconds(sound.timestamp + sound.type.duration, preferredTimescale: timescale),
+                                                  duration: rampDuration)
+          
+          originalAudioParameters.setVolumeRamp(fromStartVolume: 1.0, toEndVolume: 0.0, timeRange: removeVolumeTimeRange)
+          originalAudioParameters.setVolumeRamp(fromStartVolume: 0.0, toEndVolume: 1.0, timeRange: returnVolumeTimeRange)
+        case .silenceOriginal:
+          let rampDuration = CMTime(seconds: Config.volumeRampDuration, preferredTimescale: timescale)
+          let removeVolumeTimeRange = CMTimeRange(start: soundCompositionStartTime, duration: rampDuration)
+          let returnVolumeTimeRange = CMTimeRange(start: CMTimeMakeWithSeconds(sound.timestamp + sound.type.duration, preferredTimescale: timescale),
+                                                  duration: rampDuration)
+          
+          originalAudioParameters.setVolumeRamp(fromStartVolume: 1.0, toEndVolume: 0.2, timeRange: removeVolumeTimeRange)
+          originalAudioParameters.setVolumeRamp(fromStartVolume: 0.2, toEndVolume: 1.0, timeRange: returnVolumeTimeRange)
+        }
       }
+      audioMixedComposition.inputParameters.append(originalAudioParameters)
+      
     } catch let error {
       completionHandler(.failure(error))
     }
     
+    // Creating export session
     let session: AVAssetExportSession? = {
       if addWatermark {
         let watermarkFilter = CIFilter(name: "CISourceOverCompositing")!
@@ -110,14 +146,17 @@ class VideoRenderer {
       }
     }()
     
+    session?.audioMix = audioMixedComposition
+    session?.outputURL = outputUrl
+    session?.outputFileType = AVFileType.mov
+    
     guard let exportSession = session else {
       completionHandler(.failure(RenderingError.noExportSession))
       return
     }
-    exportSession.outputURL = outputUrl
-    exportSession.outputFileType = AVFileType.mov
-    self.renderingSession = exportSession
     
+    // Configuring progress tracking timer
+    self.renderingSession = exportSession
     let renderingProgressTimer = Timer.scheduledTimer(timeInterval: 0.1,
                                                       target: self,
                                                       selector: #selector(renderingProgressTimerFired),
@@ -126,6 +165,7 @@ class VideoRenderer {
     renderingProgressTimer.fire()
     self.renderingProgressTimer = renderingProgressTimer
     
+    // Executing rendering export session
     exportSession.exportAsynchronously { () -> Void in
       switch exportSession.status {
       case .completed:
