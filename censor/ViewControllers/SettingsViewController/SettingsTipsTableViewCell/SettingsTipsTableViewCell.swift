@@ -21,7 +21,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
     label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
     label.textColor = ColorManager.shared.subtext
     label.text = """
-    Developing and supporting mobile apps tike a lot of time and effort. I decided to make this app free so everyone can try it out and decide whether to keep it on his phone or delete it. If you enjoy using this app, you can say thanks and motivate me to work even harder on it by simply leaving a tip. You can even choose the amount of tip you want to give and give it as many times as you wish :) By leaving any tip, you support me and get access to some new features:
+    Developing and supporting mobile apps take a lot of time and effort. I decided to make this app free so everyone can try it out and decide whether to keep it on his phone or delete it. If you enjoy using this app, you can say thanks and motivate me to work even harder on it by simply leaving a tip. You can even choose the amount of tip you want to give and give it as many times as you wish :) By leaving any tip, you support me and get access to some new features:
     • all ads magically will dissapear, as well as watermark on your exported videos
     • additional sounds will become unlocked
     • some new features may also appear
