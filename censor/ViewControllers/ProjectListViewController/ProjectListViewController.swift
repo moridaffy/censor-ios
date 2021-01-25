@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 class ProjectListViewController: UIViewController {
   
@@ -19,6 +20,14 @@ class ProjectListViewController: UIViewController {
     tableView.register(ProjectListTableViewCell.self, forCellReuseIdentifier: String(describing: ProjectListTableViewCell.self))
     
     return tableView
+  }()
+  
+  private let bottomBanner: GADBannerView = {
+    let banner = GADBannerView(adSize: kGADAdSizeBanner)
+    banner.translatesAutoresizingMaskIntoConstraints = false
+    banner.layer.cornerRadius = 6.0
+    banner.layer.masksToBounds = true
+    return banner
   }()
   
   private let viewModel: ProjectListViewModel
@@ -53,6 +62,8 @@ class ProjectListViewController: UIViewController {
     viewModel.view = self
     
     viewModel.reloadProjects()
+    
+    setupBanner()
   }
   
   private func setupLayout() {
@@ -93,6 +104,26 @@ class ProjectListViewController: UIViewController {
   private func setupTableView() {
     tableView.delegate = self
     tableView.dataSource = self
+  }
+  
+  private func setupBanner() {
+    guard !viewModel.adBannerConfigured else { return }
+    viewModel.adBannerConfigured = true
+    
+    view.addSubview(bottomBanner)
+    view.addConstraints([
+      bottomBanner.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+      bottomBanner.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+    ])
+    tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: kGADAdSizeBanner.size.height, right: 0.0)
+    
+    #if DEBUG
+    bottomBanner.adUnitID = "ca-app-pub-3940256099942544/2934735716"
+    #else
+    bottomBanner.adUnitID = "ca-app-pub-1533648811509508/1526702457"
+    #endif
+    bottomBanner.rootViewController = self
+    bottomBanner.load(GADRequest())
   }
   
   private func createNewProject(with name: String) {

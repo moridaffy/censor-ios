@@ -12,6 +12,7 @@ class ProjectListViewModel {
   let mediaType: String = "public.movie"
   
   var selectedFileUrl: URL?
+  var adBannerConfigured: Bool = false
   
   weak var view: ProjectListViewController?
   private(set) var projects: [Project] = [] {

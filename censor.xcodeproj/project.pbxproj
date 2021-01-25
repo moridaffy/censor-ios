@@ -57,7 +57,7 @@
 		0C901C532550641800988CB2 /* VideoTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C522550641800988CB2 /* VideoTimelineView.swift */; };
 		0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C672550757F00988CB2 /* UIView+Rendering.swift */; };
 		0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FBA7A2542B3160071BFFA /* StorageManager.swift */; };
-		0C9FD03D257BD5ED00EA70F1 /* Instructions in Frameworks */ = {isa = PBXBuildFile; productRef = 0C9FD03C257BD5ED00EA70F1 /* Instructions */; };
+		0C9FD03D257BD5ED00EA70F1 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 0C9FD03C257BD5ED00EA70F1 /* SwiftPackageProductDependency */; };
 		0C9FD040257BD6CF00EA70F1 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FD03F257BD6CF00EA70F1 /* SettingsManager.swift */; };
 		0CB16BE625B3B01800E6AE81 /* car_crash_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CB16BA025B3B01300E6AE81 /* car_crash_3.mp3 */; };
 		0CB16BE725B3B01800E6AE81 /* gun_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CB16BA125B3B01300E6AE81 /* gun_7.mp3 */; };
@@ -133,9 +133,11 @@
 		0CBD02832550A03E007388D7 /* EditorButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBD02822550A03E007388D7 /* EditorButtonCollectionViewCell.swift */; };
 		0CBD02892550A054007388D7 /* EditorButtonCollectionViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CBD02882550A054007388D7 /* EditorButtonCollectionViewCellModel.swift */; };
 		0CE7EA7C2550A36A00C220D6 /* String+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CE7EA7B2550A36A00C220D6 /* String+Size.swift */; };
+		4FBB3CDA19C8A054D84DFBCA /* Pods_censor.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7216592FE00D6B626C62B183 /* Pods_censor.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		022FA00B4C414E407DFAD167 /* Pods-censor.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-censor.release.xcconfig"; path = "Target Support Files/Pods-censor/Pods-censor.release.xcconfig"; sourceTree = "<group>"; };
 		0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewController.swift; sourceTree = "<group>"; };
 		0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewModel.swift; sourceTree = "<group>"; };
 		0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorTableViewCell.swift; sourceTree = "<group>"; };
@@ -263,6 +265,8 @@
 		0CBD02822550A03E007388D7 /* EditorButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		0CBD02882550A054007388D7 /* EditorButtonCollectionViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorButtonCollectionViewCellModel.swift; sourceTree = "<group>"; };
 		0CE7EA7B2550A36A00C220D6 /* String+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Size.swift"; sourceTree = "<group>"; };
+		7216592FE00D6B626C62B183 /* Pods_censor.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_censor.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		981747B89FD9E939F58A88A8 /* Pods-censor.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-censor.debug.xcconfig"; path = "Target Support Files/Pods-censor/Pods-censor.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -270,7 +274,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C9FD03D257BD5ED00EA70F1 /* Instructions in Frameworks */,
+				0C9FD03D257BD5ED00EA70F1 /* BuildFile in Frameworks */,
+				4FBB3CDA19C8A054D84DFBCA /* Pods_censor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -403,6 +408,8 @@
 			children = (
 				0C2BFF08253F35CB00ED700D /* censor */,
 				0C2BFF07253F35CB00ED700D /* Products */,
+				DD777D85DE5A2DC70D375911 /* Pods */,
+				3D11C7C71E9E5AABF8AD3AE6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -570,6 +577,24 @@
 			path = EditorButtonCollectionViewCell;
 			sourceTree = "<group>";
 		};
+		3D11C7C71E9E5AABF8AD3AE6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7216592FE00D6B626C62B183 /* Pods_censor.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DD777D85DE5A2DC70D375911 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				981747B89FD9E939F58A88A8 /* Pods-censor.debug.xcconfig */,
+				022FA00B4C414E407DFAD167 /* Pods-censor.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -577,9 +602,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 0C2BFF1A253F35CC00ED700D /* Build configuration list for PBXNativeTarget "censor" */;
 			buildPhases = (
+				33D400B6B55229848762D941 /* [CP] Check Pods Manifest.lock */,
 				0C2BFF02253F35CB00ED700D /* Sources */,
 				0C2BFF03253F35CB00ED700D /* Frameworks */,
 				0C2BFF04253F35CB00ED700D /* Resources */,
+				CF3409EEFCE65B12E1EBF1EC /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -587,7 +614,7 @@
 			);
 			name = censor;
 			packageProductDependencies = (
-				0C9FD03C257BD5ED00EA70F1 /* Instructions */,
+				0C9FD03C257BD5ED00EA70F1 /* SwiftPackageProductDependency */,
 			);
 			productName = censor;
 			productReference = 0C2BFF06253F35CB00ED700D /* censor.app */;
@@ -617,7 +644,7 @@
 			);
 			mainGroup = 0C2BFEFD253F35CB00ED700D;
 			packageReferences = (
-				0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */,
+				0C9FD03B257BD5ED00EA70F1 /* RemoteSwiftPackageReference */,
 			);
 			productRefGroup = 0C2BFF07253F35CB00ED700D /* Products */;
 			projectDirPath = "";
@@ -717,6 +744,48 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		33D400B6B55229848762D941 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-censor-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CF3409EEFCE65B12E1EBF1EC /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-censor/Pods-censor-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-censor/Pods-censor-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-censor/Pods-censor-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		0C2BFF02253F35CB00ED700D /* Sources */ = {
@@ -903,6 +972,7 @@
 		};
 		0C2BFF1B253F35CC00ED700D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 981747B89FD9E939F58A88A8 /* Pods-censor.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -924,6 +994,7 @@
 		};
 		0C2BFF1C253F35CC00ED700D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 022FA00B4C414E407DFAD167 /* Pods-censor.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -967,7 +1038,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */ = {
+		0C9FD03B257BD5ED00EA70F1 /* RemoteSwiftPackageReference */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ephread/Instructions";
 			requirement = {
@@ -978,9 +1049,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0C9FD03C257BD5ED00EA70F1 /* Instructions */ = {
+		0C9FD03C257BD5ED00EA70F1 /* SwiftPackageProductDependency */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */;
+			package = 0C9FD03B257BD5ED00EA70F1 /* RemoteSwiftPackageReference */;
 			productName = Instructions;
 		};
 /* End XCSwiftPackageProductDependency section */

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import GoogleMobileAds
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,9 +26,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     self.window = window
     
+    setupThirdParties()
+    
     print("🔥 HomeDirectory: \(NSHomeDirectory())")
     
     return true
+  }
+  
+  private func setupThirdParties() {
+    GADMobileAds.sharedInstance().start(completionHandler: nil)
   }
   
 }

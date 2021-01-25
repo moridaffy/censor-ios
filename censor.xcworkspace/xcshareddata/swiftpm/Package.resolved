@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Instructions",
+        "repositoryURL": "https://github.com/ephread/Instructions",
+        "state": {
+          "branch": null,
+          "revision": "a1ee7a2f1d0f890981b8a3cfaadc52cf55160d55",
+          "version": "2.0.0"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
