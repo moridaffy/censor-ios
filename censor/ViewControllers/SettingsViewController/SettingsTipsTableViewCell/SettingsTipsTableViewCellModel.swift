@@ -24,7 +24,14 @@ extension SettingsTipsTableViewCellModel {
     case large = 3
     
     var iconName: String {
-      return "icon_coffee\(rawValue)"
+      switch self {
+      case .small:
+        return "icon_tip_small"
+      case .middle:
+        return "icon_tip_middle"
+      case .large:
+        return "icon_tip_large"
+      }
     }
     
     var iapType: IAPManager.IAPType {
