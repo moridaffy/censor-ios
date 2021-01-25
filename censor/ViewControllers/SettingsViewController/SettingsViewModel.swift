@@ -62,6 +62,11 @@ class SettingsViewModel {
   func restoreTip(completionHandler: @escaping (Error?, Bool) -> Void) {
     IAPManager.shared.requestRestore(viewController: view, completionHandler: completionHandler)
   }
+  
+  func activatePremiumFeatures() {
+    SettingsManager.shared.isPremiumFeaturesUnlocked = true
+    NotificationCenter.default.post(name: .purchasedTip, object: nil, userInfo: nil)
+  }
 }
 
 extension SettingsViewModel {

@@ -13,4 +13,5 @@ extension NSNotification.Name {
   
   static let soundPlayerFinishedPlaying = NSNotification.Name(notificationPrefix + "sound_player_finished_playing")
   static let renderingProgressUpdated = NSNotification.Name(notificationPrefix + "rendering_progress_updated")
+  static let purchasedTip = NSNotification.Name(notificationPrefix + "purchased_tip")
 }

@@ -15,6 +15,15 @@ class SettingsManager {
     return UIDevice.current.userInterfaceIdiom == .pad
   }
   
+  var isPremiumFeaturesUnlocked: Bool {
+    get {
+      return getValue(of: Bool.self, for: .anyTipPurchased) ?? false
+    }
+    set {
+      setValue(for: .anyTipPurchased, value: true)
+    }
+  }
+  
   // MARK: - Private
   
   private let keyPrefix: String = {
@@ -51,6 +60,7 @@ class SettingsManager {
 extension SettingsManager {
   enum SettingKey: String {
     case coachMarkersDisplayed
+    case anyTipPurchased
   }
   
   enum AppIconType: Equatable {

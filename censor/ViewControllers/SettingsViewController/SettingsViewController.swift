@@ -91,7 +91,11 @@ class SettingsViewController: UIViewController {
     viewModel.restoreTip { [weak self] (error, success) in
       self?.updateDimView(display: false)
       if success {
-        // TODO: success alert & activate features
+        self?.viewModel.activatePremiumFeatures()
+        self?.showAlert(title: NSLocalizedString("Done", comment: ""),
+                        body: NSLocalizedString("Your previous purchases has been restored", comment: ""),
+                        button: NSLocalizedString("OK", comment: ""),
+                        actions: nil)
       } else {
         self?.showAlertError(error: error,
                              desc: NSLocalizedString("Unable to restore in-app purchase", comment: ""),
@@ -124,7 +128,11 @@ extension SettingsViewController: SettingsTipsTableViewCellDelegate {
     viewModel.purchaseTip(type) { [weak self] (error, success) in
       self?.updateDimView(display: false)
       if success {
-        // TODO: success alert & activate features
+        self?.viewModel.activatePremiumFeatures()
+        self?.showAlert(title: NSLocalizedString("Thank you!", comment: ""),
+                        body: NSLocalizedString("Purchase has been successfully completed and all premium features have been unlocked", comment: ""),
+                        button: NSLocalizedString("OK", comment: ""),
+                        actions: nil)
       } else {
         self?.showAlertError(error: error,
                              desc: NSLocalizedString("Unable to create in-app purchase", comment: ""),

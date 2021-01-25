@@ -110,6 +110,8 @@ class ProjectListViewController: UIViewController {
     guard !viewModel.adBannerConfigured else { return }
     viewModel.adBannerConfigured = true
     
+    guard !SettingsManager.shared.isPremiumFeaturesUnlocked else { return }
+    
     view.addSubview(bottomBanner)
     view.addConstraints([
       bottomBanner.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -124,6 +126,8 @@ class ProjectListViewController: UIViewController {
     #endif
     bottomBanner.rootViewController = self
     bottomBanner.load(GADRequest())
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(purchasedTipNotificationReceived), name: .purchasedTip, object: nil)
   }
   
   private func createNewProject(with name: String) {
@@ -174,6 +178,13 @@ class ProjectListViewController: UIViewController {
   @objc private func settingsButtonTapped() {
     let settingsViewController = SettingsViewController().embedInNavigationController()
     present(settingsViewController, animated: true, completion: nil)
+  }
+  
+  @objc private func purchasedTipNotificationReceived() {
+    bottomBanner.constraints.forEach({ bottomBanner.removeConstraint($0) })
+    bottomBanner.removeFromSuperview()
+    
+    NotificationCenter.default.removeObserver(self, name: .purchasedTip, object: nil)
   }
   
   @objc func addProjectButtonTapped() {
