@@ -33,9 +33,8 @@ class SettingsTipsTableViewCell: UITableViewCell {
   private lazy var middleTipButton = getTipButtonView(forType: .middle)
   private lazy var largeTipButton = getTipButtonView(forType: .large)
   
+  private var viewModel: SettingsTipsTableViewCellModel = SettingsTipsTableViewCellModel(iapPrices: [:])
   private weak var delegate: SettingsTipsTableViewCellDelegate?
-  
-  private let viewModel = SettingsTipsTableViewCellModel()
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -51,7 +50,12 @@ class SettingsTipsTableViewCell: UITableViewCell {
   }
   
   func update(viewModel: SettingsTipsTableViewCellModel, delegate: SettingsTipsTableViewCellDelegate) {
+    self.viewModel = viewModel
     self.delegate = delegate
+    
+    (smallTipButton.subviews.first(where: { $0.tag == 999 }) as? UILabel)?.text = viewModel.iapPrices[SettingsTipsTableViewCellModel.TipType.small.iapType]
+    (middleTipButton.subviews.first(where: { $0.tag == 999 }) as? UILabel)?.text = viewModel.iapPrices[SettingsTipsTableViewCellModel.TipType.middle.iapType]
+    (largeTipButton.subviews.first(where: { $0.tag == 999 }) as? UILabel)?.text = viewModel.iapPrices[SettingsTipsTableViewCellModel.TipType.large.iapType]
   }
   
   private func setupLayout() {
@@ -92,7 +96,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
     let titleLabel = UILabel()
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.isUserInteractionEnabled = false
-    titleLabel.text = String(type.rawValue) + " cups of coffee"
+    titleLabel.text = type.iapType.title
     titleLabel.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
     titleLabel.textAlignment = .center
     titleLabel.numberOfLines = 0
@@ -108,10 +112,10 @@ class SettingsTipsTableViewCell: UITableViewCell {
     let priceLabel = UILabel()
     priceLabel.translatesAutoresizingMaskIntoConstraints = false
     priceLabel.isUserInteractionEnabled = false
-    priceLabel.text = String(type.rawValue * 100) + "₽"
     priceLabel.font = UIFont.systemFont(ofSize: 13.0, weight: .regular)
     priceLabel.textAlignment = .center
     priceLabel.textColor = ColorManager.shared.subtext
+    priceLabel.tag = 999
     
     let tapRecognizer: UITapGestureRecognizer = {
       switch type {
@@ -149,15 +153,15 @@ class SettingsTipsTableViewCell: UITableViewCell {
   }
   
   @objc private func smallTipButtonTapped() {
-    
+    delegate?.didTapTipButton(ofType: .small)
   }
   
   @objc private func middleTipButtonTapped() {
-    
+    delegate?.didTapTipButton(ofType: .middle)
   }
   
   @objc private func largeTipButtonTapped() {
-    
+    delegate?.didTapTipButton(ofType: .large)
   }
   
 }

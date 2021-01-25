@@ -9,6 +9,12 @@ import Foundation
 
 class SettingsTipsTableViewCellModel {
   
+  let iapPrices: [IAPManager.IAPType: String]
+  
+  init(iapPrices: [IAPManager.IAPType: String]) {
+    self.iapPrices = iapPrices
+  }
+  
 }
 
 extension SettingsTipsTableViewCellModel {
@@ -19,6 +25,17 @@ extension SettingsTipsTableViewCellModel {
     
     var iconName: String {
       return "icon_coffee\(rawValue)"
+    }
+    
+    var iapType: IAPManager.IAPType {
+      switch self {
+      case .small:
+        return .smallTip
+      case .middle:
+        return .mediumTip
+      case .large:
+        return .largeTip
+      }
     }
   }
 }

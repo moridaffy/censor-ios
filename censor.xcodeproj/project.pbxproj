@@ -20,6 +20,7 @@
 		0C29141E254087B8009BDB52 /* SoundManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29141D254087B8009BDB52 /* SoundManager.swift */; };
 		0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2914212540A2AE009BDB52 /* Double+Rounding.swift */; };
 		0C2914252540A569009BDB52 /* VideoRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2914242540A569009BDB52 /* VideoRenderer.swift */; };
+		0C2B1ADF25BECA4D00D50E9F /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2B1ADE25BECA4D00D50E9F /* IAPManager.swift */; };
 		0C2BFF0A253F35CB00ED700D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF09253F35CB00ED700D /* AppDelegate.swift */; };
 		0C2BFF13253F35CC00ED700D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C2BFF12253F35CC00ED700D /* Assets.xcassets */; };
 		0C2BFF16253F35CC00ED700D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C2BFF14253F35CC00ED700D /* LaunchScreen.storyboard */; };
@@ -148,6 +149,7 @@
 		0C29141D254087B8009BDB52 /* SoundManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundManager.swift; sourceTree = "<group>"; };
 		0C2914212540A2AE009BDB52 /* Double+Rounding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+Rounding.swift"; sourceTree = "<group>"; };
 		0C2914242540A569009BDB52 /* VideoRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRenderer.swift; sourceTree = "<group>"; };
+		0C2B1ADE25BECA4D00D50E9F /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		0C2BFF06253F35CB00ED700D /* censor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = censor.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0C2BFF09253F35CB00ED700D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0C2BFF12253F35CC00ED700D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -391,6 +393,7 @@
 				0C2914242540A569009BDB52 /* VideoRenderer.swift */,
 				0C6904A425449D920096E323 /* DateHelper.swift */,
 				0C9FD03F257BD6CF00EA70F1 /* SettingsManager.swift */,
+				0C2B1ADE25BECA4D00D50E9F /* IAPManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -756,6 +759,7 @@
 				0C6904A525449D920096E323 /* DateHelper.swift in Sources */,
 				0C8AEFF225470C1F005D00E1 /* SettingsIconsTableViewCell.swift in Sources */,
 				0C8AEFDD2546EE90005D00E1 /* UITableViewCell+Separator.swift in Sources */,
+				0C2B1ADF25BECA4D00D50E9F /* IAPManager.swift in Sources */,
 				0C8AEFE42546F582005D00E1 /* SettingsButtonTableViewCell.swift in Sources */,
 				0C8AEFE72546F5F1005D00E1 /* SettingsButtonTableViewCellModel.swift in Sources */,
 				0C0351862545FA6800BC3461 /* SoundSelectorViewModel.swift in Sources */,

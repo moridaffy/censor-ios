@@ -23,6 +23,10 @@ class SettingsViewController: UIViewController {
     return tableView
   }()
   
+  private var dimmableNavigationController: DimmableNavigationController? {
+    return navigationController as? DimmableNavigationController
+  }
+  
   private let viewModel = SettingsViewModel()
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -42,6 +46,12 @@ class SettingsViewController: UIViewController {
     
     setupNavigationBar()
     setupTableView()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    
+    viewModel.view = self
   }
   
   private func setupLayout() {
@@ -68,12 +78,37 @@ class SettingsViewController: UIViewController {
     tableView.dataSource = self
   }
   
+  private func updateDimView(display: Bool) {
+    if display {
+      dimmableNavigationController?.showDimView(true, withLoading: true)
+    } else {
+      dimmableNavigationController?.showDimView(false, withLoading: true)
+    }
+  }
+  
   private func restorePurchasesButtonTapped() {
-    print("🔥 restorePurchasesButtonTapped")
+    updateDimView(display: true)
+    viewModel.restoreTip { [weak self] (error, success) in
+      self?.updateDimView(display: false)
+      if success {
+        // TODO: success alert & activate features
+      } else {
+        self?.showAlertError(error: error,
+                             desc: NSLocalizedString("Unable to restore in-app purchase", comment: ""),
+                             critical: false,
+                             onDismiss: nil)
+      }
+    }
   }
   
   @objc private func closeButtonTapped() {
     navigationController?.dismiss(animated: true, completion: nil)
+  }
+  
+  func reloadTableView() {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      self.tableView.reloadData()
+    }
   }
 }
 
@@ -85,7 +120,18 @@ extension SettingsViewController: SettingsIconsTableViewCellDelegate {
 
 extension SettingsViewController: SettingsTipsTableViewCellDelegate {
   func didTapTipButton(ofType type: SettingsTipsTableViewCellModel.TipType) {
-    // TODO
+    updateDimView(display: true)
+    viewModel.purchaseTip(type) { [weak self] (error, success) in
+      self?.updateDimView(display: false)
+      if success {
+        // TODO: success alert & activate features
+      } else {
+        self?.showAlertError(error: error,
+                             desc: NSLocalizedString("Unable to create in-app purchase", comment: ""),
+                             critical: false,
+                             onDismiss: nil)
+      }
+    }
   }
 }
 
