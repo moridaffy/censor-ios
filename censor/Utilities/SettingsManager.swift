@@ -49,11 +49,11 @@ class SettingsManager {
   // MARK: - UserDefaults
   
   func getValue<T>(of type: T.Type, for key: SettingKey) -> T? {
-    return UserDefaults.standard.value(forKey: keyPrefix + key.rawValue) as? T
+    return UserDefaults.standard.value(forKey: keyPrefix + key.key) as? T
   }
   
   func setValue(for key: SettingKey, value: Any) {
-    UserDefaults.standard.set(value, forKey: keyPrefix + key.rawValue)
+    UserDefaults.standard.set(value, forKey: keyPrefix + key.key)
   }
 }
 
@@ -61,6 +61,15 @@ extension SettingsManager {
   enum SettingKey: String {
     case coachMarkersDisplayed
     case anyTipPurchased
+    
+    var key: String {
+      switch self {
+      case .anyTipPurchased:
+        return rawValue + "_debug"
+      default:
+        return rawValue
+      }
+    }
   }
   
   enum AppIconType: Equatable {

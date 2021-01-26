@@ -105,6 +105,42 @@ class SettingsViewController: UIViewController {
     }
   }
   
+  private func activateFeaturesButtonTapped() {
+    if SettingsManager.shared.isPremiumFeaturesUnlocked {
+      showAlertError(error: nil,
+                     desc: NSLocalizedString("Premium features are already unlocked", comment: ""),
+                     critical: false)
+    } else {
+      SettingsManager.shared.setValue(for: .anyTipPurchased, value: true)
+      showAlert(title: NSLocalizedString("Done", comment: ""),
+                body: NSLocalizedString("Premium features have been unlocked. Please, restart application for changes to take effect", comment: ""),
+                button: nil,
+                actions: nil)
+    }
+  }
+  
+  private func deactivateFeaturesButtonTapped() {
+    if SettingsManager.shared.isPremiumFeaturesUnlocked {
+      SettingsManager.shared.setValue(for: .anyTipPurchased, value: false)
+      showAlert(title: NSLocalizedString("Done", comment: ""),
+                body: NSLocalizedString("Premium features have been locked. Please, restart application for changes to take effect", comment: ""),
+                button: nil,
+                actions: nil)
+    } else {
+      showAlertError(error: nil,
+                     desc: NSLocalizedString("Premium features are already locked", comment: ""),
+                     critical: false)
+    }
+  }
+  
+  private func wipeDataButtonTapped() {
+    viewModel.wipeProjectsData()
+    showAlert(title: NSLocalizedString("Done", comment: ""),
+              body: NSLocalizedString("All project data has been deleted. Please, restart application for changes to take effect", comment: ""),
+              button: nil,
+              actions: nil)
+  }
+  
   @objc private func closeButtonTapped() {
     navigationController?.dismiss(animated: true, completion: nil)
   }
@@ -178,8 +214,17 @@ extension SettingsViewController: UITableViewDelegate {
     tableView.deselectRow(at: indexPath, animated: true)
     
     guard let cellModel = viewModel.getCellModel(at: indexPath) else { return }
-    if cellModel is SettingsButtonTableViewCellModel {
-      restorePurchasesButtonTapped()
+    if let cellModel = cellModel as? SettingsButtonTableViewCellModel {
+      switch cellModel.type {
+      case .restorePurchases:
+        restorePurchasesButtonTapped()
+      case .activateFeatures:
+        activateFeaturesButtonTapped()
+      case .deactivateFeatures:
+        deactivateFeaturesButtonTapped()
+      case .wipeData:
+        wipeDataButtonTapped()
+      }
     }
   }
 }

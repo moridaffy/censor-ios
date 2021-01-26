@@ -9,7 +9,13 @@ import Foundation
 
 class SettingsViewModel {
   
-  let sections: [SectionType] = SectionType.allCases.sorted(by: { $0.rawValue < $1.rawValue })
+  let sections: [SectionType] = {
+    #if DEBUG
+    return SectionType.debugAllCases
+    #else
+    return SectionType.allCases
+    #endif
+  }()
   
   weak var view: SettingsViewController?
   
@@ -52,6 +58,17 @@ class SettingsViewModel {
       default:
         return nil
       }
+    case .debug:
+      switch indexPath.row {
+      case 0:
+        return SettingsButtonTableViewCellModel(type: .activateFeatures)
+      case 1:
+        return SettingsButtonTableViewCellModel(type: .deactivateFeatures)
+      case 2:
+        return SettingsButtonTableViewCellModel(type: .wipeData)
+      default:
+        return nil
+      }
     }
   }
   
@@ -67,18 +84,32 @@ class SettingsViewModel {
     SettingsManager.shared.isPremiumFeaturesUnlocked = true
     NotificationCenter.default.post(name: .purchasedTip, object: nil, userInfo: nil)
   }
+  
+  func wipeProjectsData() {
+    let storage = StorageManager.shared
+    
+    let projects = storage.getProjects()
+    projects.forEach({ storage.deleteProject($0) })
+  }
 }
 
 extension SettingsViewModel {
-  enum SectionType: Int, CaseIterable {
+  enum SectionType: Int {
+    
+    static let allCases: [SectionType] = [.icon, .tips]
+    static let debugAllCases: [SectionType] = [.icon, .tips, .debug]
+    
     case icon = 1
     case tips = 2
+    case debug = 3
     
     var numberOfRows: Int {
       switch self {
       case .icon:
         return 2
       case .tips:
+        return 3
+      case .debug:
         return 3
       }
     }
