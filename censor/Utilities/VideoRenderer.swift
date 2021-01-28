@@ -244,6 +244,17 @@ extension VideoRenderer {
       }
     }
     
+    var description: String {
+      switch self {
+      case .muteOriginal:
+        return NSLocalizedString("Completely mute original audio track while overlaying it with added sound", comment: "")
+      case .silenceOriginal:
+        return NSLocalizedString("Keep only 20% of original track's volume while overlaying it with added sound", comment: "")
+      case .keepOriginal:
+        return NSLocalizedString("Don't change original audio track volume", comment: "")
+      }
+    }
+    
     var shortTitle: String {
       guard let shortTitle = title.split(separator: " ").first else { return NSLocalizedString("Error", comment: "") }
       return String(shortTitle)

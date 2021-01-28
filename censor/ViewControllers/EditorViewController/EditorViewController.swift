@@ -372,17 +372,10 @@ class EditorViewController: UIViewController {
     present(soundSelectorViewController.embedInNavigationController(), animated: true, completion: nil)
   }
   
-  private func openAudioModeSelectionAlert() {
-    var actions: [UIAlertAction] = VideoRenderer.AudioMode.allCases.compactMap { audioMode in
-      return UIAlertAction(title: audioMode.title, style: .default) { (_) in
-        self.updateSelectedAudioMode(to: audioMode)
-      }
-    }
-    actions.append(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { _ in }))
-    showAlert(title: NSLocalizedString("Select audio mode", comment: ""),
-              body: NSLocalizedString("Select one of the audio overlaying modes available. It will be applied during final rendering process.\n\nMute original - completely mute original audio track while overlaying it with added sound\n\nSilence original - keep only 20% of original track's volume while overlaying it with added sound\n\nKeep original - don't change original audio track volume", comment: ""),
-              button: nil,
-              actions: actions)
+  private func openAudioModeSelectorViewController() {
+    let audioModeSelectorViewModel = AudioModeSelectorViewModel(audioMode: viewModel.selectedAudioMode)
+    let audioModeSelectorViewController = AudioModeSelectorViewController(viewModel: audioModeSelectorViewModel, delegate: self)
+    present(audioModeSelectorViewController.embedInNavigationController(), animated: true, completion: nil)
   }
   
   private func updateSelectedAudioMode(to newValue: VideoRenderer.AudioMode) {
@@ -482,7 +475,7 @@ extension EditorViewController: UICollectionViewDelegate {
     let cellModel = viewModel.controlCellModels[indexPath.row]
     switch cellModel.type {
     case .audioMode:
-      openAudioModeSelectionAlert()
+      openAudioModeSelectorViewController()
     case .soundSelection:
       openSoundSelectorViewController()
     case .export:
@@ -536,6 +529,17 @@ extension EditorViewController: VideoTimelineViewDelegate {
     
     let newTime = Double(value) * viewModel.project.duration
     playerLayer?.player?.seek(to: CMTime(seconds: newTime, preferredTimescale: viewModel.preferredTimescale))
+  }
+}
+
+// MARK: - AudioModeSelectorViewControllerDelegate
+
+extension EditorViewController: AudioModeSelectorViewControllerDelegate {
+  func didSelectAudioMode(_ audioMode: VideoRenderer.AudioMode) {
+    viewModel.selectedAudioMode = audioMode
+    if let modeSelectionButtonIndex = viewModel.controlCellModels.firstIndex(where: { $0.type == .audioMode(selectedMode: audioMode) }) {
+      controlsCollectionView.reloadItems(at: [IndexPath(row: modeSelectionButtonIndex, section: 0)])
+    }
   }
 }
 

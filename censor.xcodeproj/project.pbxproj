@@ -10,6 +10,8 @@
 		0C0351832545FA5A00BC3461 /* SoundSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */; };
 		0C0351862545FA6800BC3461 /* SoundSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */; };
 		0C03518925460C9F00BC3461 /* SoundSelectorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */; };
+		0C09B49825C1BDE500E8BDCB /* AudioModeSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C09B49725C1BDE500E8BDCB /* AudioModeSelectorViewController.swift */; };
+		0C09B49C25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C09B49B25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift */; };
 		0C29140025403374009BDB52 /* ProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2913FF25403374009BDB52 /* ProjectListViewController.swift */; };
 		0C29140425403398009BDB52 /* ProjectListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C29140325403398009BDB52 /* ProjectListViewModel.swift */; };
 		0C2914072540375D009BDB52 /* ProjectListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2914062540375D009BDB52 /* ProjectListTableViewCell.swift */; };
@@ -57,7 +59,7 @@
 		0C901C532550641800988CB2 /* VideoTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C522550641800988CB2 /* VideoTimelineView.swift */; };
 		0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C901C672550757F00988CB2 /* UIView+Rendering.swift */; };
 		0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FBA7A2542B3160071BFFA /* StorageManager.swift */; };
-		0C9FD03D257BD5ED00EA70F1 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 0C9FD03C257BD5ED00EA70F1 /* SwiftPackageProductDependency */; };
+		0C9FD03D257BD5ED00EA70F1 /* Instructions in Frameworks */ = {isa = PBXBuildFile; productRef = 0C9FD03C257BD5ED00EA70F1 /* Instructions */; };
 		0C9FD040257BD6CF00EA70F1 /* SettingsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C9FD03F257BD6CF00EA70F1 /* SettingsManager.swift */; };
 		0CB16BE625B3B01800E6AE81 /* car_crash_3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CB16BA025B3B01300E6AE81 /* car_crash_3.mp3 */; };
 		0CB16BE725B3B01800E6AE81 /* gun_7.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0CB16BA125B3B01300E6AE81 /* gun_7.mp3 */; };
@@ -141,6 +143,8 @@
 		0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewController.swift; sourceTree = "<group>"; };
 		0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewModel.swift; sourceTree = "<group>"; };
 		0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorTableViewCell.swift; sourceTree = "<group>"; };
+		0C09B49725C1BDE500E8BDCB /* AudioModeSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModeSelectorViewController.swift; sourceTree = "<group>"; };
+		0C09B49B25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModeSelectorViewModel.swift; sourceTree = "<group>"; };
 		0C2913FF25403374009BDB52 /* ProjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewController.swift; sourceTree = "<group>"; };
 		0C29140325403398009BDB52 /* ProjectListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewModel.swift; sourceTree = "<group>"; };
 		0C2914062540375D009BDB52 /* ProjectListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListTableViewCell.swift; sourceTree = "<group>"; };
@@ -274,7 +278,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C9FD03D257BD5ED00EA70F1 /* BuildFile in Frameworks */,
+				0C9FD03D257BD5ED00EA70F1 /* Instructions in Frameworks */,
 				4FBB3CDA19C8A054D84DFBCA /* Pods_censor.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,6 +294,15 @@
 				0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */,
 			);
 			path = SoundSelectorViewController;
+			sourceTree = "<group>";
+		};
+		0C09B49525C1BDD300E8BDCB /* AudioModeSelectorViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0C09B49725C1BDE500E8BDCB /* AudioModeSelectorViewController.swift */,
+				0C09B49B25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift */,
+			);
+			path = AudioModeSelectorViewController;
 			sourceTree = "<group>";
 		};
 		0C2913FE25403364009BDB52 /* ProjectListViewController */ = {
@@ -444,6 +457,7 @@
 				0C2BFF20253F36B600ED700D /* RootViewController */,
 				0C2913FE25403364009BDB52 /* ProjectListViewController */,
 				0C2BFF2F253F439200ED700D /* EditorViewController */,
+				0C09B49525C1BDD300E8BDCB /* AudioModeSelectorViewController */,
 				0C0351812545FA4500BC3461 /* SoundSelectorViewController */,
 				0C8AEFD12546E931005D00E1 /* SettingsViewController */,
 			);
@@ -591,7 +605,6 @@
 				981747B89FD9E939F58A88A8 /* Pods-censor.debug.xcconfig */,
 				022FA00B4C414E407DFAD167 /* Pods-censor.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -614,7 +627,7 @@
 			);
 			name = censor;
 			packageProductDependencies = (
-				0C9FD03C257BD5ED00EA70F1 /* SwiftPackageProductDependency */,
+				0C9FD03C257BD5ED00EA70F1 /* Instructions */,
 			);
 			productName = censor;
 			productReference = 0C2BFF06253F35CB00ED700D /* censor.app */;
@@ -644,7 +657,7 @@
 			);
 			mainGroup = 0C2BFEFD253F35CB00ED700D;
 			packageReferences = (
-				0C9FD03B257BD5ED00EA70F1 /* RemoteSwiftPackageReference */,
+				0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */,
 			);
 			productRefGroup = 0C2BFF07253F35CB00ED700D /* Products */;
 			projectDirPath = "";
@@ -826,6 +839,7 @@
 				0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */,
 				0C73137B255353E50034D3B1 /* DimmableNavigationController.swift in Sources */,
 				0C6904A525449D920096E323 /* DateHelper.swift in Sources */,
+				0C09B49C25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift in Sources */,
 				0C8AEFF225470C1F005D00E1 /* SettingsIconsTableViewCell.swift in Sources */,
 				0C8AEFDD2546EE90005D00E1 /* UITableViewCell+Separator.swift in Sources */,
 				0C2B1ADF25BECA4D00D50E9F /* IAPManager.swift in Sources */,
@@ -835,6 +849,7 @@
 				0C03518925460C9F00BC3461 /* SoundSelectorTableViewCell.swift in Sources */,
 				0C2BFF31253F43AB00ED700D /* EditorViewController.swift in Sources */,
 				0C2BFF22253F36CC00ED700D /* RootViewController.swift in Sources */,
+				0C09B49825C1BDE500E8BDCB /* AudioModeSelectorViewController.swift in Sources */,
 				0C8AEFE02546EEC6005D00E1 /* SettingsTitleTableViewCellModel.swift in Sources */,
 				0CBD02832550A03E007388D7 /* EditorButtonCollectionViewCell.swift in Sources */,
 			);
@@ -1038,7 +1053,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		0C9FD03B257BD5ED00EA70F1 /* RemoteSwiftPackageReference */ = {
+		0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ephread/Instructions";
 			requirement = {
@@ -1049,9 +1064,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0C9FD03C257BD5ED00EA70F1 /* SwiftPackageProductDependency */ = {
+		0C9FD03C257BD5ED00EA70F1 /* Instructions */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 0C9FD03B257BD5ED00EA70F1 /* RemoteSwiftPackageReference */;
+			package = 0C9FD03B257BD5ED00EA70F1 /* XCRemoteSwiftPackageReference "Instructions" */;
 			productName = Instructions;
 		};
 /* End XCSwiftPackageProductDependency section */
