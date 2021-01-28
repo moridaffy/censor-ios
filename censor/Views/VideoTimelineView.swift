@@ -89,7 +89,6 @@ class VideoTimelineView: UIView {
     let previewImagesStackView = UIStackView(arrangedSubviews: previewImagesViews)
     previewImagesStackView.translatesAutoresizingMaskIntoConstraints = false
     previewImagesStackView.axis = .horizontal
-    //    previewImagesStackView.alignment = .fill
     previewImagesStackView.distribution = .fillEqually
     
     

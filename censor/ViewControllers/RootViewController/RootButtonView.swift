@@ -109,9 +109,9 @@ extension RootButtonView {
     var title: String {
       switch self {
       case .newProject:
-        return "Create new project"
+        return NSLocalizedString("Create new project", comment: "")
       case .existingProjects:
-        return "Browse existing projects"
+        return NSLocalizedString("Browse existing projects", comment: "")
       }
     }
     

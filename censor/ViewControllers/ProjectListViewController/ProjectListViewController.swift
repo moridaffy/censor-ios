@@ -133,7 +133,7 @@ class ProjectListViewController: UIViewController {
   private func createNewProject(with name: String) {
     guard let originalUrl = viewModel.selectedFileUrl else {
       showAlertError(error: nil,
-                     desc: "File's url is empty for some reason :/",
+                     desc: NSLocalizedString("File's url is empty for some reason :/", comment: ""),
                      critical: false)
       return
     }
@@ -144,16 +144,16 @@ class ProjectListViewController: UIViewController {
   }
   
   private func presentNewProjectAlert() {
-    let projectDefaultName: String = "Project #\(viewModel.projects.count + 1)"
-    let alert = UIAlertController(title: "New project",
-                                  message: "Enter new project's name",
+    let projectDefaultName: String = [NSLocalizedString("Project", comment: ""), "#\(viewModel.projects.count + 1)"].joined(separator: " ")
+    let alert = UIAlertController(title: NSLocalizedString("New project", comment: ""),
+                                  message: NSLocalizedString("Enter new project's name", comment: ""),
                                   preferredStyle: .alert)
     alert.addTextField { (textField) in
       textField.placeholder = projectDefaultName
       textField.autocapitalizationType = .sentences
       textField.autocorrectionType = .yes
     }
-    alert.addAction(UIAlertAction(title: "Create", style: .default, handler: { (_) in
+    alert.addAction(UIAlertAction(title: NSLocalizedString("Create", comment: ""), style: .default, handler: { (_) in
       let projectName: String = {
         if let textFieldText = alert.textFields?.first?.text, !textFieldText.isEmpty {
           return textFieldText
@@ -163,7 +163,7 @@ class ProjectListViewController: UIViewController {
       }()
       self.createNewProject(with: projectName)
     }))
-    alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
+    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { (_) in
       alert.dismiss(animated: true, completion: nil)
     }))
     present(alert, animated: true, completion: nil)
@@ -206,16 +206,8 @@ extension ProjectListViewController: UITableViewDelegate {
     return 80.0
   }
   
-//  func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-//    let deleteAction = UITableViewRowAction(style: .destructive, title: "Delete") { (_, _) in
-//      self.viewModel.deleteProject(at: indexPath.row)
-//    }
-//    deleteAction.backgroundColor = UIColor.systemRed
-//    return [deleteAction]
-//  }
-  
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, _) in
+    let deleteAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete", comment: "")) { (_, _, _) in
       self.viewModel.deleteProject(at: indexPath.row)
     }
     deleteAction.backgroundColor = UIColor.systemRed

@@ -9,6 +9,8 @@ import UIKit
 
 class SettingsViewController: UIViewController {
   
+  // MARK: - UI elements
+  
   private let tableView: UITableView = {
     let tableView = UITableView(frame: .zero, style: .grouped)
     tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,7 +29,11 @@ class SettingsViewController: UIViewController {
     return navigationController as? DimmableNavigationController
   }
   
+  // MARK: - Properties
+  
   private let viewModel = SettingsViewModel()
+  
+  // MARK: - Lifecycle
   
   override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
     super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -54,6 +60,8 @@ class SettingsViewController: UIViewController {
     viewModel.view = self
   }
   
+  // MARK: - Configuring
+  
   private func setupLayout() {
     view.addSubview(tableView)
     
@@ -77,6 +85,8 @@ class SettingsViewController: UIViewController {
     tableView.delegate = self
     tableView.dataSource = self
   }
+  
+  // MARK: - Private methods
   
   private func updateDimView(display: Bool) {
     if display {
@@ -104,6 +114,8 @@ class SettingsViewController: UIViewController {
       }
     }
   }
+  
+  // MARK: - Debug methods
   
   private func activateFeaturesButtonTapped() {
     if SettingsManager.shared.isPremiumFeaturesUnlocked {
@@ -141,9 +153,13 @@ class SettingsViewController: UIViewController {
               actions: nil)
   }
   
+  // MARK: - Actions
+  
   @objc private func closeButtonTapped() {
     navigationController?.dismiss(animated: true, completion: nil)
   }
+  
+  // MARK: - Public methods
   
   func reloadTableView() {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -152,11 +168,15 @@ class SettingsViewController: UIViewController {
   }
 }
 
+// MARK: - SettingsIconsTableViewCellDelegate
+
 extension SettingsViewController: SettingsIconsTableViewCellDelegate {
   func didSelectIcon(_ iconType: SettingsManager.AppIconType) {
     SettingsManager.shared.setCustomIcon(iconType)
   }
 }
+
+// MARK: - SettingsTipsTableViewCellDelegate
 
 extension SettingsViewController: SettingsTipsTableViewCellDelegate {
   func didTapTipButton(ofType type: SettingsTipsTableViewCellModel.TipType) {
@@ -178,6 +198,8 @@ extension SettingsViewController: SettingsTipsTableViewCellDelegate {
     }
   }
 }
+
+// MARK: - UITableViewDelegate
 
 extension SettingsViewController: UITableViewDelegate {
   func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -228,6 +250,8 @@ extension SettingsViewController: UITableViewDelegate {
     }
   }
 }
+
+// MARK: - UITableViewDataSource
 
 extension SettingsViewController: UITableViewDataSource {
   func numberOfSections(in tableView: UITableView) -> Int {

@@ -8,35 +8,35 @@
 import UIKit
 
 extension UIViewController {
-    
-    func showAlert(title: String?,
-                   body: String?,
-                   button: String?,
-                   actions: [UIAlertAction]?,
-                   preferredStyle: UIAlertController.Style = .alert,
-                   onDismiss: (() -> Void)? = nil) {
-        let alert = UIAlertController(title: title, message: body, preferredStyle: preferredStyle)
-        for action in (actions ?? []) {
-            alert.addAction(action)
-        }
-        if let button = button {
-            let lastButton = UIAlertAction(title: button, style: .cancel, handler: { _ in
-                onDismiss?()
-                alert.dismiss(animated: true, completion: nil)
-            })
-            alert.addAction(lastButton)
-        }
-        
-        present(alert, animated: true, completion: nil)
+  
+  func showAlert(title: String?,
+                 body: String?,
+                 button: String?,
+                 actions: [UIAlertAction]?,
+                 preferredStyle: UIAlertController.Style = .alert,
+                 onDismiss: (() -> Void)? = nil) {
+    let alert = UIAlertController(title: title, message: body, preferredStyle: preferredStyle)
+    for action in (actions ?? []) {
+      alert.addAction(action)
+    }
+    if let button = button {
+      let lastButton = UIAlertAction(title: button, style: .cancel, handler: { _ in
+        onDismiss?()
+        alert.dismiss(animated: true, completion: nil)
+      })
+      alert.addAction(lastButton)
     }
     
-    func showAlertError(error: Error?, desc: String?, critical: Bool, onDismiss: (() -> Void)? = nil) {
-        var body: String = desc ?? "Unknown error occurred"
-        if let error = error {
-            body += "\n\(error)"
-        }
-        let button: String? = critical ? nil : "OK"
-        
-        showAlert(title: "Error", body: body, button: button, actions: nil, onDismiss: onDismiss)
+    present(alert, animated: true, completion: nil)
+  }
+  
+  func showAlertError(error: Error?, desc: String?, critical: Bool, onDismiss: (() -> Void)? = nil) {
+    var body: String = desc ?? NSLocalizedString("Unknown error occurred", comment: "")
+    if let error = error {
+      body += "\n\(error)"
     }
+    let button: String? = critical ? nil : NSLocalizedString("OK", comment: "")
+    
+    showAlert(title: NSLocalizedString("Error", comment: ""), body: body, button: button, actions: nil, onDismiss: onDismiss)
+  }
 }

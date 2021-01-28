@@ -25,10 +25,10 @@ class RootViewController: UIViewController {
     label.numberOfLines = 0
     
     let text = NSMutableAttributedString()
-    text.append(NSAttributedString(string: "Welcome to CenStory!",
+    text.append(NSAttributedString(string: NSLocalizedString("Welcome to CenStory!", comment: ""),
                                    attributes: [.font: UIFont.systemFont(ofSize: 30.0, weight: .semibold),
                                                 .foregroundColor: ColorManager.shared.text]))
-    text.append(NSAttributedString(string: "\n" + "Tap on one of the buttons bellow to continue",
+    text.append(NSAttributedString(string: "\n" + NSLocalizedString("Tap on one of the buttons bellow to continue", comment: ""),
                                    attributes: [.font: UIFont.systemFont(ofSize: 16.0, weight: .regular),
                                                 .foregroundColor: ColorManager.shared.subtext]))
     label.attributedText = text

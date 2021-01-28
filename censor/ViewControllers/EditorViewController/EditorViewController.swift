@@ -252,7 +252,7 @@ class EditorViewController: UIViewController {
     let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: viewModel.project)
     guard let inputUrl = inputUrlResponse.0 else {
       showAlertError(error: inputUrlResponse.1,
-                     desc: "Unable to play video",
+                     desc: NSLocalizedString("Unable to play video", comment: ""),
                      critical: false)
       return
     }
@@ -402,14 +402,14 @@ class EditorViewController: UIViewController {
         self?.updateDimView(display: false)
         if let error = error {
           self?.showAlertError(error: error,
-                               desc: "Failed to render video",
+                               desc: NSLocalizedString("Failed to render video", comment: ""),
                                critical: false)
         } else {
           let popAction = UIAlertAction(title: "OK", style: .default) { (_) in
             self?.navigationController?.popViewController(animated: true)
           }
-          self?.showAlert(title: "Done",
-                          body: "Video has been successfully rendered and saved to photo library",
+          self?.showAlert(title: NSLocalizedString("Done", comment: ""),
+                          body: NSLocalizedString("Video has been successfully rendered and saved to photo library", comment: ""),
                           button: nil,
                           actions: [popAction])
         }
@@ -615,7 +615,8 @@ extension EditorViewController {
       hints.append(EditorHint(text: NSLocalizedString("This is how added sound looks like. Tap it to remove it from timeline", comment: ""), view: soundView))
     }
     hints.append(EditorHint(text: NSLocalizedString("Tap this button to play/pause your video", comment: ""), view: playButton))
-    hints.append(EditorHint(text: NSLocalizedString("Tap this button to browse through all available sounds", comment: ""), view: controlsCollectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.contentView))
+    hints.append(EditorHint(text: NSLocalizedString("Tap this button to select audio mode used in final video rendering", comment: ""), view: controlsCollectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.contentView))
+    hints.append(EditorHint(text: NSLocalizedString("Tap this button to browse through all available sounds", comment: ""), view: controlsCollectionView.cellForItem(at: IndexPath(row: 1, section: 0))?.contentView))
     hints.append(EditorHint(text: NSLocalizedString("Tap this button to start rendering and exporting your edited project", comment: ""), view: exportButton))
     hints.append(EditorHint(text: NSLocalizedString("Tap this button to go through tutorial once again", comment: ""), view: helpButton))
     viewModel.displayedHints = hints
