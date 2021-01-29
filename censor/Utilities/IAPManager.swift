@@ -41,7 +41,7 @@ class IAPManager: NSObject {
     guard !isRequestInProgress else { return }
     guard SKPaymentQueue.canMakePayments() else {
       viewController?.showAlertError(error: nil,
-                                     desc: NSLocalizedString("This device can't be used for in-app purchases", comment: ""),
+                                     desc: LocalizeSystem.shared.error(.iapNotAllowed),
                                      critical: false)
       return
     }
@@ -54,7 +54,7 @@ class IAPManager: NSObject {
     guard !isRequestInProgress else { return }
     guard SKPaymentQueue.canMakePayments() else {
       viewController?.showAlertError(error: nil,
-                                     desc: NSLocalizedString("This device can't be used for in-app purchases", comment: ""),
+                                     desc: LocalizeSystem.shared.error(.iapNotAllowed),
                                      critical: false)
       return
     }
@@ -186,11 +186,11 @@ extension IAPManager {
     var title: String {
       switch self {
       case .smallTip:
-        return NSLocalizedString("Small tip", comment: "")
+        return LocalizeSystem.shared.settings(.tipSmallTitle)
       case .mediumTip:
-        return NSLocalizedString("Medium tip", comment: "")
+        return LocalizeSystem.shared.settings(.tipMediumTitle)
       case .largeTip:
-        return NSLocalizedString("Large tip", comment: "")
+        return LocalizeSystem.shared.settings(.tipLargeTitle)
       }
     }
   }
@@ -203,11 +203,11 @@ extension IAPManager {
     var localizedDescription: String {
       switch self {
       case .noProductsFound:
-        return NSLocalizedString("Unable to connect to App Store", comment: "")
+        return LocalizeSystem.shared.error(.cantConnectToAppStore)
       case .paymentWasCancelled:
-        return NSLocalizedString("Purchase cancelled", comment: "")
+        return LocalizeSystem.shared.error(.iapCancelled)
       case .productRequestFailed:
-        return NSLocalizedString("Unable to verify purchase in App Store", comment: "")
+        return LocalizeSystem.shared.error(.cantVerifyPurchase)
       }
     }
   }

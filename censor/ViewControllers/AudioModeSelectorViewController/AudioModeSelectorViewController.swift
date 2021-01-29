@@ -41,7 +41,7 @@ class AudioModeSelectorViewController: UIViewController {
     button.layer.cornerRadius = 6.0
     button.layer.masksToBounds = true
     button.backgroundColor = ColorManager.shared.topBackground
-    button.setTitle(NSLocalizedString("Save", comment: ""), for: .normal)
+    button.setTitle(LocalizeSystem.shared.common(.save), for: .normal)
     button.setTitleColor(ColorManager.shared.accent, for: .normal)
     button.titleLabel?.font = UIFont.systemFont(ofSize: 16.0, weight: .semibold)
     return button
@@ -116,7 +116,7 @@ class AudioModeSelectorViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    title = NSLocalizedString("Select audio mode", comment: "")
+    title = LocalizeSystem.shared.editor(.selectAudioMode)
     
     let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
     navigationItem.rightBarButtonItem = closeButton

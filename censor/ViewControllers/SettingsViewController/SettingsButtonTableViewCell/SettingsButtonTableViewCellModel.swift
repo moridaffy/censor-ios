@@ -27,13 +27,13 @@ extension SettingsButtonTableViewCellModel {
     var title: String {
       switch self {
       case .restorePurchases:
-        return NSLocalizedString("Restore purchases", comment: "")
+        return LocalizeSystem.shared.settings(.purchaseRestoreButton)
       case .activateFeatures:
-        return NSLocalizedString("Activate premium features", comment: "")
+        return LocalizeSystem.shared.settings(.premiumUnlockButton)
       case .deactivateFeatures:
-        return NSLocalizedString("Deactivate premium features", comment: "")
+        return LocalizeSystem.shared.settings(.premiumLockButton)
       case .wipeData:
-        return NSLocalizedString("Wipe projects", comment: "")
+        return LocalizeSystem.shared.settings(.projectsDeleteButton)
       }
     }
   }

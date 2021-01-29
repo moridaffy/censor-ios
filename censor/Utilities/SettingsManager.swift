@@ -24,7 +24,18 @@ class SettingsManager {
     }
   }
   
+  var languageCode: String = "" {
+    didSet {
+      guard oldValue != "" else { return }
+      setValue(for: .languageCode, value: languageCode)
+    }
+  }
+  
   // MARK: - Private
+  
+  private init() {
+    languageCode = getValue(of: String.self, for: .languageCode) ?? Locale.current.languageCode ?? "en-US"
+  }
   
   private let keyPrefix: String = {
     return (Bundle.main.bundleIdentifier ?? "ru.mskr.censor") + ".settings."
@@ -61,6 +72,7 @@ extension SettingsManager {
   enum SettingKey: String {
     case coachMarkersDisplayed
     case anyTipPurchased
+    case languageCode
     
     var key: String {
       switch self {

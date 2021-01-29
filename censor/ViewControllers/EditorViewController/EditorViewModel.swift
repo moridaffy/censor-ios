@@ -59,7 +59,7 @@ class EditorViewModel {
     self.controlCellModels = [
       EditorButtonCollectionViewCellModel(type: .audioMode(selectedMode: selectedAudioMode), text: selectedAudioMode.shortTitle),
       EditorButtonCollectionViewCellModel(type: .soundSelection, text: selectedSoundType.name),
-      EditorButtonCollectionViewCellModel(type: .export, text: NSLocalizedString("Export", comment: ""))
+      EditorButtonCollectionViewCellModel(type: .export, text: LocalizeSystem.shared.editor(.export))
     ]
   }
   

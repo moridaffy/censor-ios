@@ -84,7 +84,7 @@ class ProjectListViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    title = "Projects"
+    title = LocalizeSystem.shared.projects(.title)
     
     let settingsBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear")?.withRenderingMode(.alwaysTemplate),
                                                 style: .plain,
@@ -133,7 +133,7 @@ class ProjectListViewController: UIViewController {
   private func createNewProject(with name: String) {
     guard let originalUrl = viewModel.selectedFileUrl else {
       showAlertError(error: nil,
-                     desc: NSLocalizedString("File's url is empty for some reason :/", comment: ""),
+                     desc: LocalizeSystem.shared.error(.emptyFileUrl) + " :/",
                      critical: false)
       return
     }
@@ -144,16 +144,16 @@ class ProjectListViewController: UIViewController {
   }
   
   private func presentNewProjectAlert() {
-    let projectDefaultName: String = [NSLocalizedString("Project", comment: ""), "#\(viewModel.projects.count + 1)"].joined(separator: " ")
-    let alert = UIAlertController(title: NSLocalizedString("New project", comment: ""),
-                                  message: NSLocalizedString("Enter new project's name", comment: ""),
+    let projectDefaultName: String = [LocalizeSystem.shared.projects(.project), "#\(viewModel.projects.count + 1)"].joined(separator: " ")
+    let alert = UIAlertController(title: LocalizeSystem.shared.projects(.newProject),
+                                  message: LocalizeSystem.shared.projects(.newProjectName),
                                   preferredStyle: .alert)
     alert.addTextField { (textField) in
       textField.placeholder = projectDefaultName
       textField.autocapitalizationType = .sentences
       textField.autocorrectionType = .yes
     }
-    alert.addAction(UIAlertAction(title: NSLocalizedString("Create", comment: ""), style: .default, handler: { (_) in
+    alert.addAction(UIAlertAction(title: LocalizeSystem.shared.common(.create), style: .default, handler: { (_) in
       let projectName: String = {
         if let textFieldText = alert.textFields?.first?.text, !textFieldText.isEmpty {
           return textFieldText
@@ -163,7 +163,7 @@ class ProjectListViewController: UIViewController {
       }()
       self.createNewProject(with: projectName)
     }))
-    alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel, handler: { (_) in
+    alert.addAction(UIAlertAction(title: LocalizeSystem.shared.common(.cancel), style: .cancel, handler: { (_) in
       alert.dismiss(animated: true, completion: nil)
     }))
     present(alert, animated: true, completion: nil)
@@ -207,7 +207,7 @@ extension ProjectListViewController: UITableViewDelegate {
   }
   
   func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    let deleteAction = UIContextualAction(style: .destructive, title: NSLocalizedString("Delete", comment: "")) { (_, _, _) in
+    let deleteAction = UIContextualAction(style: .destructive, title: LocalizeSystem.shared.common(.delete)) { (_, _, _) in
       self.viewModel.deleteProject(at: indexPath.row)
     }
     deleteAction.backgroundColor = UIColor.systemRed

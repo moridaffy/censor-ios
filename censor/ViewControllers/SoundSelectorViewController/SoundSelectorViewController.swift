@@ -34,7 +34,7 @@ class SoundSelectorViewController: UIViewController {
   private let searchTextField: UITextField = {
     let textField = UITextField()
     textField.translatesAutoresizingMaskIntoConstraints = false
-    textField.placeholder = NSLocalizedString("Search", comment: "") + "..."
+    textField.placeholder = LocalizeSystem.shared.common(.search) + "..."
     textField.borderStyle = .none
     textField.clearButtonMode = .never
     return textField
@@ -112,7 +112,7 @@ class SoundSelectorViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    title = NSLocalizedString("Select sound", comment: "")
+    title = LocalizeSystem.shared.editor(.selectSound)
     
     let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
     navigationItem.rightBarButtonItem = closeButton

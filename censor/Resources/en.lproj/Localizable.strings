@@ -1,0 +1,79 @@
+/* 
+  Localizable.strings
+  censor
+
+  Created by Maxim Skryabin on 28.01.2021.
+  
+*/
+
+"root.welcome.title" = "Welcome to CenStory";
+"root.welcome.description" = "Tap on one of the buttons bellow to continue";
+"root.button.create" = "Create new project";
+"root.button.browse" = "Browse existing projects";
+
+"projects.title" = "Projects";
+"projects.project" = "Project";
+"projects.new_project" = "New project";
+"projects.new_project_name" = "Enter new project's name";
+
+"editor.export" = "Export";
+"editor.select.audio_mode" = "Select audio mode";
+"editor.select.sound" = "Select sound";
+"editor.render.done" = "Video has been successfully rendered and saved to photo library";
+
+"editor.sound_mode.mute.title" = "Mute original";
+"editor.sound_mode.mute.description" = "Completely mute original audio track while overlaying it with added sound";
+"editor.sound_mode.silence.title" = "Silence original";
+"editor.sound_mode.silence.description" = "Keep only 20% of original track's volume while overlaying it with added sound";
+"editor.sound_mode.original.title" = "Keep original";
+"editor.sound_mode.original.description" = "Don't change original audio track volume";
+
+"settings.title" = "Settings";
+"settings.icon.title" = "Select app icon";
+"settings.tip.title" = "Leave a tip";
+"settings.tip.description" = "Developing and supporting mobile apps take a lot of time and effort. I decided to make this app free so everyone can try it out and decide whether to keep it on his phone or delete it. If you enjoy using this app, you can say thanks and motivate me to work even harder on it by simply leaving a tip. You can even choose the amount of tip you want to give and give it as many times as you wish :) By leaving any tip, you support me and get access to some new features:\n• all ads magically will dissapear, as well as watermark on your exported videos\n• additional sounds will become unlocked\n• some new features may also appear";
+"settings.tip.small.title" = "Small tip";
+"settings.tip.medium.title" = "Medium tip";
+"settings.tip.large.title" = "Large tip";
+"settings.iap.purchase_restore_button" = "Restore purchases";
+"settings.iap.purchase_restored" = "Your previous purchases has been restored";
+"settings.iap.purchase_completed_title" = "Thank you";
+"settings.iap.purchase_completed_description" = "Purchase has been successfully completed and all premium features have been unlocked";
+"settings.debug.already_unlocked" = "Premium features are already unlocked";
+"settings.debug.unlocked" = "Premium features have been unlocked. Please, restart application for changes to take effect";
+"settings.debug.unlock_button" = "Activate premium features";
+"settings.debug.already_locked" = "Premium features are already locked";
+"settings.debug.locked" = "Premium features have been locked. Please, restart application for changes to take effect";
+"settings.debug.lock_button" = "Deactivate premium features";
+"settings.debug.projects_deleted" = "All project data has been deleted. Please, restart application for changes to take effect";
+"settings.debug.projects_delete_button" = "Wipe projects";
+
+"common.done" = "Done";
+"common.ok" = "OK";
+"common.cancel" = "Cancel";
+"common.save" = "Save";
+"common.create" = "Create";
+"common.delete" = "Delete";
+"common.search" = "Search";
+
+"hint.editor.preview" = "This is the preview of your video";
+"hint.editor.add_sound" = "Tap this button to add sound at current position of the video";
+"hint.editor.timeline" = "Here you can see the whole video timeline, it's current position and all added sounds";
+"hint.editor.added_sound" = "This is how added sound looks like. Tap it to remove it from timeline";
+"hint.editor.play_pause" = "Tap this button to play/pause your video";
+"hint.editor.audio_mode" = "Tap this button to select audio mode used in final video rendering";
+"hint.editor.all_sounds" = "Tap this button to browse through all available sounds";
+"hint.editor.export" = "Tap this button to start rendering and exporting your edited project";
+"hint.editor.help" = "Tap this button to go through tutorial once again";
+
+"error.error" = "Error";
+"error.unknown_error_occured" = "Unknown error occurred";
+"error.empty_file_url" = "File's url is empty for some reason";
+"error.unable_to_play_video" = "Unable to play video";
+"error.unable_to_render_video" = "Unable to render video";
+"error.unable_to_restore_purchase" = "Unable to restore in-app purchase";
+"error.unable_to_make_purchase" = "Unable to make in-app purchase";
+"error.unable_to_connect_to_app_store" = "Unable to connect to App Store";
+"error.unable_to_verify_purchase" = "Unable to verify purchase in App Store";
+"error.iap_not_allowed" = "This device can't be used for in-app purchases";
+"error.iap_cancelled" = "Purchase cancelled";

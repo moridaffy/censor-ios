@@ -31,12 +31,12 @@ extension UIViewController {
   }
   
   func showAlertError(error: Error?, desc: String?, critical: Bool, onDismiss: (() -> Void)? = nil) {
-    var body: String = desc ?? NSLocalizedString("Unknown error occurred", comment: "")
+    var body: String = desc ?? LocalizeSystem.shared.error(.unknownErrorOccured)
     if let error = error {
       body += "\n\(error)"
     }
-    let button: String? = critical ? nil : NSLocalizedString("OK", comment: "")
+    let button: String? = critical ? nil : LocalizeSystem.shared.common(.ok)
     
-    showAlert(title: NSLocalizedString("Error", comment: ""), body: body, button: button, actions: nil, onDismiss: onDismiss)
+    showAlert(title: LocalizeSystem.shared.error(.error), body: body, button: button, actions: nil, onDismiss: onDismiss)
   }
 }

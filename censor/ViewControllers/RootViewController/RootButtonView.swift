@@ -109,9 +109,9 @@ extension RootButtonView {
     var title: String {
       switch self {
       case .newProject:
-        return NSLocalizedString("Create new project", comment: "")
+        return LocalizeSystem.shared.root(.createButton)
       case .existingProjects:
-        return NSLocalizedString("Browse existing projects", comment: "")
+        return LocalizeSystem.shared.root(.browseButton)
       }
     }
     

@@ -74,7 +74,7 @@ class SettingsViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    title = NSLocalizedString("Settings", comment: "")
+    title = LocalizeSystem.shared.settings(.title)
     
     let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
     closeButton.tintColor = ColorManager.shared.accent
@@ -102,13 +102,13 @@ class SettingsViewController: UIViewController {
       self?.updateDimView(display: false)
       if success {
         self?.viewModel.activatePremiumFeatures()
-        self?.showAlert(title: NSLocalizedString("Done", comment: ""),
-                        body: NSLocalizedString("Your previous purchases has been restored", comment: ""),
-                        button: NSLocalizedString("OK", comment: ""),
+        self?.showAlert(title: LocalizeSystem.shared.common(.done),
+                        body: LocalizeSystem.shared.settings(.purchaseRestored),
+                        button: LocalizeSystem.shared.common(.ok),
                         actions: nil)
       } else {
         self?.showAlertError(error: error,
-                             desc: NSLocalizedString("Unable to restore in-app purchase", comment: ""),
+                             desc: LocalizeSystem.shared.error(.cantRestorePurchase),
                              critical: false,
                              onDismiss: nil)
       }
@@ -120,12 +120,12 @@ class SettingsViewController: UIViewController {
   private func activateFeaturesButtonTapped() {
     if SettingsManager.shared.isPremiumFeaturesUnlocked {
       showAlertError(error: nil,
-                     desc: NSLocalizedString("Premium features are already unlocked", comment: ""),
+                     desc: LocalizeSystem.shared.settings(.premiumAlreadyUnlocked),
                      critical: false)
     } else {
       SettingsManager.shared.setValue(for: .anyTipPurchased, value: true)
-      showAlert(title: NSLocalizedString("Done", comment: ""),
-                body: NSLocalizedString("Premium features have been unlocked. Please, restart application for changes to take effect", comment: ""),
+      showAlert(title: LocalizeSystem.shared.common(.done),
+                body: LocalizeSystem.shared.settings(.premiumUnlocked),
                 button: nil,
                 actions: nil)
     }
@@ -134,21 +134,21 @@ class SettingsViewController: UIViewController {
   private func deactivateFeaturesButtonTapped() {
     if SettingsManager.shared.isPremiumFeaturesUnlocked {
       SettingsManager.shared.setValue(for: .anyTipPurchased, value: false)
-      showAlert(title: NSLocalizedString("Done", comment: ""),
-                body: NSLocalizedString("Premium features have been locked. Please, restart application for changes to take effect", comment: ""),
+      showAlert(title: LocalizeSystem.shared.common(.done),
+                body: LocalizeSystem.shared.settings(.premiumLocked),
                 button: nil,
                 actions: nil)
     } else {
       showAlertError(error: nil,
-                     desc: NSLocalizedString("Premium features are already locked", comment: ""),
+                     desc: LocalizeSystem.shared.settings(.premiumAlreadyLocked),
                      critical: false)
     }
   }
   
   private func wipeDataButtonTapped() {
     viewModel.wipeProjectsData()
-    showAlert(title: NSLocalizedString("Done", comment: ""),
-              body: NSLocalizedString("All project data has been deleted. Please, restart application for changes to take effect", comment: ""),
+    showAlert(title: LocalizeSystem.shared.common(.done),
+              body: LocalizeSystem.shared.settings(.projectsDeleted),
               button: nil,
               actions: nil)
   }
@@ -185,13 +185,13 @@ extension SettingsViewController: SettingsTipsTableViewCellDelegate {
       self?.updateDimView(display: false)
       if success {
         self?.viewModel.activatePremiumFeatures()
-        self?.showAlert(title: NSLocalizedString("Thank you!", comment: ""),
-                        body: NSLocalizedString("Purchase has been successfully completed and all premium features have been unlocked", comment: ""),
-                        button: NSLocalizedString("OK", comment: ""),
+        self?.showAlert(title: LocalizeSystem.shared.settings(.purchaseCompletedTitle) + "!",
+                        body: LocalizeSystem.shared.settings(.purchaseCompletedDescription),
+                        button: LocalizeSystem.shared.common(.ok),
                         actions: nil)
       } else {
         self?.showAlertError(error: error,
-                             desc: NSLocalizedString("Unable to create in-app purchase", comment: ""),
+                             desc: LocalizeSystem.shared.error(.cantPurchase),
                              critical: false,
                              onDismiss: nil)
       }

@@ -252,7 +252,7 @@ class EditorViewController: UIViewController {
     let inputUrlResponse = StorageManager.shared.getInputUrl(forProject: viewModel.project)
     guard let inputUrl = inputUrlResponse.0 else {
       showAlertError(error: inputUrlResponse.1,
-                     desc: NSLocalizedString("Unable to play video", comment: ""),
+                     desc: LocalizeSystem.shared.error(.cantPlayVideo),
                      critical: false)
       return
     }
@@ -402,14 +402,14 @@ class EditorViewController: UIViewController {
         self?.updateDimView(display: false)
         if let error = error {
           self?.showAlertError(error: error,
-                               desc: NSLocalizedString("Failed to render video", comment: ""),
+                               desc: LocalizeSystem.shared.error(.cantRenderVideo),
                                critical: false)
         } else {
           let popAction = UIAlertAction(title: "OK", style: .default) { (_) in
             self?.navigationController?.popViewController(animated: true)
           }
-          self?.showAlert(title: NSLocalizedString("Done", comment: ""),
-                          body: NSLocalizedString("Video has been successfully rendered and saved to photo library", comment: ""),
+          self?.showAlert(title: LocalizeSystem.shared.common(.done),
+                          body: LocalizeSystem.shared.editor(.videoRendered),
                           button: nil,
                           actions: [popAction])
         }
@@ -572,7 +572,7 @@ extension EditorViewController: CoachMarksControllerDataSource {
     )
     
     coachViews.bodyView.hintLabel.text = getCoachMarkerString(at: index)
-    coachViews.bodyView.nextLabel.text = NSLocalizedString("OK", comment: "")
+    coachViews.bodyView.nextLabel.text = LocalizeSystem.shared.common(.ok)
     
     return (bodyView: coachViews.bodyView, arrowView: coachViews.arrowView)
   }
@@ -608,17 +608,17 @@ extension EditorViewController {
   
   func generateHints() {
     var hints: [EditorHint] = []
-    hints.append(EditorHint(text: NSLocalizedString("This is the preview of your video", comment: ""), view: playerContainerView))
-    hints.append(EditorHint(text: NSLocalizedString("Tap this button to add sound at current position of the video", comment: ""), view: recordButton))
-    hints.append(EditorHint(text: NSLocalizedString("Here you can see the whole video timeline, it's current position and all added sounds", comment: ""), view: videoTimelineView))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorPreview), view: playerContainerView))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorAddSound), view: recordButton))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorTimeline), view: videoTimelineView))
     if let soundView = soundViews.first, !viewModel.addedSounds.isEmpty {
-      hints.append(EditorHint(text: NSLocalizedString("This is how added sound looks like. Tap it to remove it from timeline", comment: ""), view: soundView))
+      hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorAddedSound), view: soundView))
     }
-    hints.append(EditorHint(text: NSLocalizedString("Tap this button to play/pause your video", comment: ""), view: playButton))
-    hints.append(EditorHint(text: NSLocalizedString("Tap this button to select audio mode used in final video rendering", comment: ""), view: controlsCollectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.contentView))
-    hints.append(EditorHint(text: NSLocalizedString("Tap this button to browse through all available sounds", comment: ""), view: controlsCollectionView.cellForItem(at: IndexPath(row: 1, section: 0))?.contentView))
-    hints.append(EditorHint(text: NSLocalizedString("Tap this button to start rendering and exporting your edited project", comment: ""), view: exportButton))
-    hints.append(EditorHint(text: NSLocalizedString("Tap this button to go through tutorial once again", comment: ""), view: helpButton))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorPlayPause), view: playButton))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorAudioMode), view: controlsCollectionView.cellForItem(at: IndexPath(row: 0, section: 0))?.contentView))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorAllSounds), view: controlsCollectionView.cellForItem(at: IndexPath(row: 1, section: 0))?.contentView))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorExport), view: exportButton))
+    hints.append(EditorHint(text: LocalizeSystem.shared.hint(.editorHelp), view: helpButton))
     viewModel.displayedHints = hints
   }
 }

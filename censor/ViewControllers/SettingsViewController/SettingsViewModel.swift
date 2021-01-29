@@ -41,7 +41,7 @@ class SettingsViewModel {
     case .icon:
       switch indexPath.row {
       case 0:
-        return SettingsTitleTableViewCellModel(title: NSLocalizedString("Select app icon", comment: ""))
+        return SettingsTitleTableViewCellModel(title: LocalizeSystem.shared.settings(.iconTitle))
       case 1:
         return SettingsIconsTableViewCellModel()
       default:
@@ -50,7 +50,7 @@ class SettingsViewModel {
     case .tips:
       switch indexPath.row {
       case 0:
-        return SettingsTitleTableViewCellModel(title: NSLocalizedString("Leave a tip", comment: ""))
+        return SettingsTitleTableViewCellModel(title: LocalizeSystem.shared.settings(.tipTitle))
       case 1:
         return SettingsTipsTableViewCellModel(iapPrices: iapPrices)
       case 2:

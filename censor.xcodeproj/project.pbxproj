@@ -31,6 +31,8 @@
 		0C2BFF2D253F3A5500ED700D /* RootViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF2C253F3A5500ED700D /* RootViewModel.swift */; };
 		0C2BFF31253F43AB00ED700D /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF30253F43AB00ED700D /* EditorViewController.swift */; };
 		0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF34253F43F000ED700D /* EditorViewModel.swift */; };
+		0C5CE6A825C29D87003B34A3 /* LocalizeSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5CE6A725C29D87003B34A3 /* LocalizeSystem.swift */; };
+		0C5CE6AD25C2A11C003B34A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C5CE6AF25C2A11C003B34A3 /* Localizable.strings */; };
 		0C6904A525449D920096E323 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6904A425449D920096E323 /* DateHelper.swift */; };
 		0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A242554771F00C2CB14 /* ColorManager.swift */; };
 		0C6F0A282554857500C2CB14 /* VideoTimelineSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */; };
@@ -166,6 +168,8 @@
 		0C2BFF2C253F3A5500ED700D /* RootViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootViewModel.swift; sourceTree = "<group>"; };
 		0C2BFF30253F43AB00ED700D /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewController.swift; sourceTree = "<group>"; };
 		0C2BFF34253F43F000ED700D /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
+		0C5CE6A725C29D87003B34A3 /* LocalizeSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeSystem.swift; sourceTree = "<group>"; };
+		0C5CE6AE25C2A11C003B34A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0C6904A425449D920096E323 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		0C6F0A242554771F00C2CB14 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimelineSoundView.swift; sourceTree = "<group>"; };
@@ -320,6 +324,7 @@
 			children = (
 				0C71E39D25AF884B005EC445 /* AppIcons */,
 				0C29141625408786009BDB52 /* Sounds */,
+				0C5CE6AF25C2A11C003B34A3 /* Localizable.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				0C6904A425449D920096E323 /* DateHelper.swift */,
 				0C9FD03F257BD6CF00EA70F1 /* SettingsManager.swift */,
 				0C2B1ADE25BECA4D00D50E9F /* IAPManager.swift */,
+				0C5CE6A725C29D87003B34A3 /* LocalizeSystem.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -677,6 +683,7 @@
 				0CB16C0125B3B01800E6AE81 /* siren_6.mp3 in Resources */,
 				0CB16BFC25B3B01800E6AE81 /* gun_1.mp3 in Resources */,
 				0CB16C0B25B3B01800E6AE81 /* money_1.mp3 in Resources */,
+				0C5CE6AD25C2A11C003B34A3 /* Localizable.strings in Resources */,
 				0CB16BE825B3B01800E6AE81 /* digital_1.mp3 in Resources */,
 				0CB16BEB25B3B01800E6AE81 /* cartoon_1.mp3 in Resources */,
 				0C2BFF16253F35CC00ED700D /* LaunchScreen.storyboard in Resources */,
@@ -828,6 +835,7 @@
 				0C9FD040257BD6CF00EA70F1 /* SettingsManager.swift in Sources */,
 				0C901C4F2550501C00988CB2 /* NSNotification.Name+CustomNotifications.swift in Sources */,
 				0C8AEFF825470DCF005D00E1 /* SettingsIconCollectionViewCell.swift in Sources */,
+				0C5CE6A825C29D87003B34A3 /* LocalizeSystem.swift in Sources */,
 				0C8AEFEB2546F7FA005D00E1 /* SettingsTipsTableViewCell.swift in Sources */,
 				0C29141025403FB7009BDB52 /* UIViewController+Alerts.swift in Sources */,
 				0C29140425403398009BDB52 /* ProjectListViewModel.swift in Sources */,
@@ -864,6 +872,14 @@
 				0C2BFF15253F35CC00ED700D /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		0C5CE6AF25C2A11C003B34A3 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0C5CE6AE25C2A11C003B34A3 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
