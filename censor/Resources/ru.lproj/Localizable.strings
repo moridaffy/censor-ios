@@ -1,0 +1,79 @@
+/* 
+  Localizable.strings
+  censor
+
+  Created by Maxim Skryabin on 28.01.2021.
+  
+*/
+
+"root.welcome.title" = "Добро пожаловать в CenStory";
+"root.welcome.description" = "Нажмите на одну из кнопок ниже для продолжения";
+"root.button.create" = "Создать новый проект";
+"root.button.browse" = "Посмотреть существующие проекты";
+
+"projects.title" = "Проекты";
+"projects.project" = "Проект";
+"projects.new_project" = "Новый проект";
+"projects.new_project_name" = "Введите название проекта";
+
+"editor.export" = "Экспорт";
+"editor.select.audio_mode" = "Выбрать режим наложения";
+"editor.select.sound" = "Выбрать звук";
+"editor.render.done" = "Видео было успешно экспортировано и сохранено в фотопленку";
+
+"editor.sound_mode.mute.title" = "Заглушить оригинал";
+"editor.sound_mode.mute.description" = "Полностью заглушить оригинальное аудио во время наложения звука";
+"editor.sound_mode.silence.title" = "Приглушить оригинал";
+"editor.sound_mode.silence.description" = "Оставить только 20% громкости оригинального аудио на время наложения звука";
+"editor.sound_mode.original.title" = "Оставить оригинал";
+"editor.sound_mode.original.description" = "Не изменять оригинальное аудио";
+
+"settings.title" = "Настройки";
+"settings.icon.title" = "Выбрать иконку";
+"settings.tip.title" = "Оставить чаевые";
+"settings.tip.description" = "Разработка и поддержка мобильных приложений требуют много времени и усилий. Я решил сделать это приложение бесплатным, чтобы каждый мог попробовать его и решить, оставить ли его на своем телефоне или удалить. Если вам нравится использовать это приложение, вы можете поблагодарить и мотивировать меня работать над ним еще усерднее, просто оставив чаевые. Вы даже можете выбрать размер чаевых, которые хотите дать, и давать их столько раз, сколько хотите :) Оставляя чаевые, вы поддерживаете меня и получаете доступ к некоторым новым функциям:\n• вся реклама волшебным образом исчезнет из приложения, как и водяной знак на ваших экспортированных видео\n• будут разблокированы дополнительные звуки\n• также могут появиться некоторые новые функции";
+"settings.tip.small.title" = "Малые чаевые";
+"settings.tip.medium.title" = "Средние чаевые";
+"settings.tip.large.title" = "Большие чаевые";
+"settings.iap.purchase_restore_button" = "Восстановить покупки";
+"settings.iap.purchase_restored" = "Ваши предыдущие покупки были восстановлены";
+"settings.iap.purchase_completed_title" = "Спасибо";
+"settings.iap.purchase_completed_description" = "Покупка успешно совершена, полный функционал был разблокирован";
+"settings.debug.already_unlocked" = "Полный функционал уже разблокирован";
+"settings.debug.unlocked" = "Полный функционал был разблокирован. Перезапустите приложение, чтобы изменения вступили в силу";
+"settings.debug.unlock_button" = "Активировать полный функционал";
+"settings.debug.already_locked" = "Полный функционал уже заблокирован";
+"settings.debug.locked" = "Полный функционал был заблокирован. Перезапустите приложение, чтобы изменения вступили в силу";
+"settings.debug.lock_button" = "Заблокировать полный функционал";
+"settings.debug.projects_deleted" = "Все проекты удалены. Перезапустите приложение, чтобы изменения вступили в силу";
+"settings.debug.projects_delete_button" = "Удалить проекты";
+
+"common.done" = "Готово";
+"common.ok" = "ОК";
+"common.cancel" = "Отмена";
+"common.save" = "Сохранить";
+"common.create" = "Создать";
+"common.delete" = "Удалить";
+"common.search" = "Поиск";
+
+"hint.editor.preview" = "Это предпросмотр вашего видео";
+"hint.editor.add_sound" = "Нажмите эту кнопку, чтобы добавить звук на текущую позицию в видео";
+"hint.editor.timeline" = "Это полная лента видео, текущая позиция и все добавленные звуки";
+"hint.editor.added_sound" = "Вот так добавленный звук выглядит на ленте видео. Нажмите на него, чтобы удалить";
+"hint.editor.play_pause" = "Нажмите эту кнопку, чтобы воспроизвести/остановить видео";
+"hint.editor.audio_mode" = "Нажмите эту кнопку, чтобы выбрать режим наложения звука, используемый при экспорте видео";
+"hint.editor.all_sounds" = "Нажмите эту кнопку, чтобы просмотреть полный список всех доступных звуков ";
+"hint.editor.export" = "Нажмите эту кнопку, чтобы экспортировать видео";
+"hint.editor.help" = "Нажмите эту кнопку, чтобы запустить обучение еще раз";
+
+"error.error" = "Ошибка";
+"error.unknown_error_occured" = "Произошла неизвестная ошибка";
+"error.empty_file_url" = "URL файла почему-то пустой :/";
+"error.unable_to_play_video" = "Не удалось воспроизвести видео";
+"error.unable_to_render_video" = "Не удалось экспортировать видео";
+"error.unable_to_restore_purchase" = "Не удалось восстановить покупку";
+"error.unable_to_make_purchase" = "Не удалось совершить покупку";
+"error.unable_to_connect_to_app_store" = "Не удалось соединиться с App Store";
+"error.unable_to_verify_purchase" = "Не удалось подтвердить покупку в App Store";
+"error.iap_not_allowed" = "Это устройство не может быть использовано для встроенных покупок";
+"error.iap_cancelled" = "Покупка отменена";
