@@ -10,11 +10,11 @@ import Foundation
 class SettingsViewModel {
   
   let sections: [SectionType] = {
-    #if DEBUG
+//    #if DEBUG
     return SectionType.debugAllCases
-    #else
-    return SectionType.allCases
-    #endif
+//    #else
+//    return SectionType.allCases
+//    #endif
   }()
   
   weak var view: SettingsViewController?
