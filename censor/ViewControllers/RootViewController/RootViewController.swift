@@ -62,16 +62,17 @@ class RootViewController: UIViewController {
     
     NotificationCenter.default.addObserver(self, selector: #selector(updateTexts), name: .languageChanged, object: nil)
     updateTexts()
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
     
-    // TODO: fixme
-    DispatchQueue.main.async {
-      self.buttonsContainerView.addDashedBorder(ofColor: ColorManager.shared.subtext,
-                                                borderWidth: 2.0,
-                                                cornerRadius: self.buttonsContainerView.layer.cornerRadius)
-    }
+    setupButtonsBorder()
   }
   
   private func setupLayout() {
+    // TODO: на iPhone SE не влезают лейблы
+    
     let logoImageViewTop: CGFloat = SettingsManager.shared.isIpad ? UIScreen.main.bounds.height / 4 : 64.0
     let logoImageViewWidth: CGFloat = min(UIScreen.main.bounds.width - 128.0, 300.0)
     
@@ -136,9 +137,17 @@ class RootViewController: UIViewController {
     existingProjectsButton.addTarget(self, action: #selector(openProjectListButtonTapped))
   }
   
+  private func setupButtonsBorder() {
+    guard !viewModel.displayedButtonsBorder else { return }
+    viewModel.displayedButtonsBorder = true
+    
+    buttonsContainerView.addDashedBorder(ofColor: ColorManager.shared.subtext,
+                                              borderWidth: 2.0,
+                                              cornerRadius: buttonsContainerView.layer.cornerRadius)
+  }
+  
   private func presentProjectListViewController(createNewProject: Bool) {
-    // TODO: fixme
-    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
       let projectListViewModel = ProjectListViewModel()
       let projectListViewController = ProjectListViewController(viewModel: projectListViewModel)
       self.navigationController?.pushViewController(projectListViewController, animated: true, completion: {

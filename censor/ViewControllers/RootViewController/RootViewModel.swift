@@ -10,5 +10,6 @@ import Foundation
 class RootViewModel {
   
   var buttonTapped: Bool = false
+  var displayedButtonsBorder: Bool = false
   
 }
