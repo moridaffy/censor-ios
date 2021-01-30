@@ -33,6 +33,12 @@
 		0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2BFF34253F43F000ED700D /* EditorViewModel.swift */; };
 		0C5CE6A825C29D87003B34A3 /* LocalizeSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C5CE6A725C29D87003B34A3 /* LocalizeSystem.swift */; };
 		0C5CE6AD25C2A11C003B34A3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0C5CE6AF25C2A11C003B34A3 /* Localizable.strings */; };
+		0C63D8DD25C5D0FB00979443 /* SettingsLanguageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8DC25C5D0FB00979443 /* SettingsLanguageTableViewCell.swift */; };
+		0C63D8E125C5D28100979443 /* SettingsLanguageTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8E025C5D28100979443 /* SettingsLanguageTableViewCellModel.swift */; };
+		0C63D8E525C5D58300979443 /* LanguageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8E425C5D58300979443 /* LanguageListViewController.swift */; };
+		0C63D8E825C5D5CC00979443 /* LanguageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8E725C5D5CC00979443 /* LanguageListViewModel.swift */; };
+		0C63D8EB25C5D81200979443 /* LanguageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8EA25C5D81200979443 /* LanguageListTableViewCell.swift */; };
+		0C63D8EE25C5E18F00979443 /* CensorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8ED25C5E18F00979443 /* CensorViewController.swift */; };
 		0C6904A525449D920096E323 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6904A425449D920096E323 /* DateHelper.swift */; };
 		0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A242554771F00C2CB14 /* ColorManager.swift */; };
 		0C6F0A282554857500C2CB14 /* VideoTimelineSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */; };
@@ -170,6 +176,12 @@
 		0C2BFF34253F43F000ED700D /* EditorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorViewModel.swift; sourceTree = "<group>"; };
 		0C5CE6A725C29D87003B34A3 /* LocalizeSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeSystem.swift; sourceTree = "<group>"; };
 		0C5CE6AE25C2A11C003B34A3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		0C63D8DC25C5D0FB00979443 /* SettingsLanguageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLanguageTableViewCell.swift; sourceTree = "<group>"; };
+		0C63D8E025C5D28100979443 /* SettingsLanguageTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsLanguageTableViewCellModel.swift; sourceTree = "<group>"; };
+		0C63D8E425C5D58300979443 /* LanguageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewController.swift; sourceTree = "<group>"; };
+		0C63D8E725C5D5CC00979443 /* LanguageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewModel.swift; sourceTree = "<group>"; };
+		0C63D8EA25C5D81200979443 /* LanguageListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListTableViewCell.swift; sourceTree = "<group>"; };
+		0C63D8ED25C5E18F00979443 /* CensorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CensorViewController.swift; sourceTree = "<group>"; };
 		0C6904A425449D920096E323 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		0C6F0A242554771F00C2CB14 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimelineSoundView.swift; sourceTree = "<group>"; };
@@ -467,6 +479,7 @@
 				0C09B49525C1BDD300E8BDCB /* AudioModeSelectorViewController */,
 				0C0351812545FA4500BC3461 /* SoundSelectorViewController */,
 				0C8AEFD12546E931005D00E1 /* SettingsViewController */,
+				0C63D8E325C5D56000979443 /* LanguageListViewController */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -511,8 +524,28 @@
 			children = (
 				0C291409254038E5009BDB52 /* Project.swift */,
 				0C29141225405906009BDB52 /* Sound.swift */,
+				0C63D8ED25C5E18F00979443 /* CensorViewController.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		0C63D8DB25C5D0E800979443 /* SettingsLanguageTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				0C63D8DC25C5D0FB00979443 /* SettingsLanguageTableViewCell.swift */,
+				0C63D8E025C5D28100979443 /* SettingsLanguageTableViewCellModel.swift */,
+			);
+			path = SettingsLanguageTableViewCell;
+			sourceTree = "<group>";
+		};
+		0C63D8E325C5D56000979443 /* LanguageListViewController */ = {
+			isa = PBXGroup;
+			children = (
+				0C63D8E425C5D58300979443 /* LanguageListViewController.swift */,
+				0C63D8E725C5D5CC00979443 /* LanguageListViewModel.swift */,
+				0C63D8EA25C5D81200979443 /* LanguageListTableViewCell.swift */,
+			);
+			path = LanguageListViewController;
 			sourceTree = "<group>";
 		};
 		0C71E39D25AF884B005EC445 /* AppIcons */ = {
@@ -535,6 +568,7 @@
 				0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */,
 				0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */,
 				0C8AEFD82546ED37005D00E1 /* SettingsTitleTableViewCell */,
+				0C63D8DB25C5D0E800979443 /* SettingsLanguageTableViewCell */,
 				0C8AEFF025470C10005D00E1 /* SettingsIconsTableViewCell */,
 				0C8AEFE92546F7E6005D00E1 /* SettingsTipsTableViewCell */,
 				0C8AEFE22546F576005D00E1 /* SettingsButtonTableViewCell */,
@@ -816,6 +850,7 @@
 			files = (
 				0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */,
 				0CE7EA7C2550A36A00C220D6 /* String+Size.swift in Sources */,
+				0C63D8E825C5D5CC00979443 /* LanguageListViewModel.swift in Sources */,
 				0C901C532550641800988CB2 /* VideoTimelineView.swift in Sources */,
 				0C8AEFF525470CAC005D00E1 /* SettingsIconsTableViewCellModel.swift in Sources */,
 				0C8AEFD62546E955005D00E1 /* SettingsViewModel.swift in Sources */,
@@ -824,6 +859,7 @@
 				0C29140D25403D47009BDB52 /* UINavigationController+CompletionHandler.swift in Sources */,
 				0C29140025403374009BDB52 /* ProjectListViewController.swift in Sources */,
 				0C2914072540375D009BDB52 /* ProjectListTableViewCell.swift in Sources */,
+				0C63D8E525C5D58300979443 /* LanguageListViewController.swift in Sources */,
 				0C8AEFEE2546F813005D00E1 /* SettingsTipsTableViewCellModel.swift in Sources */,
 				0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */,
 				0C0351832545FA5A00BC3461 /* SoundSelectorViewController.swift in Sources */,
@@ -842,17 +878,21 @@
 				0C29141025403FB7009BDB52 /* UIViewController+Alerts.swift in Sources */,
 				0C29140425403398009BDB52 /* ProjectListViewModel.swift in Sources */,
 				0CBD02892550A054007388D7 /* EditorButtonCollectionViewCellModel.swift in Sources */,
+				0C63D8EE25C5E18F00979443 /* CensorViewController.swift in Sources */,
 				0C8AEFD32546E944005D00E1 /* SettingsViewController.swift in Sources */,
 				0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */,
 				0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */,
 				0C2914252540A569009BDB52 /* VideoRenderer.swift in Sources */,
 				0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */,
 				0C73137B255353E50034D3B1 /* DimmableNavigationController.swift in Sources */,
+				0C63D8E125C5D28100979443 /* SettingsLanguageTableViewCellModel.swift in Sources */,
 				0C6904A525449D920096E323 /* DateHelper.swift in Sources */,
 				0C09B49C25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift in Sources */,
 				0C8AEFF225470C1F005D00E1 /* SettingsIconsTableViewCell.swift in Sources */,
 				0C8AEFDD2546EE90005D00E1 /* UITableViewCell+Separator.swift in Sources */,
 				0C2B1ADF25BECA4D00D50E9F /* IAPManager.swift in Sources */,
+				0C63D8EB25C5D81200979443 /* LanguageListTableViewCell.swift in Sources */,
+				0C63D8DD25C5D0FB00979443 /* SettingsLanguageTableViewCell.swift in Sources */,
 				0C8AEFE42546F582005D00E1 /* SettingsButtonTableViewCell.swift in Sources */,
 				0C8AEFE72546F5F1005D00E1 /* SettingsButtonTableViewCellModel.swift in Sources */,
 				0C0351862545FA6800BC3461 /* SoundSelectorViewModel.swift in Sources */,

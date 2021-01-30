@@ -38,6 +38,12 @@ class LocalizeSystem {
   func error(_ error: Error) -> String {
     return error.rawValue.localized()
   }
+  
+  func updateLanguage(to language: Language) {
+    SettingsManager.shared.setValue(for: .languageCode, value: language.languageCode)
+    SettingsManager.shared.languageCode = language.languageCode
+    NotificationCenter.default.post(name: .languageChanged, object: nil)
+  }
 }
 
 extension LocalizeSystem {
@@ -71,6 +77,8 @@ extension LocalizeSystem {
   enum Settings: String {
     case title = "settings.title"
     case iconTitle = "settings.icon.title"
+    case languageTitle = "settings.language.title"
+    case selectLanguage = "settings.language.select_language"
     case tipTitle = "settings.tip.title"
     case tipDescription = "settings.tip.description"
     case tipSmallTitle = "settings.tip.small.title"
@@ -128,20 +136,20 @@ extension LocalizeSystem {
 }
 
 extension LocalizeSystem {
-  enum Language: String {
+  enum Language: String, CaseIterable {
     case english
     case russian
     
     var title: String {
-      return "language_\(rawValue)".localized(self.languageCode)
+      return "language.\(rawValue)".localized(self.languageCode)
     }
     
     var languageCode: String {
       switch self {
       case .english:
-        return "en_US"
+        return "en"
       case .russian:
-        return "ru_RU"
+        return "ru"
       }
     }
   }

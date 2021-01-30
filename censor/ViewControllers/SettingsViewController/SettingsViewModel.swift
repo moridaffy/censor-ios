@@ -47,6 +47,15 @@ class SettingsViewModel {
       default:
         return nil
       }
+    case .language:
+      switch indexPath.row {
+      case 0:
+        return SettingsTitleTableViewCellModel(title: LocalizeSystem.shared.settings(.languageTitle))
+      case 1:
+        return SettingsLanguageTableViewCellModel()
+      default:
+        return nil
+      }
     case .tips:
       switch indexPath.row {
       case 0:
@@ -96,16 +105,19 @@ class SettingsViewModel {
 extension SettingsViewModel {
   enum SectionType: Int {
     
-    static let allCases: [SectionType] = [.icon, .tips]
-    static let debugAllCases: [SectionType] = [.icon, .tips, .debug]
+    static let allCases: [SectionType] = [.icon, .language, .tips]
+    static let debugAllCases: [SectionType] = [.icon, .language, .tips, .debug]
     
     case icon = 1
-    case tips = 2
-    case debug = 3
+    case language = 2
+    case tips = 3
+    case debug = 4
     
     var numberOfRows: Int {
       switch self {
       case .icon:
+        return 2
+      case .language:
         return 2
       case .tips:
         return 3

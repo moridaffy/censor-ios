@@ -19,6 +19,7 @@ class SettingsViewController: UIViewController {
     
     tableView.register(SettingsTitleTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsTitleTableViewCell.self))
     tableView.register(SettingsIconsTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsIconsTableViewCell.self))
+    tableView.register(SettingsLanguageTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsLanguageTableViewCell.self))
     tableView.register(SettingsTipsTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsTipsTableViewCell.self))
     tableView.register(SettingsButtonTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsButtonTableViewCell.self))
     
@@ -113,6 +114,11 @@ class SettingsViewController: UIViewController {
                              onDismiss: nil)
       }
     }
+  }
+  
+  private func openLanguageListViewController() {
+    let languageListViewController = LanguageListViewController()
+    navigationController?.pushViewController(languageListViewController, animated: true)
   }
   
   // MARK: - Debug methods
@@ -212,6 +218,8 @@ extension SettingsViewController: UITableViewDelegate {
       return 182.0
     } else if cellModel is SettingsButtonTableViewCellModel {
       return 44.0
+    } else if cellModel is SettingsLanguageTableViewCellModel {
+      return 44.0
     } else {
       fatalError()
     }
@@ -226,6 +234,8 @@ extension SettingsViewController: UITableViewDelegate {
     } else if cellModel is SettingsTipsTableViewCellModel {
       return UITableView.automaticDimension
     } else if cellModel is SettingsButtonTableViewCellModel {
+      return 44.0
+    } else if cellModel is SettingsLanguageTableViewCellModel {
       return 44.0
     } else {
       fatalError()
@@ -247,6 +257,8 @@ extension SettingsViewController: UITableViewDelegate {
       case .wipeData:
         wipeDataButtonTapped()
       }
+    } else if cellModel is SettingsLanguageTableViewCellModel {
+      openLanguageListViewController()
     }
   }
 }
@@ -273,6 +285,11 @@ extension SettingsViewController: UITableViewDataSource {
       guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingsIconsTableViewCell.self))
               as? SettingsIconsTableViewCell else { fatalError() }
       cell.update(viewModel: cellModel, delegate: self)
+      return cell
+    } else if let cellModel = cellModel as? SettingsLanguageTableViewCellModel {
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingsLanguageTableViewCell.self))
+              as? SettingsLanguageTableViewCell else { fatalError() }
+      cell.update(viewModel: cellModel)
       return cell
     } else if let cellModel = cellModel as? SettingsTipsTableViewCellModel {
       guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingsTipsTableViewCell.self))

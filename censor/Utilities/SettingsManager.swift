@@ -34,12 +34,24 @@ class SettingsManager {
   // MARK: - Private
   
   private init() {
-    languageCode = getValue(of: String.self, for: .languageCode) ?? Locale.current.languageCode ?? "en-US"
+    updateLanguageCode()
   }
   
   private let keyPrefix: String = {
     return (Bundle.main.bundleIdentifier ?? "ru.mskr.censor") + ".settings."
   }()
+  
+  private func updateLanguageCode() {
+    let storedLanguageCode = getValue(of: String.self, for: .languageCode)
+    if let storedLanguageCode = storedLanguageCode, !storedLanguageCode.isEmpty {
+      self.languageCode = storedLanguageCode
+    } else if let systemLanguageCode = Locale.current.languageCode,
+              let language = LocalizeSystem.Language.allCases.first(where: { $0.languageCode == systemLanguageCode }) {
+      self.languageCode = language.languageCode
+    } else {
+      self.languageCode = "en"
+    }
+  }
   
   // MARK: - Custom icons
   
