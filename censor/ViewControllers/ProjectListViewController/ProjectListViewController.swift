@@ -22,6 +22,19 @@ class ProjectListViewController: UIViewController {
     return tableView
   }()
   
+  private let newProjectButton: UIButton = {
+    let button = UIButton()
+    button.translatesAutoresizingMaskIntoConstraints = false
+    button.setTitleColor(ColorManager.shared.subtext, for: .normal)
+    button.titleLabel?.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
+    button.layer.cornerRadius = 6.0
+    button.layer.masksToBounds = true
+    button.layer.borderWidth = 0.5
+    button.layer.borderColor = ColorManager.shared.subtext.cgColor
+    button.isHidden = true
+    return button
+  }()
+  
   private let bottomBanner: GADBannerView = {
     let banner = GADBannerView(adSize: kGADAdSizeBanner)
     banner.translatesAutoresizingMaskIntoConstraints = false
@@ -71,12 +84,17 @@ class ProjectListViewController: UIViewController {
   
   private func setupLayout() {
     view.addSubview(tableView)
+    view.addSubview(newProjectButton)
     
     view.addConstraints([
       tableView.topAnchor.constraint(equalTo: view.topAnchor),
       tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
       tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+      tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      
+      newProjectButton.centerYAnchor.constraint(equalTo: tableView.centerYAnchor),
+      newProjectButton.centerXAnchor.constraint(equalTo: tableView.centerXAnchor),
+      newProjectButton.leftAnchor.constraint(greaterThanOrEqualTo: view.leftAnchor, constant: 32.0)
     ])
   }
   
@@ -105,6 +123,8 @@ class ProjectListViewController: UIViewController {
   private func setupTableView() {
     tableView.delegate = self
     tableView.dataSource = self
+    
+    newProjectButton.addTarget(self, action: #selector(addProjectButtonTapped), for: .touchUpInside)
   }
   
   private func setupBanner() {
@@ -194,10 +214,12 @@ class ProjectListViewController: UIViewController {
   
   @objc private func updateTexts() {
     title = LocalizeSystem.shared.projects(.title)
+    newProjectButton.setTitle("  " + LocalizeSystem.shared.root(.createButton) + "  ", for: .normal)
   }
   
   func reloadTableView() {
     tableView.reloadData()
+    newProjectButton.isHidden = !viewModel.projects.isEmpty
   }
 }
 
