@@ -94,6 +94,13 @@ class EditorViewController: UIViewController {
     return button
   }()
   
+  private let controlsCollectionContainerView: UIView = {
+    let view = UIView()
+    view.translatesAutoresizingMaskIntoConstraints = false
+    view.backgroundColor = UIColor.clear
+    return view
+  }()
+  
   private let controlsCollectionView: UICollectionView = {
     let collectionViewLayout = UICollectionViewFlowLayout()
     collectionViewLayout.scrollDirection = .horizontal
@@ -101,6 +108,7 @@ class EditorViewController: UIViewController {
     collectionView.translatesAutoresizingMaskIntoConstraints = false
     collectionView.backgroundColor = UIColor.clear
     collectionView.showsHorizontalScrollIndicator = false
+    collectionView.contentInset = UIEdgeInsets(top: 0.0, left: 8.0, bottom: 0.0, right: 16.0)
     
     collectionView.register(EditorButtonCollectionViewCell.self, forCellWithReuseIdentifier: String(describing: EditorButtonCollectionViewCell.self))
     
@@ -116,6 +124,8 @@ class EditorViewController: UIViewController {
   private var playerLayer: AVPlayerLayer?
   private var playerPeriodicNotificationToken: Any?
   private var playerBoundaryNotificationToken: Any?
+  
+  private var controlsFadeLayer: CAGradientLayer?
   
   private var dimmableNavigationController: DimmableNavigationController? {
     return navigationController as? DimmableNavigationController
@@ -147,6 +157,12 @@ class EditorViewController: UIViewController {
     setupCollectionView()
     
     videoTimelineView.update(project: viewModel.project, delegate: self)
+  }
+  
+  override func viewDidLayoutSubviews() {
+    super.viewDidLayoutSubviews()
+    
+    setupCollectionViewFading()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -184,7 +200,8 @@ class EditorViewController: UIViewController {
     view.addSubview(controlsContainerView)
     controlsContainerView.addSubview(videoTimelineView)
     controlsContainerView.addSubview(playButton)
-    controlsContainerView.addSubview(controlsCollectionView)
+    controlsContainerView.addSubview(controlsCollectionContainerView)
+    controlsCollectionContainerView.addSubview(controlsCollectionView)
     view.addSubview(recordButton)
     
     view.addConstraints([
@@ -207,11 +224,16 @@ class EditorViewController: UIViewController {
       playButton.heightAnchor.constraint(equalToConstant: 40.0),
       playButton.widthAnchor.constraint(equalToConstant: 40.0),
       
-      controlsCollectionView.topAnchor.constraint(equalTo: playButton.topAnchor),
-      controlsCollectionView.bottomAnchor.constraint(equalTo: playButton.bottomAnchor),
-      controlsCollectionView.leftAnchor.constraint(equalTo: playButton.rightAnchor, constant: 8.0),
-      controlsCollectionView.rightAnchor.constraint(equalTo: videoTimelineView.rightAnchor),
-      controlsCollectionView.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -16.0),
+      controlsCollectionContainerView.topAnchor.constraint(equalTo: playButton.topAnchor),
+      controlsCollectionContainerView.bottomAnchor.constraint(equalTo: playButton.bottomAnchor),
+      controlsCollectionContainerView.leftAnchor.constraint(equalTo: playButton.rightAnchor),
+      controlsCollectionContainerView.rightAnchor.constraint(equalTo: controlsContainerView.rightAnchor, constant: -8.0),
+      controlsCollectionContainerView.bottomAnchor.constraint(equalTo: controlsContainerView.bottomAnchor, constant: -16.0),
+      
+      controlsCollectionView.topAnchor.constraint(equalTo: controlsCollectionContainerView.topAnchor),
+      controlsCollectionView.leftAnchor.constraint(equalTo: controlsCollectionContainerView.leftAnchor),
+      controlsCollectionView.rightAnchor.constraint(equalTo: controlsCollectionContainerView.rightAnchor),
+      controlsCollectionView.bottomAnchor.constraint(equalTo: controlsCollectionContainerView.bottomAnchor),
       
       recordButton.heightAnchor.constraint(equalToConstant: 50.0),
       recordButton.widthAnchor.constraint(equalToConstant: 50.0),
@@ -246,6 +268,21 @@ class EditorViewController: UIViewController {
   private func setupCollectionView() {
     controlsCollectionView.delegate = self
     controlsCollectionView.dataSource = self
+  }
+  
+  private func setupCollectionViewFading() {
+    if let controlsFadeLayer = controlsFadeLayer {
+      controlsFadeLayer.frame = controlsCollectionContainerView.bounds
+    } else {
+      let controlsFadeLayer = CAGradientLayer()
+      controlsFadeLayer.startPoint = CGPoint(x: 0.0, y: 0.0)
+      controlsFadeLayer.endPoint = CGPoint(x: 1.0, y: 0.0)
+      controlsFadeLayer.frame = controlsCollectionContainerView.bounds
+      controlsFadeLayer.colors = [UIColor.clear.cgColor, UIColor.black.cgColor, UIColor.black.cgColor, UIColor.clear.cgColor]
+      controlsFadeLayer.locations = [0.0, 0.025, 0.975, 1.0]
+      controlsCollectionContainerView.layer.mask = controlsFadeLayer
+      self.controlsFadeLayer = controlsFadeLayer
+    }
   }
   
   private func setupPlayer() {
