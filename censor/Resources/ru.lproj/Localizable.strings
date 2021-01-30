@@ -9,7 +9,7 @@
 "root.welcome.title" = "Добро пожаловать в CenStory";
 "root.welcome.description" = "Нажмите на одну из кнопок ниже для продолжения";
 "root.button.create" = "Создать новый проект";
-"root.button.browse" = "Посмотреть существующие проекты";
+"root.button.browse" = "Мои проекты";
 
 "projects.title" = "Проекты";
 "projects.project" = "Проект";
