@@ -23,16 +23,6 @@ class RootViewController: UIViewController {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.textAlignment = .center
     label.numberOfLines = 0
-    
-    let text = NSMutableAttributedString()
-    text.append(NSAttributedString(string: LocalizeSystem.shared.root(.welcomeTitle) + "!",
-                                   attributes: [.font: UIFont.systemFont(ofSize: 30.0, weight: .semibold),
-                                                .foregroundColor: ColorManager.shared.text]))
-    text.append(NSAttributedString(string: "\n" + LocalizeSystem.shared.root(.welcomeDescription),
-                                   attributes: [.font: UIFont.systemFont(ofSize: 16.0, weight: .regular),
-                                                .foregroundColor: ColorManager.shared.subtext]))
-    label.attributedText = text
-    
     return label
   }()
   
@@ -69,6 +59,9 @@ class RootViewController: UIViewController {
     
     setupNavigationBar()
     setupButtons()
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(updateTexts), name: .languageChanged, object: nil)
+    updateTexts()
     
     // TODO: fixme
     DispatchQueue.main.async {
@@ -108,6 +101,7 @@ class RootViewController: UIViewController {
       buttonsContainerView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 32.0),
       buttonsContainerView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -32.0),
       buttonsContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -32.0),
+      buttonsContainerView.heightAnchor.constraint(equalToConstant: 176.0),
       
       buttonsStackView.topAnchor.constraint(equalTo: buttonsContainerView.topAnchor, constant: 16.0),
       buttonsStackView.leftAnchor.constraint(equalTo: buttonsContainerView.leftAnchor, constant: 16.0),
@@ -175,5 +169,19 @@ class RootViewController: UIViewController {
     viewModel.buttonTapped = true
     existingProjectsButton.startLoading(true)
     presentProjectListViewController(createNewProject: false)
+  }
+  
+  @objc private func updateTexts() {
+    let welcomeText = NSMutableAttributedString()
+    welcomeText.append(NSAttributedString(string: LocalizeSystem.shared.root(.welcomeTitle) + "!",
+                                   attributes: [.font: UIFont.systemFont(ofSize: 30.0, weight: .semibold),
+                                                .foregroundColor: ColorManager.shared.text]))
+    welcomeText.append(NSAttributedString(string: "\n" + LocalizeSystem.shared.root(.welcomeDescription),
+                                   attributes: [.font: UIFont.systemFont(ofSize: 16.0, weight: .regular),
+                                                .foregroundColor: ColorManager.shared.subtext]))
+    welcomeLabel.attributedText = welcomeText
+    
+    newProjectButton.updateTexts()
+    existingProjectsButton.updateTexts()
   }
 }

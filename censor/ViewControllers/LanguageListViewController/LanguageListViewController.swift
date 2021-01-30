@@ -36,8 +36,10 @@ class LanguageListViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     
-    setupNavigationBar()
     setupTableView()
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(updateTexts), name: .languageChanged, object: nil)
+    updateTexts()
   }
   
   private func setupLayout() {
@@ -51,15 +53,15 @@ class LanguageListViewController: UIViewController {
     ])
   }
   
-  private func setupNavigationBar() {
-    title = LocalizeSystem.shared.settings(.selectLanguage)
-  }
-  
   private func setupTableView() {
     tableView.delegate = self
     tableView.dataSource = self
     
     tableView.contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: view.safeAreaInsets.bottom, right: 0.0)
+  }
+  
+  @objc private func updateTexts() {
+    title = LocalizeSystem.shared.settings(.selectLanguage)
   }
 }
 

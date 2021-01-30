@@ -54,6 +54,9 @@ class ProjectListViewController: UIViewController {
     
     setupNavigationBar()
     setupTableView()
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(updateTexts), name: .languageChanged, object: nil)
+    updateTexts()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -84,8 +87,6 @@ class ProjectListViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    title = LocalizeSystem.shared.projects(.title)
-    
     let settingsBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "gear")?.withRenderingMode(.alwaysTemplate),
                                                 style: .plain,
                                                 target: self,
@@ -189,6 +190,10 @@ class ProjectListViewController: UIViewController {
   
   @objc func addProjectButtonTapped() {
     present(imagePickerController, animated: true, completion: nil)
+  }
+  
+  @objc private func updateTexts() {
+    title = LocalizeSystem.shared.projects(.title)
   }
   
   func reloadTableView() {

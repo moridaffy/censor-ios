@@ -13,6 +13,11 @@ protocol SettingsTipsTableViewCellDelegate: class {
 
 class SettingsTipsTableViewCell: UITableViewCell {
   
+  private struct Config {
+    static let titleLabelTag: Int = 1
+    static let priceLabelTag: Int = 2
+  }
+  
   private let descriptionLabel: UILabel = {
     let label = UILabel()
     label.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +25,6 @@ class SettingsTipsTableViewCell: UITableViewCell {
     label.numberOfLines = 0
     label.font = UIFont.systemFont(ofSize: 15.0, weight: .regular)
     label.textColor = ColorManager.shared.subtext
-    label.text = LocalizeSystem.shared.settings(.tipDescription)
     return label
   }()
   
@@ -48,9 +52,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
     self.viewModel = viewModel
     self.delegate = delegate
     
-    (smallTipButton.subviews.first(where: { $0.tag == 999 }) as? UILabel)?.text = viewModel.iapPrices[SettingsTipsTableViewCellModel.TipType.small.iapType]
-    (middleTipButton.subviews.first(where: { $0.tag == 999 }) as? UILabel)?.text = viewModel.iapPrices[SettingsTipsTableViewCellModel.TipType.middle.iapType]
-    (largeTipButton.subviews.first(where: { $0.tag == 999 }) as? UILabel)?.text = viewModel.iapPrices[SettingsTipsTableViewCellModel.TipType.large.iapType]
+    updateTexts()
   }
   
   private func setupLayout() {
@@ -81,6 +83,26 @@ class SettingsTipsTableViewCell: UITableViewCell {
     ])
   }
   
+  private func updateTexts() {
+    descriptionLabel.text = LocalizeSystem.shared.settings(.tipDescription)
+    
+    
+    let buttons: [UIView] = [smallTipButton, middleTipButton, largeTipButton]
+    let tips: [SettingsTipsTableViewCellModel.TipType] = [.small, .middle, .large]
+    for i in 0..<buttons.count {
+      let button = buttons[i]
+      let tip = tips[i]
+      
+      for label in button.subviews.compactMap({ $0 as? UILabel }) {
+        if label.tag == Config.titleLabelTag {
+          label.text = tip.iapType.title
+        } else if label.tag == Config.priceLabelTag {
+          label.text = viewModel.iapPrices[tip.iapType]
+        }
+      }
+    }
+  }
+  
   private func getTipButtonView(forType type: SettingsTipsTableViewCellModel.TipType) -> UIView {
     let containerView = UIView()
     containerView.translatesAutoresizingMaskIntoConstraints = false
@@ -96,6 +118,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
     titleLabel.textAlignment = .center
     titleLabel.numberOfLines = 0
     titleLabel.textColor = ColorManager.shared.accent
+    titleLabel.tag = Config.titleLabelTag
     
     let iconImageView = UIImageView()
     iconImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -110,7 +133,7 @@ class SettingsTipsTableViewCell: UITableViewCell {
     priceLabel.font = UIFont.systemFont(ofSize: 13.0, weight: .regular)
     priceLabel.textAlignment = .center
     priceLabel.textColor = ColorManager.shared.subtext
-    priceLabel.tag = 999
+    priceLabel.tag = Config.priceLabelTag
     
     let tapRecognizer: UITapGestureRecognizer = {
       switch type {

@@ -53,6 +53,9 @@ class SettingsViewController: UIViewController {
     
     setupNavigationBar()
     setupTableView()
+    
+    NotificationCenter.default.addObserver(self, selector: #selector(updateTexts), name: .languageChanged, object: nil)
+    updateTexts()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -75,8 +78,6 @@ class SettingsViewController: UIViewController {
   }
   
   private func setupNavigationBar() {
-    title = LocalizeSystem.shared.settings(.title)
-    
     let closeButton = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(closeButtonTapped))
     closeButton.tintColor = ColorManager.shared.accent
     navigationItem.rightBarButtonItem = closeButton
@@ -163,6 +164,11 @@ class SettingsViewController: UIViewController {
   
   @objc private func closeButtonTapped() {
     navigationController?.dismiss(animated: true, completion: nil)
+  }
+  
+  @objc private func updateTexts() {
+    title = LocalizeSystem.shared.settings(.title)
+    tableView.reloadData()
   }
   
   // MARK: - Public methods

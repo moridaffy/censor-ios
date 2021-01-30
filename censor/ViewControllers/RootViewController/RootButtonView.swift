@@ -45,7 +45,11 @@ class RootButtonView: UIView {
     return label
   }()
   
+  private var type: ButtonType
+  
   init(type: ButtonType) {
+    self.type = type
+    
     super.init(frame: .zero)
     
     translatesAutoresizingMaskIntoConstraints = false
@@ -86,8 +90,9 @@ class RootButtonView: UIView {
   }
   
   func updateButton(for type: ButtonType) {
+    self.type = type
     iconImageView.image = type.icon?.withRenderingMode(.alwaysTemplate)
-    titleLabel.text = type.title
+    updateTexts()
   }
   
   func startLoading(_ start: Bool) {
@@ -98,6 +103,10 @@ class RootButtonView: UIView {
   func addTarget(_ target: Any?, action: Selector) {
     let tapRecognizer = UITapGestureRecognizer(target: target, action: action)
     addGestureRecognizer(tapRecognizer)
+  }
+  
+  func updateTexts() {
+    titleLabel.text = type.title
   }
 }
 

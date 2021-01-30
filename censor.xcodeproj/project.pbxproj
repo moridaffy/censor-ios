@@ -38,7 +38,6 @@
 		0C63D8E525C5D58300979443 /* LanguageListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8E425C5D58300979443 /* LanguageListViewController.swift */; };
 		0C63D8E825C5D5CC00979443 /* LanguageListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8E725C5D5CC00979443 /* LanguageListViewModel.swift */; };
 		0C63D8EB25C5D81200979443 /* LanguageListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8EA25C5D81200979443 /* LanguageListTableViewCell.swift */; };
-		0C63D8EE25C5E18F00979443 /* CensorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C63D8ED25C5E18F00979443 /* CensorViewController.swift */; };
 		0C6904A525449D920096E323 /* DateHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6904A425449D920096E323 /* DateHelper.swift */; };
 		0C6F0A252554771F00C2CB14 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A242554771F00C2CB14 /* ColorManager.swift */; };
 		0C6F0A282554857500C2CB14 /* VideoTimelineSoundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */; };
@@ -181,7 +180,6 @@
 		0C63D8E425C5D58300979443 /* LanguageListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewController.swift; sourceTree = "<group>"; };
 		0C63D8E725C5D5CC00979443 /* LanguageListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListViewModel.swift; sourceTree = "<group>"; };
 		0C63D8EA25C5D81200979443 /* LanguageListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageListTableViewCell.swift; sourceTree = "<group>"; };
-		0C63D8ED25C5E18F00979443 /* CensorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CensorViewController.swift; sourceTree = "<group>"; };
 		0C6904A425449D920096E323 /* DateHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateHelper.swift; sourceTree = "<group>"; };
 		0C6F0A242554771F00C2CB14 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		0C6F0A272554857500C2CB14 /* VideoTimelineSoundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTimelineSoundView.swift; sourceTree = "<group>"; };
@@ -524,7 +522,6 @@
 			children = (
 				0C291409254038E5009BDB52 /* Project.swift */,
 				0C29141225405906009BDB52 /* Sound.swift */,
-				0C63D8ED25C5E18F00979443 /* CensorViewController.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -878,7 +875,6 @@
 				0C29141025403FB7009BDB52 /* UIViewController+Alerts.swift in Sources */,
 				0C29140425403398009BDB52 /* ProjectListViewModel.swift in Sources */,
 				0CBD02892550A054007388D7 /* EditorButtonCollectionViewCellModel.swift in Sources */,
-				0C63D8EE25C5E18F00979443 /* CensorViewController.swift in Sources */,
 				0C8AEFD32546E944005D00E1 /* SettingsViewController.swift in Sources */,
 				0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */,
 				0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */,
