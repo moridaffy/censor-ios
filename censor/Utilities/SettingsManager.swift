@@ -15,6 +15,10 @@ class SettingsManager {
     return UIDevice.current.userInterfaceIdiom == .pad
   }
   
+  var isSmallScreen: Bool {
+    return UIScreen.main.bounds.height < 600.0
+  }
+  
   var isPremiumFeaturesUnlocked: Bool {
     get {
       return getValue(of: Bool.self, for: .anyTipPurchased) ?? false

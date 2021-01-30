@@ -71,10 +71,22 @@ class RootViewController: UIViewController {
   }
   
   private func setupLayout() {
-    // TODO: на iPhone SE не влезают лейблы
-    
-    let logoImageViewTop: CGFloat = SettingsManager.shared.isIpad ? UIScreen.main.bounds.height / 4 : 64.0
-    let logoImageViewWidth: CGFloat = min(UIScreen.main.bounds.width - 128.0, 300.0)
+    let logoImageViewTop: CGFloat = {
+      if SettingsManager.shared.isIpad {
+        return UIScreen.main.bounds.height / 4.0
+      } else if SettingsManager.shared.isSmallScreen {
+        return 32.0
+      } else {
+        return 64.0
+      }
+    }()
+    let logoImageViewWidth: CGFloat = {
+      if SettingsManager.shared.isSmallScreen {
+        return 100.0
+      } else {
+        return min(UIScreen.main.bounds.width - 128.0, 300.0)
+      }
+    }()
     
     let buttonsStackView = UIStackView(arrangedSubviews: [newProjectButton, existingProjectsButton])
     buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
