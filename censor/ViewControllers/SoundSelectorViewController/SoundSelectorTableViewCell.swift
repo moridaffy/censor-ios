@@ -71,8 +71,8 @@ class SoundSelectorTableViewCell: UITableViewCell {
     contentView.addConstraints([
       playButton.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16.0),
       playButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-      playButton.heightAnchor.constraint(equalToConstant: 32.0),
-      playButton.widthAnchor.constraint(equalToConstant: 32.0),
+      playButton.heightAnchor.constraint(equalToConstant: 48.0),
+      playButton.widthAnchor.constraint(equalToConstant: 48.0),
       
       titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8.0),
       titleLabel.leftAnchor.constraint(equalTo: playButton.rightAnchor, constant: 8.0),
