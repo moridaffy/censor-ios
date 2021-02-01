@@ -21,6 +21,10 @@
 "editor.select.sound" = "Select sound";
 "editor.render.done" = "Video has been successfully rendered and saved to photo library";
 
+"editor.hints.alert.title" = "Tutorial";
+"editor.hints.alert.description" = "Would you like to go through tutorial?";
+"editor.hints.alert.yes" = "Yes";
+"editor.hints.alert.no" = "No, skip";
 "editor.sound_mode.mute.title" = "Mute original";
 "editor.sound_mode.mute.description" = "Completely mute original audio track while overlaying it with added sound";
 "editor.sound_mode.silence.title" = "Silence original";

@@ -62,6 +62,10 @@ extension LocalizeSystem {
   }
   
   enum Editor: String {
+    case hintsAlertTitle = "editor.hints.alert.title"
+    case hintsAlertDescription = "editor.hints.alert.description"
+    case hintsAlertYes = "editor.hints.alert.yes"
+    case hintsAlertNo = "editor.hints.alert.no"
     case export = "editor.export"
     case selectAudioMode = "editor.select.audio_mode"
     case selectSound = "editor.select.sound"

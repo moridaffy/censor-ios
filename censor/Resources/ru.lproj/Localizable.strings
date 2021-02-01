@@ -21,6 +21,10 @@
 "editor.select.sound" = "Выбрать звук";
 "editor.render.done" = "Видео было успешно экспортировано и сохранено в фотопленку";
 
+"editor.hints.alert.title" = "Обучение";
+"editor.hints.alert.description" = "Хотите пройти обучение?";
+"editor.hints.alert.yes" = "Да, пройти";
+"editor.hints.alert.no" = "Нет, пропустить";
 "editor.sound_mode.mute.title" = "Заглушить оригинал";
 "editor.sound_mode.mute.description" = "Полностью заглушить оригинальное аудио во время наложения звука";
 "editor.sound_mode.silence.title" = "Приглушить оригинал";

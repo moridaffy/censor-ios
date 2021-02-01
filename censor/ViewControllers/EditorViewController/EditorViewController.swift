@@ -121,11 +121,11 @@ class EditorViewController: UIViewController {
   private let coachMarksController = CoachMarksController()
   
   private var soundViews: [UIView] = []
+  
+  private var controlsFadeLayer: CAGradientLayer?
   private var playerLayer: AVPlayerLayer?
   private var playerPeriodicNotificationToken: Any?
   private var playerBoundaryNotificationToken: Any?
-  
-  private var controlsFadeLayer: CAGradientLayer?
   
   private var dimmableNavigationController: DimmableNavigationController? {
     return navigationController as? DimmableNavigationController
@@ -336,11 +336,21 @@ class EditorViewController: UIViewController {
     
     let coachMarkersDisplayed = SettingsManager.shared.getValue(of: Bool.self, for: .coachMarkersDisplayed) ?? false
     if !coachMarkersDisplayed {
-      helpButtonTapped()
+      showTutorialAlert()
     }
   }
   
   // MARK: - Private methods
+  
+  private func showTutorialAlert() {
+    let yesAction = UIAlertAction(title: LocalizeSystem.shared.editor(.hintsAlertYes), style: .default) { (_) in
+      self.helpButtonTapped()
+    }
+    let noAction = UIAlertAction(title: LocalizeSystem.shared.editor(.hintsAlertNo), style: .destructive, handler: nil)
+    showAlert(title: LocalizeSystem.shared.editor(.hintsAlertTitle),
+              body: LocalizeSystem.shared.editor(.hintsAlertDescription),
+              button: nil, actions: [yesAction, noAction])
+  }
   
   private func updateVideoProgress(with time: Double) {
     videoTimelineView.updateProgress(withValue: Float(time / viewModel.project.duration))
