@@ -101,6 +101,7 @@ class ProjectListViewController: UIViewController {
   private func setupImagePicker() {
     imagePickerController.delegate = self
     imagePickerController.sourceType = .photoLibrary
+    imagePickerController.allowsEditing = true
     imagePickerController.mediaTypes = [viewModel.mediaType]
   }
   
