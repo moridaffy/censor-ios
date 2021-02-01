@@ -33,7 +33,7 @@ class RootViewController: UIViewController {
     view.layer.cornerRadius = 6.0
     return view
   }()
-
+  
   private lazy var newProjectButton = RootButtonView(type: .newProject)
   private lazy var existingProjectsButton = RootButtonView(type: .existingProjects)
   
@@ -154,8 +154,8 @@ class RootViewController: UIViewController {
     viewModel.displayedButtonsBorder = true
     
     buttonsContainerView.addDashedBorder(ofColor: ColorManager.shared.subtext,
-                                              borderWidth: 2.0,
-                                              cornerRadius: buttonsContainerView.layer.cornerRadius)
+                                         borderWidth: 2.0,
+                                         cornerRadius: buttonsContainerView.layer.cornerRadius)
   }
   
   private func presentProjectListViewController(createNewProject: Bool) {
@@ -195,11 +195,11 @@ class RootViewController: UIViewController {
   @objc private func updateTexts() {
     let welcomeText = NSMutableAttributedString()
     welcomeText.append(NSAttributedString(string: LocalizeSystem.shared.root(.welcomeTitle) + "!",
-                                   attributes: [.font: UIFont.systemFont(ofSize: 30.0, weight: .semibold),
-                                                .foregroundColor: ColorManager.shared.text]))
+                                          attributes: [.font: UIFont.systemFont(ofSize: SettingsManager.shared.isSmallScreen ? 24.0 : 30.0, weight: .semibold),
+                                                       .foregroundColor: ColorManager.shared.text]))
     welcomeText.append(NSAttributedString(string: "\n" + LocalizeSystem.shared.root(.welcomeDescription),
-                                   attributes: [.font: UIFont.systemFont(ofSize: 16.0, weight: .regular),
-                                                .foregroundColor: ColorManager.shared.subtext]))
+                                          attributes: [.font: UIFont.systemFont(ofSize: SettingsManager.shared.isSmallScreen ? 14.0 : 16.0, weight: .regular),
+                                                       .foregroundColor: ColorManager.shared.subtext]))
     welcomeLabel.attributedText = welcomeText
     
     newProjectButton.updateTexts()

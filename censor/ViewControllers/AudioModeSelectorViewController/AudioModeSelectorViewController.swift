@@ -82,16 +82,18 @@ class AudioModeSelectorViewController: UIViewController {
     descriptionContainerView.addSubview(descriptionLabel)
     view.addSubview(saveButton)
     
+    let modeButtonsSpacing: CGFloat = SettingsManager.shared.isSmallScreen ? 8.0 : 16.0
+    
     view.addConstraints([
       keepModeButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16.0),
       keepModeButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16.0),
-      keepModeButton.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 6.0),
+      keepModeButton.heightAnchor.constraint(equalToConstant: UIScreen.main.bounds.height / 5.0),
       
       silenceModeButton.topAnchor.constraint(equalTo: keepModeButton.topAnchor),
-      silenceModeButton.leftAnchor.constraint(equalTo: keepModeButton.rightAnchor, constant: 16.0),
+      silenceModeButton.leftAnchor.constraint(equalTo: keepModeButton.rightAnchor, constant: modeButtonsSpacing),
       
       muteModeButton.topAnchor.constraint(equalTo: silenceModeButton.topAnchor),
-      muteModeButton.leftAnchor.constraint(equalTo: silenceModeButton.rightAnchor, constant: 16.0),
+      muteModeButton.leftAnchor.constraint(equalTo: silenceModeButton.rightAnchor, constant: modeButtonsSpacing),
       muteModeButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16.0),
       muteModeButton.widthAnchor.constraint(equalTo: keepModeButton.widthAnchor),
       muteModeButton.widthAnchor.constraint(equalTo: silenceModeButton.widthAnchor),
@@ -134,7 +136,7 @@ class AudioModeSelectorViewController: UIViewController {
     titleLabel.translatesAutoresizingMaskIntoConstraints = false
     titleLabel.isUserInteractionEnabled = false
     titleLabel.text = type.title
-    titleLabel.font = UIFont.systemFont(ofSize: 15.0, weight: .semibold)
+    titleLabel.font = UIFont.systemFont(ofSize: SettingsManager.shared.isSmallScreen ? 11.0 : 14.0, weight: .semibold)
     titleLabel.textAlignment = .center
     titleLabel.numberOfLines = 0
     titleLabel.textColor = ColorManager.shared.accent
@@ -166,7 +168,7 @@ class AudioModeSelectorViewController: UIViewController {
       titleLabel.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 8.0),
       titleLabel.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -8.0),
       
-      iconImageView.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 16.0),
+      iconImageView.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 8.0),
       iconImageView.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
       iconImageView.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
       iconImageView.heightAnchor.constraint(equalToConstant: 40.0),
