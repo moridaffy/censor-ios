@@ -15,6 +15,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
   func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
     
+    IAPManager.shared.startObserving()
+    
+    setupWindow()
+    setupThirdParties()
+    
+    print("🔥 HomeDirectory: \(NSHomeDirectory())")
+    
+    return true
+  }
+  
+  private func setupWindow() {
     let window = UIWindow()
     
     // TODO: fix colors for light mode and disable overriding
@@ -25,16 +36,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     window.tintColor = ColorManager.shared.accent
     
     self.window = window
-    
-    setupThirdParties()
-    
-    print("🔥 HomeDirectory: \(NSHomeDirectory())")
-    
-    return true
   }
   
   private func setupThirdParties() {
     GADMobileAds.sharedInstance().start(completionHandler: nil)
+  }
+  
+  func applicationWillTerminate(_ application: UIApplication) {
+    IAPManager.shared.stopObserving()
   }
   
 }

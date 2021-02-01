@@ -91,10 +91,12 @@ class SettingsViewController: UIViewController {
   // MARK: - Private methods
   
   private func updateDimView(display: Bool) {
-    if display {
-      dimmableNavigationController?.showDimView(true, withLoading: true)
-    } else {
-      dimmableNavigationController?.showDimView(false, withLoading: true)
+    DispatchQueue.main.async { [weak self] in
+      if display {
+        self?.dimmableNavigationController?.showDimView(true, withLoading: true)
+      } else {
+        self?.dimmableNavigationController?.showDimView(false, withLoading: true)
+      }
     }
   }
   

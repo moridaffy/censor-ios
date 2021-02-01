@@ -33,7 +33,7 @@ extension UIViewController {
   func showAlertError(error: Error?, desc: String?, critical: Bool, onDismiss: (() -> Void)? = nil) {
     var body: String = desc ?? LocalizeSystem.shared.error(.unknownErrorOccured)
     if let error = error {
-      body += "\n\(error)"
+      body += "\n\(error.localizedDescription)"
     }
     let button: String? = critical ? nil : LocalizeSystem.shared.common(.ok)
     

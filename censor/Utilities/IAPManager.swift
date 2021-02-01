@@ -175,11 +175,11 @@ extension IAPManager {
     var purchaseId: String {
       switch self {
       case .smallTip:
-        return "censtory_consumable_small_tip"
+        return "censtory_nonconsumable_small_tip"
       case .mediumTip:
-        return "censtory_consumable_medium_tip"
+        return "censtory_nonconsumable_medium_tip"
       case .largeTip:
-        return "censtory_consumable_large_tip"
+        return "censtory_nonconsumable_large_tip"
       }
     }
     
