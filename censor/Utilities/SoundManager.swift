@@ -49,11 +49,15 @@ class SoundManager: NSObject {
     lastActivePlayer?.currentTime = 0.0
     lastActivePlayer?.play()
   }
+  
+  func finishedPlaying() {
+    NotificationCenter.default.post(name: .soundPlayerFinishedPlaying, object: nil, userInfo: nil)
+  }
 }
 
 extension SoundManager: AVAudioPlayerDelegate {
   func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
-    NotificationCenter.default.post(name: .soundPlayerFinishedPlaying, object: nil, userInfo: nil)
+    finishedPlaying()
   }
 }
 

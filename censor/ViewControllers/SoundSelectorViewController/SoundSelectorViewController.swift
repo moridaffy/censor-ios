@@ -164,7 +164,11 @@ extension SoundSelectorViewController: UITableViewDataSource {
 
 extension SoundSelectorViewController: SoundSelectorTableViewCellDelegate {
   func didTapPlayButton(for soundType: SoundManager.SoundType) -> Bool {
-    guard viewModel.currentlyPlayingSound == nil else { return false }
+    if let currentlyPlayingSound = viewModel.currentlyPlayingSound {
+      didFinishPlaying(soundType: currentlyPlayingSound)
+      SoundManager.shared.finishedPlaying()
+    }
+    
     viewModel.currentlyPlayingSound = soundType
     SoundManager.shared.playSound(soundType)
     return true
