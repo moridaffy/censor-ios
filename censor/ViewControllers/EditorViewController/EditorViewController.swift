@@ -432,6 +432,23 @@ class EditorViewController: UIViewController {
     }
   }
   
+  private func showShareOptions(_ outputUrl: URL) {
+    let activityItems: [Any] = [outputUrl, LocalizeSystem.shared.editor(.videoRendered)]
+    let activityController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+    
+    activityController.completionWithItemsHandler = { [weak self] _, success, _, error in
+      guard !success else { return }
+      self?.showAlertError(error: error,
+                           desc: LocalizeSystem.shared.error(.cantRenderVideo),
+                           critical: false)
+    }
+    
+    activityController.popoverPresentationController?.sourceView = view
+    activityController.popoverPresentationController?.sourceRect = view.frame
+    
+    self.present(activityController, animated: true, completion: nil)
+  }
+  
   // MARK: - Actions
   
   @objc private func helpButtonTapped() {
@@ -444,24 +461,37 @@ class EditorViewController: UIViewController {
     resetPlayer()
     updateDimView(display: true)
     
-    viewModel.renderProject { (error) in
+    viewModel.renderProject { (error, outputUrl) in
       DispatchQueue.main.async { [weak self] in
         self?.updateDimView(display: false)
-        if let error = error {
+        if let outputUrl = outputUrl {
+          self?.showShareOptions(outputUrl)
+        } else {
           self?.showAlertError(error: error,
                                desc: LocalizeSystem.shared.error(.cantRenderVideo),
                                critical: false)
-        } else {
-          let popAction = UIAlertAction(title: "OK", style: .default) { (_) in
-            self?.navigationController?.popViewController(animated: true)
-          }
-          self?.showAlert(title: LocalizeSystem.shared.common(.done),
-                          body: LocalizeSystem.shared.editor(.videoRendered),
-                          button: nil,
-                          actions: [popAction])
         }
       }
     }
+    
+    //    viewModel.renderProject { (error) in
+    //      DispatchQueue.main.async { [weak self] in
+    //        self?.updateDimView(display: false)
+    //        if let error = error {
+    //          self?.showAlertError(error: error,
+    //                               desc: LocalizeSystem.shared.error(.cantRenderVideo),
+    //                               critical: false)
+    //        } else {
+    //          let popAction = UIAlertAction(title: "OK", style: .default) { (_) in
+    //            self?.navigationController?.popViewController(animated: true)
+    //          }
+    //          self?.showAlert(title: LocalizeSystem.shared.common(.done),
+    //                          body: LocalizeSystem.shared.editor(.videoRendered),
+    //                          button: nil,
+    //                          actions: [popAction])
+    //        }
+    //      }
+    //    }
   }
   
   @objc private func playButtonTapped() {

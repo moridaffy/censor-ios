@@ -71,24 +71,26 @@ class EditorViewModel {
     SoundManager.shared.playSound(sound.type)
   }
   
-  func renderProject(completionHandler: @escaping (Error?) -> Void) {
+  func renderProject(completionHandler: @escaping (Error?, URL?) -> Void) {
     VideoRenderer.shared.renderVideo(project: project, audioMode: selectedAudioMode, addWatermark: !SettingsManager.shared.isPremiumFeaturesUnlocked) { (result) in
       switch result {
       case .success(let outputUrl):
         
-        PHPhotoLibrary.shared().performChanges {
-          PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputUrl)
-        } completionHandler: { (saved, error) in
-          if saved {
-            completionHandler(nil)
-          } else {
-            completionHandler(error ?? VideoRenderer.RenderingError.savingFailed)
-          }
-        }
-      
-        completionHandler(nil)
+        completionHandler(nil, outputUrl)
+        
+//        PHPhotoLibrary.shared().performChanges {
+//          PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputUrl)
+//        } completionHandler: { (saved, error) in
+//          if saved {
+//            completionHandler(nil)
+//          } else {
+//            completionHandler(error ?? VideoRenderer.RenderingError.savingFailed)
+//          }
+//        }
+//
+//        completionHandler(nil)
       case .failure(let error):
-        completionHandler(error)
+        completionHandler(error, nil)
       }
     }
   }

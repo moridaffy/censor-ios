@@ -19,7 +19,7 @@
 "editor.export" = "Export";
 "editor.select.audio_mode" = "Select audio mode";
 "editor.select.sound" = "Select sound";
-"editor.render.done" = "Video has been successfully rendered and saved to photo library";
+"editor.render.done" = "Video has been successfully rendered";
 
 "editor.hints.alert.title" = "Tutorial";
 "editor.hints.alert.description" = "Would you like to go through tutorial?";

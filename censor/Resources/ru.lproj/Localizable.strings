@@ -19,7 +19,7 @@
 "editor.export" = "Экспорт";
 "editor.select.audio_mode" = "Выбрать режим наложения";
 "editor.select.sound" = "Выбрать звук";
-"editor.render.done" = "Видео было успешно экспортировано и сохранено в фотопленку";
+"editor.render.done" = "Видео было успешно экспортировано";
 
 "editor.hints.alert.title" = "Обучение";
 "editor.hints.alert.description" = "Хотите пройти обучение?";
