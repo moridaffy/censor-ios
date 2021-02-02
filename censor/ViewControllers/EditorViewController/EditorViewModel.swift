@@ -75,20 +75,7 @@ class EditorViewModel {
     VideoRenderer.shared.renderVideo(project: project, audioMode: selectedAudioMode, addWatermark: !SettingsManager.shared.isPremiumFeaturesUnlocked) { (result) in
       switch result {
       case .success(let outputUrl):
-        
         completionHandler(nil, outputUrl)
-        
-//        PHPhotoLibrary.shared().performChanges {
-//          PHAssetChangeRequest.creationRequestForAssetFromVideo(atFileURL: outputUrl)
-//        } completionHandler: { (saved, error) in
-//          if saved {
-//            completionHandler(nil)
-//          } else {
-//            completionHandler(error ?? VideoRenderer.RenderingError.savingFailed)
-//          }
-//        }
-//
-//        completionHandler(nil)
       case .failure(let error):
         completionHandler(error, nil)
       }

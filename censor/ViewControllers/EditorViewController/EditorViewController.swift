@@ -473,25 +473,6 @@ class EditorViewController: UIViewController {
         }
       }
     }
-    
-    //    viewModel.renderProject { (error) in
-    //      DispatchQueue.main.async { [weak self] in
-    //        self?.updateDimView(display: false)
-    //        if let error = error {
-    //          self?.showAlertError(error: error,
-    //                               desc: LocalizeSystem.shared.error(.cantRenderVideo),
-    //                               critical: false)
-    //        } else {
-    //          let popAction = UIAlertAction(title: "OK", style: .default) { (_) in
-    //            self?.navigationController?.popViewController(animated: true)
-    //          }
-    //          self?.showAlert(title: LocalizeSystem.shared.common(.done),
-    //                          body: LocalizeSystem.shared.editor(.videoRendered),
-    //                          button: nil,
-    //                          actions: [popAction])
-    //        }
-    //      }
-    //    }
   }
   
   @objc private func playButtonTapped() {
