@@ -14,7 +14,7 @@ class SettingsLanguageTableViewCell: UITableViewCell {
     label.translatesAutoresizingMaskIntoConstraints = false
     label.textColor = ColorManager.shared.accent
     label.font = UIFont.systemFont(ofSize: 17.0, weight: .regular)
-    label.textAlignment = .center
+    label.textAlignment = .left
     label.numberOfLines = 0
     return label
   }()
@@ -53,6 +53,7 @@ class SettingsLanguageTableViewCell: UITableViewCell {
       titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16.0),
       titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8.0),
       
+      chevronImageView.leftAnchor.constraint(equalTo: titleLabel.rightAnchor, constant: 8.0),
       chevronImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -16.0),
       chevronImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
       chevronImageView.heightAnchor.constraint(equalToConstant: 16.0),

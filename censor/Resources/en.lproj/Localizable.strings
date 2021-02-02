@@ -37,6 +37,7 @@
 "settings.tip.title" = "Leave a tip";
 "settings.language.title" = "Language";
 "settings.language.select_language" = "Select language";
+"settings.play_sound_when_silent" = "Play sounds even if device is in silent mode";
 "settings.tip.description" = "Developing and supporting mobile apps take a lot of time and effort. I decided to make this app free so everyone can try it out and decide whether to keep it on his phone or delete it. If you enjoy using this app, you can say thanks and motivate me to work even harder on it by simply leaving a tip. You can even choose the amount of tip you want to give and give it as many times as you wish :) By leaving any tip, you support me and get access to some new features:\n• all ads magically will dissapear, as well as watermark on your exported videos\n• additional sounds will become unlocked\n• some new features may also appear";
 "settings.tip.small.title" = "Small tip";
 "settings.tip.medium.title" = "Medium tip";

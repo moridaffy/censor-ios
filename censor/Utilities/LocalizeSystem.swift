@@ -83,6 +83,7 @@ extension LocalizeSystem {
     case iconTitle = "settings.icon.title"
     case languageTitle = "settings.language.title"
     case selectLanguage = "settings.language.select_language"
+    case playSoundWhileSilent = "settings.play_sound_when_silent"
     case tipTitle = "settings.tip.title"
     case tipDescription = "settings.tip.description"
     case tipSmallTitle = "settings.tip.small.title"

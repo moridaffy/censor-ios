@@ -20,6 +20,7 @@ class SettingsViewController: UIViewController {
     tableView.register(SettingsTitleTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsTitleTableViewCell.self))
     tableView.register(SettingsIconsTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsIconsTableViewCell.self))
     tableView.register(SettingsLanguageTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsLanguageTableViewCell.self))
+    tableView.register(SettingsSwitchTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsSwitchTableViewCell.self))
     tableView.register(SettingsTipsTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsTipsTableViewCell.self))
     tableView.register(SettingsButtonTableViewCell.self, forCellReuseIdentifier: String(describing: SettingsButtonTableViewCell.self))
     
@@ -190,6 +191,15 @@ extension SettingsViewController: SettingsIconsTableViewCellDelegate {
   }
 }
 
+// MARK: - SettingsSwitchTableViewCellDelegate
+
+extension SettingsViewController: SettingsSwitchTableViewCellDelegate {
+  func didChangeSwitcherValue(for type: SettingsViewModel.SwitchType, to newValue: Bool) {
+    SettingsManager.shared.setValue(for: type.settingsKey, value: newValue)
+    SettingsManager.shared.updateSilentAudioPlayback(newValue)
+  }
+}
+
 // MARK: - SettingsTipsTableViewCellDelegate
 
 extension SettingsViewController: SettingsTipsTableViewCellDelegate {
@@ -228,6 +238,8 @@ extension SettingsViewController: UITableViewDelegate {
       return 44.0
     } else if cellModel is SettingsLanguageTableViewCellModel {
       return 44.0
+    } else if cellModel is SettingsSwitchTableViewCellModel {
+      return 44.0
     } else {
       fatalError()
     }
@@ -245,6 +257,8 @@ extension SettingsViewController: UITableViewDelegate {
       return 44.0
     } else if cellModel is SettingsLanguageTableViewCellModel {
       return 44.0
+    } else if cellModel is SettingsSwitchTableViewCellModel {
+      return UITableView.automaticDimension
     } else {
       fatalError()
     }
@@ -298,6 +312,11 @@ extension SettingsViewController: UITableViewDataSource {
       guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingsLanguageTableViewCell.self))
               as? SettingsLanguageTableViewCell else { fatalError() }
       cell.update(viewModel: cellModel)
+      return cell
+    } else if let cellModel = cellModel as? SettingsSwitchTableViewCellModel {
+      guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingsSwitchTableViewCell.self))
+              as? SettingsSwitchTableViewCell else { fatalError() }
+      cell.update(viewModel: cellModel, delegate: self)
       return cell
     } else if let cellModel = cellModel as? SettingsTipsTableViewCellModel {
       guard let cell = tableView.dequeueReusableCell(withIdentifier: String(describing: SettingsTipsTableViewCell.self))

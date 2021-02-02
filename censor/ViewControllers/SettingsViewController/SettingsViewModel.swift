@@ -56,6 +56,8 @@ class SettingsViewModel {
       default:
         return nil
       }
+    case .otherSettings:
+      return SettingsSwitchTableViewCellModel(type: .playSoundWhileSilenced, value: SettingsManager.shared.getValue(of: Bool.self, for: .playSoundWhileSilenced) ?? false)
     case .tips:
       switch indexPath.row {
       case 0:
@@ -105,13 +107,14 @@ class SettingsViewModel {
 extension SettingsViewModel {
   enum SectionType: Int {
     
-    static let allCases: [SectionType] = [.icon, .language, .tips]
-    static let debugAllCases: [SectionType] = [.icon, .language, .tips, .debug]
+    static let allCases: [SectionType] = [.icon, .language, .otherSettings, .tips]
+    static let debugAllCases: [SectionType] = [.icon, .language, .otherSettings, .tips, .debug]
     
     case icon = 1
     case language = 2
-    case tips = 3
-    case debug = 4
+    case otherSettings = 3
+    case tips = 4
+    case debug = 5
     
     var numberOfRows: Int {
       switch self {
@@ -119,10 +122,30 @@ extension SettingsViewModel {
         return 2
       case .language:
         return 2
+      case .otherSettings:
+        return 1
       case .tips:
         return 3
       case .debug:
         return 3
+      }
+    }
+  }
+  
+  enum SwitchType {
+    case playSoundWhileSilenced
+    
+    var title: String {
+      switch self {
+      case .playSoundWhileSilenced:
+        return LocalizeSystem.shared.settings(.playSoundWhileSilent)
+      }
+    }
+    
+    var settingsKey: SettingsManager.SettingKey {
+      switch self {
+      case .playSoundWhileSilenced:
+        return .playSoundWhileSilenced
       }
     }
   }

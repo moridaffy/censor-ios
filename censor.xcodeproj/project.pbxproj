@@ -10,6 +10,8 @@
 		0C0351832545FA5A00BC3461 /* SoundSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */; };
 		0C0351862545FA6800BC3461 /* SoundSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */; };
 		0C03518925460C9F00BC3461 /* SoundSelectorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */; };
+		0C088CE125C9887F00B9C30A /* SettingsSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C088CE025C9887F00B9C30A /* SettingsSwitchTableViewCell.swift */; };
+		0C088CE525C988CF00B9C30A /* SettingsSwitchTableViewCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C088CE425C988CF00B9C30A /* SettingsSwitchTableViewCellModel.swift */; };
 		0C09B49825C1BDE500E8BDCB /* AudioModeSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C09B49725C1BDE500E8BDCB /* AudioModeSelectorViewController.swift */; };
 		0C09B49C25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C09B49B25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift */; };
 		0C29140025403374009BDB52 /* ProjectListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C2913FF25403374009BDB52 /* ProjectListViewController.swift */; };
@@ -150,6 +152,8 @@
 		0C0351822545FA5A00BC3461 /* SoundSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewController.swift; sourceTree = "<group>"; };
 		0C0351852545FA6800BC3461 /* SoundSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorViewModel.swift; sourceTree = "<group>"; };
 		0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundSelectorTableViewCell.swift; sourceTree = "<group>"; };
+		0C088CE025C9887F00B9C30A /* SettingsSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		0C088CE425C988CF00B9C30A /* SettingsSwitchTableViewCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSwitchTableViewCellModel.swift; sourceTree = "<group>"; };
 		0C09B49725C1BDE500E8BDCB /* AudioModeSelectorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModeSelectorViewController.swift; sourceTree = "<group>"; };
 		0C09B49B25C1BDF500E8BDCB /* AudioModeSelectorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioModeSelectorViewModel.swift; sourceTree = "<group>"; };
 		0C2913FF25403374009BDB52 /* ProjectListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectListViewController.swift; sourceTree = "<group>"; };
@@ -309,6 +313,15 @@
 				0C03518825460C9F00BC3461 /* SoundSelectorTableViewCell.swift */,
 			);
 			path = SoundSelectorViewController;
+			sourceTree = "<group>";
+		};
+		0C088CDF25C9885A00B9C30A /* SettingsSwitchTableViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				0C088CE025C9887F00B9C30A /* SettingsSwitchTableViewCell.swift */,
+				0C088CE425C988CF00B9C30A /* SettingsSwitchTableViewCellModel.swift */,
+			);
+			path = SettingsSwitchTableViewCell;
 			sourceTree = "<group>";
 		};
 		0C09B49525C1BDD300E8BDCB /* AudioModeSelectorViewController */ = {
@@ -565,8 +578,9 @@
 				0C8AEFD22546E944005D00E1 /* SettingsViewController.swift */,
 				0C8AEFD52546E955005D00E1 /* SettingsViewModel.swift */,
 				0C8AEFD82546ED37005D00E1 /* SettingsTitleTableViewCell */,
-				0C63D8DB25C5D0E800979443 /* SettingsLanguageTableViewCell */,
 				0C8AEFF025470C10005D00E1 /* SettingsIconsTableViewCell */,
+				0C63D8DB25C5D0E800979443 /* SettingsLanguageTableViewCell */,
+				0C088CDF25C9885A00B9C30A /* SettingsSwitchTableViewCell */,
 				0C8AEFE92546F7E6005D00E1 /* SettingsTipsTableViewCell */,
 				0C8AEFE22546F576005D00E1 /* SettingsButtonTableViewCell */,
 			);
@@ -847,6 +861,7 @@
 			files = (
 				0C9FBA7B2542B3160071BFFA /* StorageManager.swift in Sources */,
 				0CE7EA7C2550A36A00C220D6 /* String+Size.swift in Sources */,
+				0C088CE125C9887F00B9C30A /* SettingsSwitchTableViewCell.swift in Sources */,
 				0C63D8E825C5D5CC00979443 /* LanguageListViewModel.swift in Sources */,
 				0C901C532550641800988CB2 /* VideoTimelineView.swift in Sources */,
 				0C8AEFF525470CAC005D00E1 /* SettingsIconsTableViewCellModel.swift in Sources */,
@@ -879,6 +894,7 @@
 				0C2BFF35253F43F000ED700D /* EditorViewModel.swift in Sources */,
 				0C901C682550757F00988CB2 /* UIView+Rendering.swift in Sources */,
 				0C2914252540A569009BDB52 /* VideoRenderer.swift in Sources */,
+				0C088CE525C988CF00B9C30A /* SettingsSwitchTableViewCellModel.swift in Sources */,
 				0C2914222540A2AE009BDB52 /* Double+Rounding.swift in Sources */,
 				0C73137B255353E50034D3B1 /* DimmableNavigationController.swift in Sources */,
 				0C63D8E125C5D28100979443 /* SettingsLanguageTableViewCellModel.swift in Sources */,

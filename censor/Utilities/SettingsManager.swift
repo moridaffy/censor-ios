@@ -5,11 +5,14 @@
 //  Created by Maxim Skryabin on 05.12.2020.
 //
 
+import AVKit
 import UIKit
 
 class SettingsManager {
   
   static let shared = SettingsManager()
+  
+  // MARK: - Properties
   
   var isIpad: Bool {
     return UIDevice.current.userInterfaceIdiom == .pad
@@ -28,6 +31,14 @@ class SettingsManager {
     }
   }
   
+  var isCustomIconsSupported: Bool {
+    return UIApplication.shared.supportsAlternateIcons
+  }
+  
+  var currentIcon: AppIconType {
+    return AppIconType.getIconType(for: UIApplication.shared.alternateIconName)
+  }
+  
   var languageCode: String = "" {
     didSet {
       guard oldValue != "" else { return }
@@ -35,10 +46,11 @@ class SettingsManager {
     }
   }
   
-  // MARK: - Private
+  // MARK: - Private methods
   
   private init() {
     updateLanguageCode()
+    updateSilentAudioPlayback()
   }
   
   private let keyPrefix: String = {
@@ -57,23 +69,13 @@ class SettingsManager {
     }
   }
   
-  // MARK: - Custom icons
-  
-  var isCustomIconsSupported: Bool {
-    return UIApplication.shared.supportsAlternateIcons
-  }
-  
-  var currentIcon: AppIconType {
-    return AppIconType.getIconType(for: UIApplication.shared.alternateIconName)
-  }
+  // MARK: - Public methods
   
   func setCustomIcon(_ iconType: AppIconType) {
     guard isCustomIconsSupported,
           iconType != currentIcon else { return }
     UIApplication.shared.setAlternateIconName(iconType.iconName, completionHandler: nil)
   }
-  
-  // MARK: - UserDefaults
   
   func getValue<T>(of type: T.Type, for key: SettingKey) -> T? {
     return UserDefaults.standard.value(forKey: keyPrefix + key.key) as? T
@@ -82,6 +84,15 @@ class SettingsManager {
   func setValue(for key: SettingKey, value: Any) {
     UserDefaults.standard.set(value, forKey: keyPrefix + key.key)
   }
+  
+  func updateSilentAudioPlayback(_ value: Bool? = nil) {
+    let playSoundWhileSilenced = value ?? getValue(of: Bool.self, for: .playSoundWhileSilenced) ?? false
+    do {
+      try AVAudioSession.sharedInstance().setCategory(playSoundWhileSilenced ? .playback : .ambient)
+    } catch let error {
+      print("🔥 Failed to switch AVAudioSession category: \(error.localizedDescription)")
+    }
+  }
 }
 
 extension SettingsManager {
@@ -89,6 +100,7 @@ extension SettingsManager {
     case coachMarkersDisplayed
     case anyTipPurchased
     case languageCode
+    case playSoundWhileSilenced
     
     var key: String {
       switch self {
