@@ -92,7 +92,8 @@ class ProjectListTableViewCell: UITableViewCell {
       creationDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4.0),
       creationDateLabel.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
       creationDateLabel.rightAnchor.constraint(equalTo: durationLabel.rightAnchor),
-      creationDateLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -8.0)
+      creationDateLabel.bottomAnchor.constraint(lessThanOrEqualTo: contentView.bottomAnchor, constant: -8.0),
+      creationDateLabel.heightAnchor.constraint(equalToConstant: 15.0)
     ])
   }
   
