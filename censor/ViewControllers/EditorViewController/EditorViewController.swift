@@ -357,7 +357,7 @@ class EditorViewController: UIViewController {
   }
   
   private func playAddedSound() {
-    let sound = viewModel.addedSounds[viewModel.currentSoundIndex]
+    guard let sound = viewModel.getSound(at: viewModel.currentSoundIndex) else { return }
     SoundManager.shared.playSound(sound.type)
     viewModel.currentSoundIndex += 1
   }

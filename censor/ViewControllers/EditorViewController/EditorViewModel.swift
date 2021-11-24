@@ -71,6 +71,14 @@ class EditorViewModel {
     SoundManager.shared.playSound(sound.type)
   }
   
+  func getSound(at index: Int) -> Sound? {
+    if index > addedSounds.count {
+      return addedSounds.last
+    } else {
+      return addedSounds[index]
+    }
+  }
+  
   func renderProject(completionHandler: @escaping (Error?, URL?) -> Void) {
     VideoRenderer.shared.renderVideo(project: project, audioMode: selectedAudioMode, addWatermark: !SettingsManager.shared.isPremiumFeaturesUnlocked) { (result) in
       switch result {
